@@ -27,8 +27,6 @@ async function initFoamParams() {
   await foam.setCustomParams(foamParams);
 }
 
-initFoamParams();
-
 export async function checkAuthRoute(req, res, next) {
   try {
     const { user, communityMember } = req;
