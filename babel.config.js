@@ -30,7 +30,7 @@ const presetsWeb = [
 const moduleResolverWeb = [
   'module-resolver',
   {
-    root: ['./app', './app/modules'],
+    root: ['./app'],
     extensions: ['.ios.js', '.android.js', '.js', '.json'],
     alias: {
       server: './server',
@@ -49,7 +49,7 @@ const moduleResolverWeb = [
 const moduleResolverNative = [
   'module-resolver',
   {
-    root: ['./app', './app/modules'],
+    root: ['./app'],
     extensions: ['.ios.js', '.android.js', '.js', '.json'],
     alias: {
       server: './server',
@@ -75,27 +75,27 @@ module.exports = api => {
   switch (env) {
     case 'production':
       return {
-        plugins: [...plugins, ...prodPlugins, moduleResolverNative],
+        plugins: [moduleResolverNative, ...plugins, ...prodPlugins],
         presets: [...presets, ...nativePresets]
       };
     case 'development':
       return {
-        plugins: [...plugins, moduleResolverNative],
+        plugins: [moduleResolverNative, ...plugins],
         presets: [...presets, ...nativePresets]
       };
     case 'test':
       return {
-        plugins: [...plugins, ...pluginsTest, moduleResolverWeb],
+        plugins: [moduleResolverWeb, ...plugins, ...pluginsTest],
         presets: [...presetsWeb]
       };
     case 'development_web':
       return {
-        plugins: [...plugins, moduleResolverWeb],
+        plugins: [moduleResolverWeb, ...plugins],
         presets: [...presetsWeb]
       };
     default:
       return {
-        plugins: [...plugins, moduleResolverWeb],
+        plugins: [moduleResolverWeb, ...plugins],
         presets: [...presets]
       };
   }

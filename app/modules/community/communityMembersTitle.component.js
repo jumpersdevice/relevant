@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { joinCommunity } from 'community/community.actions';
+import { joinCommunity } from 'modules/community/community.actions';
 
 import { View, BodyText, Header } from 'modules/styled/uni';
 
@@ -40,7 +40,4 @@ const mapDispatchToProps = dispatch => ({
   )
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CommunityMembersTitle);
+export default connect(mapStateToProps, mapDispatchToProps)(CommunityMembersTitle);

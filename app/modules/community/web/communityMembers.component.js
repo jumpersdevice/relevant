@@ -7,7 +7,7 @@ import {
   joinCommunity,
   searchMembers,
   getCommunityMembers
-} from 'community/community.actions';
+} from 'modules/community/community.actions';
 import AvatarBox from 'modules/user/avatarbox.component';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import InfScroll from 'modules/listview/web/infScroll.component';
@@ -155,9 +155,4 @@ const mapDispatchToProps = dispatch => ({
   )
 });
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(CommunityMembers)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CommunityMembers));

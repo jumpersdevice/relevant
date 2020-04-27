@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { joinCommunity } from 'community/community.actions';
-import { setCommunity } from 'auth/auth.actions';
+import { joinCommunity } from 'modules/community/community.actions';
+import { setCommunity } from 'modules/auth/auth.actions';
 import { css } from 'styled-components';
 
 import ULink from 'modules/navigation/ULink.component';
@@ -112,8 +112,5 @@ const mapDispatchToProps = dispatch => ({
   )
 });
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(CommunityAdminList)
+  connect(mapStateToProps, mapDispatchToProps)(CommunityAdminList)
 );

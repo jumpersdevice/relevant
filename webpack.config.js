@@ -85,12 +85,12 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              babelrc: true,
+              // babelrc: true
               // This is a feature of `babel-loader` for Webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/
               // directory for faster rebuilds.
-              cacheDirectory: true,
-              plugins: ['react-hot-loader/babel']
+              // cacheDirectory: true
+              // plugins: ['react-hot-loader/babel']
             }
           }
         ]
