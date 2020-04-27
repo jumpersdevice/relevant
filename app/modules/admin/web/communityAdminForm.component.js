@@ -10,7 +10,7 @@ import {
   createCommunity,
   deleteCommunity
 } from 'modules/community/community.actions';
-import SelectField from 'modules/form/selectField.component';
+// import SelectField from 'modules/form/selectField.component';
 import CreatableMulti from 'modules/form/createSelectField.component';
 import AsyncAdminField from 'modules/form/asyncAdminField.component';
 import ReduxFormImageUpload from 'modules/styled/form/reduxformimageupload.component';
@@ -186,14 +186,14 @@ class CommunityAdminForm extends Component {
         name: 'sectionTitle',
         text: 'Community Settings'
       },
-      {
-        name: 'defaultPost',
-        label: 'Default Post Type',
-        component: SelectField,
-        // input: { value: [] },
-        // value: 'link',
-        options: ['link', 'text']
-      },
+      // {
+      //   name: 'defaultPost',
+      //   label: 'Default Post Type',
+      //   component: SelectField,
+      //   // input: { value: [] },
+      //   // value: 'link',
+      //   options: ['link', 'text']
+      // },
       ...customFields,
       {
         name: 'betEnabled',
