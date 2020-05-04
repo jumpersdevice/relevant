@@ -1,6 +1,6 @@
 import crypto from 'crypto-promise';
 import uuid from 'uuid/v4';
-import sigUtil from 'eth-sig-util';
+// import sigUtil from 'eth-sig-util';
 import merge from 'lodash/merge';
 import url from 'url';
 // eslint-disable-next-line import/named
@@ -17,6 +17,8 @@ import Subscription from '../subscription/subscription.model';
 import Feed from '../feed/feed.model';
 import * as ethUtils from '../../utils/ethereum';
 import { logCashOut } from '../../utils/cashOut';
+
+const sigUtil = require('eth-sig-util');
 
 async function sendConfirmation(user, newUser) {
   let text = '';
@@ -515,7 +517,7 @@ exports.show = async function show(req, res, next) {
 exports.destroy = async (req, res, next) => {
   try {
     const { id } = req.params;
-    if (!req.user || (!req.user.role === 'admin' || !req.user._id.equals(id))) {
+    if (!req.user || !req.user.role === 'admin' || !req.user._id.equals(id)) {
       throw new Error('no right to delete');
     }
     const user = await User.findOne({ _id: id });
