@@ -146,7 +146,12 @@ class Profile extends Component {
       }
 
       return (
-        <Post {...this.props} post={parentPost || link} commentary={[post]} link={link} />
+        <Post
+          {...this.props}
+          post={parentPost || post}
+          commentary={parentPost ? [post] : []}
+          link={link}
+        />
       );
     }
     if (view === 1) {
@@ -325,10 +330,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
 
 const localStyles = StyleSheet.create({
   postsHeader: {

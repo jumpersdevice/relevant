@@ -3,7 +3,7 @@ import { View, InteractionManager } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { searchMembers, getCommunityMembers } from 'community/community.actions';
+import { searchMembers, getCommunityMembers } from 'modules/community/community.actions';
 
 import * as navigationActions from 'modules/navigation/navigation.actions';
 
@@ -126,7 +126,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CommunityMembers);
+export default connect(mapStateToProps, mapDispatchToProps)(CommunityMembers);

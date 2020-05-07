@@ -85,11 +85,10 @@ export async function members(req, res, next) {
     if (user) {
       blocked = [...user.blocked, ...user.blockedBy];
     }
-    // const userId = user ? user._id : null;
     const limit = req.query.limit ? parseInt(req.query.limit, 10) : 20;
     const skip = req.query.skip ? parseInt(req.query.skip, 10) : 0;
     const community = req.params.slug;
-    // const isMember = await CommunityMember.findOne({ community, user: userId });
+
     const users = await CommunityMember.find({
       community,
       'user.embeddedUser._id': {

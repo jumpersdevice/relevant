@@ -52,16 +52,17 @@ export async function checkCommunityAuth({ user, communityId, communityMember })
 
   if (!ethLogin) {
     throw new Error(
-      'You need to connect the Ethereum address you use with FOAM in order to post in this forum.\nYou can connect your address with Metamask via Wallet -> Connect Wallet.'
+      'You need to connect the Ethereum address you use with FOAM in order to participate in this forum.\nYou can connect your address with Metamask via Wallet -> Connect Wallet.'
     );
   }
+
   const res = await requestAsync({ url: getAssetsUrl(ethLogin) });
   const { verifiedPOIs, pendingPOIs } = JSON.parse(res.body);
   const totalPoints = verifiedPOIs + pendingPOIs || 0;
 
   if (!totalPoints || totalPoints < points) {
     throw new Error(
-      `You can only post in this forum only after you have:\n - added ${points} points of interest to the FOAM map\n - have a balance of at least ${tokens} FOAM tokens`
+      `You can participate in this forum only after you have:\n - added ${points} points of interest to the FOAM map\n - have a balance of at least ${tokens} FOAM tokens`
     );
   }
   const balanceWei = await getTokenBalance({
@@ -72,7 +73,7 @@ export async function checkCommunityAuth({ user, communityId, communityMember })
   const balance = utils.formatEther(balanceWei);
   if (balance < tokens)
     throw new Error(
-      `You can only post in this forum only after you have:\n - added ${points} points of interest to the FOAM map\n - have a balance of at least ${tokens} FOAM tokens`
+      `You can participate in this forum only after you have:\n - added ${points} points of interest to the FOAM map\n - have a balance of at least ${tokens} FOAM tokens`
     );
 
   // if (!communityMember || !communityMember.role !== 'admin') {

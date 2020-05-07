@@ -98,7 +98,7 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
-  - Permission-Camera (2.0.9):
+  - Permission-Camera (2.0.10):
     - RNPermissions
   - RCTRequired (0.61.5)
   - RCTTypeSafety (0.61.5):
@@ -265,15 +265,15 @@ PODS:
     - React-cxxreact (= 0.61.5)
     - React-jsi (= 0.61.5)
   - React-jsinspector (0.61.5)
-  - react-native-camera (3.19.0):
+  - react-native-camera (3.22.0):
     - React
-    - react-native-camera/RCT (= 3.19.0)
-    - react-native-camera/RN (= 3.19.0)
-  - react-native-camera/RCT (3.19.0):
+    - react-native-camera/RCT (= 3.22.0)
+    - react-native-camera/RN (= 3.22.0)
+  - react-native-camera/RCT (3.22.0):
     - React
-  - react-native-camera/RN (3.19.0):
+  - react-native-camera/RN (3.22.0):
     - React
-  - react-native-contacts (5.0.4):
+  - react-native-contacts (5.1.0):
     - React
   - react-native-image-picker (1.1.0):
     - React
@@ -293,7 +293,7 @@ PODS:
     - React
   - react-native-viewpager (2.0.2):
     - React
-  - react-native-webview (7.4.3):
+  - react-native-webview (7.6.0):
     - React
   - React-RCTActionSheet (0.61.5):
     - React-Core/RCTActionSheetHeaders (= 0.61.5)
@@ -339,7 +339,7 @@ PODS:
     - React-Core
   - RNCMaskedView (0.1.7):
     - React
-  - RNCPushNotificationIOS (1.0.2):
+  - RNCPushNotificationIOS (1.1.1):
     - React
   - RNExitApp (1.1.0):
     - React
@@ -352,13 +352,13 @@ PODS:
     - Fabric
     - Firebase/Core
     - React
-  - RNGestureHandler (1.5.2):
+  - RNGestureHandler (1.6.1):
     - React
-  - RNPermissions (2.0.9):
+  - RNPermissions (2.0.10):
     - React
-  - RNReanimated (1.3.0):
+  - RNReanimated (1.7.1):
     - React
-  - RNScreens (2.2.0):
+  - RNScreens (2.4.0):
     - React
   - RNShare (2.0.0):
     - React
@@ -594,7 +594,7 @@ SPEC CHECKSUMS:
   HSAttachmentPicker: ed3d5a670cdd805ba8268f0d00a4d102d65cbd1d
   JWT: 9b5c05abbcc1a0e69c3c91e1655b3387fc7e581d
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  Permission-Camera: 8fe4753b02396489b11c5089e4f57bab7fe1ef42
+  Permission-Camera: a8f6007d17b02ed8a2d6bac1c37c2fd5df9b4e8a
   RCTRequired: b153add4da6e7dbc44aebf93f3cf4fcae392ddf1
   RCTTypeSafety: 9aa1b91d7f9310fc6eadc3cf95126ffe818af320
   RCTUserDefaults: 8f2efda40b40791a54f519cae633ce03046c374b
@@ -605,8 +605,8 @@ SPEC CHECKSUMS:
   React-jsi: cb2cd74d7ccf4cffb071a46833613edc79cdf8f7
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
-  react-native-camera: 1f4c5be75a037b5573716a01d84ca0390c162954
-  react-native-contacts: 7d0b7ccd5f00df82ceca035935fc9d6e63af5aec
+  react-native-camera: 33db8f7b774b32f3583be9376d05ed583154815b
+  react-native-contacts: be6cde1ffc9c0196fbb57d987b9d40f12b85989c
   react-native-image-picker: 7a85cf7b0a53845f03ae52fb4592a2748ded069b
   react-native-orientation: f1caf84d65f1a4fd4511a18f2b924e634ad7a628
   react-native-safari-view: 955d7160d159241b8e9395d12d10ea0ef863dcdd
@@ -614,7 +614,7 @@ SPEC CHECKSUMS:
   react-native-twitter-signin: 085bb0bb3fc4fd7b54e192bbf3fbc718a6228043
   react-native-video: d01ed7ff1e38fa7dcc6c15c94cf505e661b7bfd0
   react-native-viewpager: 88f4269c19d626d2ccd5f7c7f5f7f76422ddb9e3
-  react-native-webview: 82d6456dfae1b3ef70c3939135536342afc96373
+  react-native-webview: db4682f1698ab4b17a5e88f951031d203ff8aea8
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72
@@ -629,13 +629,13 @@ SPEC CHECKSUMS:
   ReactNativeShareExtension: c3dca25799599e4205c0a5176bc518f7eb54fead
   rn-fetch-blob: f525a73a78df9ed5d35e67ea65e79d53c15255bc
   RNCMaskedView: 76c40a1d41c3e2535df09246a2b5487f04de0814
-  RNCPushNotificationIOS: 0b8d06ff190d84627dd17501bfb96652375970e4
+  RNCPushNotificationIOS: a0b6894f4ad9b93d9dac467fdf4d055660ac8a0d
   RNExitApp: c4e052df2568b43bec8a37c7cd61194d4cfee2c3
   RNFirebase: 37daa9a346d070f9f6ee1f3b4aaf4c8e3b1d5d1c
-  RNGestureHandler: 946a7691e41df61e2c4b1884deab41a4cdc3afff
-  RNPermissions: 2f74237e97b08beda01e914301e12524ddddf5b8
-  RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
-  RNScreens: 812b79d384e2bea7eebc4ec981469160d4948fd5
+  RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
+  RNPermissions: 1008d3511fee0e25739cf81c4af0d1b2248f1053
+  RNReanimated: 4e102df74a9674fa943e05f97f3362b6e44d0b48
+  RNScreens: b5c0e1b2b04512919e78bd3898e144a157ce2363
   RNShare: 8b171d4b43c1d886917fdd303bf7a4b87167b05c
   RNSKBucket: 81a7a3c1696f00abc93cde584e48a285f0a90107
   RNSVG: 9cb6e958c4b6a1f58185ac72a350b148947d6fed

@@ -40,9 +40,6 @@ function PostTitle({ children, post, link, title, noLink, mobile, singlePost, pr
 
   const titleEl = link ? (
     <ULink
-      // to={singlePost ? post.url : postUrl || '#'}
-      // external={singlePost}
-      // target={singlePost ? '_blank' : null}
       to={post.url}
       external
       target={'_blank'}
@@ -50,7 +47,7 @@ function PostTitle({ children, post, link, title, noLink, mobile, singlePost, pr
       onClick={() => history.push(postUrl)}
       onPress={() => {
         singlePost
-          ? dispatch(goToPost(post))
+          ? dispatch(goToUrl(post.url))
           : dispatch(goToUrl(post.url)) && dispatch(goToPost(post));
       }}
     >

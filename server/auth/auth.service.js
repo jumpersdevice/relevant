@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import AuthToken from 'server/api/token/token.model';
+import { checkCommunityAuth } from 'server/api/community/community.auth';
 import config from '../config/config';
 import User from '../api/user/user.model';
 import CommunityMember from '../api/community/community.member.model';
@@ -129,7 +130,8 @@ function communityMember(role) {
         if (!com || (com.private && !globalAdmin))
           throw new Error("Community doesn't exist");
 
-        // if (user.role !== 'admin') {
+        await checkCommunityAuth({ user: req.user, communityId: com._id });
+
         member = await com.join(user);
         if (!member.community) {
           member.community = com.slug;
@@ -138,7 +140,7 @@ function communityMember(role) {
         // }
       }
 
-      if (role === 'superAdmin' && (!globalAdmin && !member.superAdmin)) {
+      if (role === 'superAdmin' && !globalAdmin && !member.superAdmin) {
         throw new Error("You don't have the priveleges required to do this");
       }
 

@@ -56,8 +56,7 @@ exports.create = async (req, res, next) => {
 
     const { community, communityId } = communityMember;
 
-    if (community === 'foam')
-      await checkCommunityAuth({ user: req.user, communityId, communityMember });
+    await checkCommunityAuth({ user: req.user, communityId, communityMember });
 
     const { linkParent, text: body, repost = false, metaPost } = req.body;
     let { parentPost, parentComment, mentions = [], tags = [] } = req.body;
