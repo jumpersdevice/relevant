@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { ActionSheetIOS, TouchableOpacity, Platform, Linking } from 'react-native';
-import RNBottomSheet from 'react-native-bottom-sheet';
+import RNBottomSheet from 'react-native-bottomsheet';
 import Share from 'react-native-share';
 import { getPostUrl, getTitle } from 'app/utils/post';
 import { push, goToPost } from 'modules/navigation/navigation.actions';

@@ -8,7 +8,7 @@ import {
   Linking
 } from 'react-native';
 import PropTypes from 'prop-types';
-import RNBottomSheet from 'react-native-bottom-sheet';
+import RNBottomSheet from 'react-native-bottomsheet';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { globalStyles, greyText } from 'app/styles/global';
 import CommentAuthor from 'modules/comment/comment.author';

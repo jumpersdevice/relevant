@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import WebView from 'react-native-webview';
 import PropTypes from 'prop-types';
-import RNBottomSheet from 'react-native-bottom-sheet';
+import RNBottomSheet from 'react-native-bottomsheet';
 
 // import Share from 'react-native-share';
 import Orientation from 'react-native-orientation';
@@ -99,16 +99,6 @@ class ArticleView extends Component {
     );
   };
 
-  // onShare() {
-  //   Share.open({
-  //     title: 'Relevant',
-  //     url: this.url,
-  //     subject: 'Article from Relevant'
-  //   }).catch(() => {
-  //     // Alert.alert(err);
-  //   });
-  // }
-
   onShare = async () => {
     try {
       await Share.share({
@@ -116,7 +106,7 @@ class ArticleView extends Component {
         subject: 'Article From Relevant'
       });
     } catch (err) {
-      Alert(err.message);
+      Alert.alert(err.message);
     }
   };
 
@@ -214,7 +204,7 @@ class ArticleView extends Component {
             this.backButtonEnabled = navState.canGoBack;
           }}
           onError={err => {
-            Alert.error(err);
+            Alert.alert(err.message);
           }}
           onLoadStart={() => this.setState({ loading: true })}
           onLoadEnd={() => this.setState({ loading: false })}

@@ -25,7 +25,7 @@ import * as tooltipActions from 'modules/tooltip/tooltip.actions';
 import { getTextData, getWords } from 'app/utils/text';
 import Avatar from 'modules/user/avatarbox.component';
 import TextBody from 'modules/text/mobile/textBody.component';
-import RNBottomSheet from 'react-native-bottom-sheet';
+import RNBottomSheet from 'react-native-bottomsheet';
 import { colors } from 'styles';
 
 import UserSearchComponent from './userSearch.component';
@@ -461,7 +461,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UrlComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(UrlComponent);

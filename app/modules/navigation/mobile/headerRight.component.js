@@ -16,7 +16,7 @@ import Prompt from 'rn-prompt';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { globalStyles, darkGrey, mainPadding } from 'app/styles/global';
 import Stats from 'modules/stats/mobile/stats.component';
-import RNBottomSheet from 'react-native-bottom-sheet';
+import RNBottomSheet from 'react-native-bottomsheet';
 
 import { pickerOptions } from 'app/utils/pickerOptions';
 import { toS3Advanced } from 'app/utils/s3';
@@ -245,7 +245,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HeaderRight);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderRight);

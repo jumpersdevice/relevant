@@ -65,10 +65,6 @@ export const RootStack = createStackNavigator(
         ...TransitionPresets.ModalSlideFromBottomIOS
       }
     }
-    // this will be community drawer
-    // categories: {
-    //   screen: (props) => <CreatePostContainer {...props} step={'url'} />
-    // },
   },
   {
     initialRouteName: 'main',

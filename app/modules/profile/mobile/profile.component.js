@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Platform, ActionSheetIOS, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Ionicons';
-import RNBottomSheet from 'react-native-bottom-sheet';
+import RNBottomSheet from 'react-native-bottomsheet';
 import { View, Divider, Image } from 'modules/styled/uni';
 import { colors } from 'styles';
 import Bio from './bio.component';

@@ -142,7 +142,7 @@
     "react-markdown": "^4.2.2",
     "react-mde": "^7.6.2",
     "react-native": "^0.61.5",
-    "react-native-bottom-sheet": "^1.0.3",
+    "react-native-bottomsheet": "^2.2.0",
     "react-native-camera": "^3.19.0",
     "react-native-code-push": "^5.7.0",
     "react-native-contacts": "^5.0.4",

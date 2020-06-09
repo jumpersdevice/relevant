@@ -7,23 +7,24 @@ export const URL_REGEX = new RegExp(
 );
 
 export function getTitle({ post, link, maxLength }) {
-  let title = (link && get(link, 'title')) || get(post, 'title');
+  let title = link?.title || post?.title;
   const fromBody = !title || title === '';
   title = title || get(post, 'body');
 
   const limit = maxLength || 160;
   if (fromBody) {
-    const lines = title.split(/\n/);
-    title = lines.slice(0, 1).join('\n');
-    if (title.length <= limit) return title;
-    return title.substr(0, title.lastIndexOf(' ', limit)) + '...';
+    const lines = title?.split(/\n/);
+    title = lines?.slice(0, 1).join('\n');
+    if (!title) return 'Untitled';
+    if (title?.length <= limit) return title;
+    return title?.substr(0, title.lastIndexOf(' ', limit)) + '...';
   }
 
   if (title && title.length > limit) {
     title = title.substr(0, title.lastIndexOf(' ', limit)) + '...';
   }
   title = title && title.trim();
-  return title;
+  return title || 'Untitled';
 }
 
 export function getFavIcon(domain) {

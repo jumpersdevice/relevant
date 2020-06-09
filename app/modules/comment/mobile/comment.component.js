@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ActionSheetIOS, Platform, Alert } from 'react-native';
 import PropTypes from 'prop-types';
-import RNBottomSheet from 'react-native-bottom-sheet';
+import RNBottomSheet from 'react-native-bottomsheet';
 import TextEdit from 'modules/text/mobile/textEdit.component';
 import { text as textUtil } from 'app/utils';
 import CommentBody from 'modules/comment/commentBody';
