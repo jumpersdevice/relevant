@@ -106,7 +106,7 @@ exports.confirm = async (req, res, next) => {
     if (!handle || !confirmCode) throw new Error('Missing user id or confirmation token');
     user = await User.findOne({ handle, confirmCode });
     if (!user) throw new Error('Wrong confirmation code');
-
+    if (user.confirmed) throw new Error('Email is already confirmed.');
     user.confirmed = true;
     user = await user.addReward({ type: 'email' });
     user = await user.save();
