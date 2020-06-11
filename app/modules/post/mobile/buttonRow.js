@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ActionSheetIOS, TouchableOpacity, Platform, Linking } from 'react-native';
 import RNBottomSheet from 'react-native-bottomsheet';
 import Share from 'react-native-share';
@@ -35,8 +35,7 @@ ButtonRow.propTypes = {
   comment: PropTypes.object,
   setupReply: PropTypes.func,
   post: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  parentPost: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  auth: PropTypes.object
+  parentPost: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 };
 
 export default memo(ButtonRow);
@@ -48,9 +47,9 @@ function ButtonRow({
   singlePost,
   focusInput,
   comment,
-  setupReply,
-  auth
+  setupReply
 }) {
+  const auth = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   const menu = link ? linkMenu : defaultMenu;

@@ -8,10 +8,18 @@ import {
   Linking
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 import RNBottomSheet from 'react-native-bottomsheet';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { globalStyles, greyText } from 'app/styles/global';
 import CommentAuthor from 'modules/comment/comment.author';
+
+import { deletePost, flag } from 'modules/post/post.actions';
+import { push, changeTab, goToProfile } from 'modules/navigation/navigation.actions';
+import { setCreatePostState } from 'modules/createPost/createPost.actions';
+import { selectTag } from 'modules/tag/tag.actions';
 
 let ActionSheet = ActionSheetIOS;
 if (Platform.OS === 'android') {
@@ -185,8 +193,6 @@ class PostInfo extends Component {
   }
 }
 
-export default PostInfo;
-
 const localStyles = StyleSheet.create({
   infoRight: {
     justifyContent: 'flex-end',
@@ -194,5 +200,18 @@ const localStyles = StyleSheet.create({
     alignSelf: 'center'
   }
 });
+
+const mapStateToProps = () => ({});
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(
+      { deletePost, flag, push, changeTab, goToProfile, setCreatePostState, selectTag },
+      dispatch
+    )
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostInfo);
 
 styles = { ...globalStyles, ...localStyles };
