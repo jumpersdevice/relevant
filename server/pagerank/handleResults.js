@@ -29,7 +29,7 @@ export async function handleResults({ scores, nodes, communityId, debug, postNod
       max = Math.max(score.rank, max);
     }
 
-    node.rank = score.rank;
+    node.rank = score.rank || 0;
     node.degree = score.degree; // or node.degree note = for score degree we replace 0
     node.adjustedDegree = score.degree;
   });
@@ -41,7 +41,7 @@ export async function handleResults({ scores, nodes, communityId, debug, postNod
       const d = inputNode.degree + inputNode.postDegree;
 
       // increase degree if a node has any negative rank
-      const negPosRatio = inputNode.prevNeg / inputNode.prevPos;
+      const negPosRatio = inputNode.prevPos ? inputNode.prevNeg / inputNode.prevPos : 1;
       const negDegree = negPosRatio ? inputNode.degree * negPosRatio : 0;
 
       postNode.rank += inputNode.rank / (d + negDegree);
@@ -188,9 +188,7 @@ async function updateItemRank(props) {
     return user;
   }
   if (node.type === 'post') {
-    if (Number.isNaN(rank)) {
-      return null;
-    }
+    if (Number.isNaN(rank)) return null;
     let post = await Post.findOneAndUpdate(
       { _id: node._id },
       { pagerank: rank },
