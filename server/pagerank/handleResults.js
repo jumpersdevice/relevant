@@ -29,7 +29,7 @@ export async function handleResults({ scores, nodes, communityId, debug, postNod
       max = Math.max(score.rank, max);
     }
 
-    node.rank = score.rank || 0;
+    node.rank = score.rank;
     node.degree = score.degree; // or node.degree note = for score degree we replace 0
     node.adjustedDegree = score.degree;
   });
@@ -38,13 +38,19 @@ export async function handleResults({ scores, nodes, communityId, debug, postNod
     Object.keys(postNode.inputs).forEach(inputId => {
       const inputNode = nodes[inputId];
       if (!inputNode) return;
+      if (!inputNode.rank) return;
       const d = inputNode.degree + inputNode.postDegree;
 
       // increase degree if a node has any negative rank
-      const negPosRatio = inputNode.prevPos ? inputNode.prevNeg / inputNode.prevPos : 1;
-      const negDegree = negPosRatio ? inputNode.degree * negPosRatio : 0;
+      const negPosRatio = inputNode.prevNeg / inputNode.rank;
+      const negDegree = inputNode.degree * negPosRatio;
 
       postNode.rank += inputNode.rank / (d + negDegree);
+
+      if (!inputNode.prevPos) {
+        console.log('rank', postNode.rank, inputNode);
+        console.log('degree', d, 'negDegree', negDegree, negPosRatio);
+      }
       inputNode.adjustedDegree = d + negDegree;
       maxPost = Math.max(postNode.rank, maxPost);
     });
