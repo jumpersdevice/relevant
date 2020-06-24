@@ -108,7 +108,7 @@ if (process.env.NO_SSL !== 'true') {
 // public folder
 app.use('/', expressStaticGzip(path.join(__dirname, '/../app/public'), { index: false }));
 app.use(cookiesMiddleware());
-app.use(morgan('tiny'));
+app.use(morgan('short'));
 
 const port = process.env.PORT || 3000;
 
