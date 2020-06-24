@@ -1,5 +1,6 @@
 import { BANNED_COMMUNITY_SLUGS } from 'server/config/globalConstants';
 import { sendAdminAlert } from 'server/utils/mail';
+import rateLimit from 'express-rate-limit';
 import handleRender from './render';
 // eslint-disable-next-line import/named
 import { currentUser } from './auth/auth.service';
@@ -12,6 +13,12 @@ function wwwRedirect(req, res, next) {
   }
   return next();
 }
+
+const reloadLimit = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 hour window
+  max: 10, // start blocking after 5 requests
+  message: 'You refreshed too many times, please try again in 1 minute'
+});
 
 module.exports = app => {
   app.set('trust proxy', true);
@@ -58,17 +65,22 @@ module.exports = app => {
     return res.status(500).json({ message: err.message });
   });
 
-  app.get('/', currentUser(), handleRender);
+  app.get('/', reloadLimit, currentUser(), handleRender);
 
   BANNED_COMMUNITY_SLUGS.forEach(c => {
     app.get(`/${c}/*`, currentUser(), handleRender);
     app.get(`/${c}`, currentUser(), handleRender);
   });
 
-  app.get('/:community', currentUser(), handleRender);
-  app.get('/:community/post/:postId', currentUser(), handleRender);
-  app.get('/:community/post/:postId/:commentId', currentUser(), handleRender);
-  app.get('/:community/:feed', currentUser(), handleRender);
-  app.get('/:community/:feed/*', currentUser(), handleRender);
-  app.get('/*', currentUser(), handleRender);
+  app.get('/:community', reloadLimit, currentUser(), handleRender);
+  app.get('/:community/post/:postId', reloadLimit, currentUser(), handleRender);
+  app.get(
+    '/:community/post/:postId/:commentId',
+    reloadLimit,
+    currentUser(),
+    handleRender
+  );
+  app.get('/:community/:feed', reloadLimit, currentUser(), handleRender);
+  app.get('/:community/:feed/*', reloadLimit, currentUser(), handleRender);
+  app.get('/*', reloadLimit, currentUser(), handleRender);
 };

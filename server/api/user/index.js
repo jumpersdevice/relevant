@@ -1,8 +1,16 @@
+import rateLimit from 'express-rate-limit';
+
 const express = require('express');
 const controller = require('./user.controller');
 const auth = require('../../auth/auth.service');
 
 const router = express.Router();
+
+const createAccountLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour window
+  max: 5, // start blocking after 5 requests
+  message: 'Too many accounts created from this IP, please try again after an hour'
+});
 
 // router.get('/confirm/:user/:code', controller.confirm);
 router.get('/', auth.isAuthenticated(), controller.index);
@@ -15,7 +23,7 @@ router.get('/general/list', auth.blocked(), controller.list);
 router.get('/testData', controller.testData);
 router.get('/check/user', auth.currentUser(), controller.checkUser);
 
-router.post('/', controller.create);
+router.post('/', createAccountLimiter, controller.create);
 router.post('/cashOut', auth.isAuthenticated(), controller.cashOut);
 router.post('/cashOut/:customAmount', auth.isAuthenticated(), controller.cashOut);
 
