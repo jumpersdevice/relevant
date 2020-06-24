@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import passport from 'passport';
 import { ApolloServer } from 'apollo-server-express';
 import schema from 'server/graphql/schema';
+import rateLimit from 'express-rate-limit';
 
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { execute, subscribe } from 'graphql';
@@ -24,6 +25,11 @@ const app = new Express();
 mongoose.Promise = global.Promise;
 
 const { validateTokenLenient, verify } = require('server/auth/auth.service');
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
 
 console.log('NODE_ENV', process.env.NODE_ENV);
 
@@ -55,6 +61,7 @@ if (isDevelopment) {
   app.use(webpackHotMiddleware(compiler));
 }
 
+app.use(limiter);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
