@@ -800,8 +800,8 @@ exports.ethAddress = async (req, res, next) => {
 
 exports.cashOut = async (req, res, next) => {
   try {
+    let {user} = req;
     const {
-      user,
       body: { customAmount }
     } = req;
     if (!user) throw new Error('missing user');
@@ -838,16 +838,18 @@ exports.cashOut = async (req, res, next) => {
       );
     }
 
-    const earning = await logCashOut(user, amount, next);
+    const earning = await logCashOut(user, amount);
 
     user.balance -= amount;
+    console.log('prev cashout', user.cashedOut, 'cashout', amount); // eslint-disable-line
     user.cashedOut += amount;
-    await user.save();
+    user = await user.save();
+    console.log('new cashout', user.cashedOut); // eslint-disable-line
 
     const { sig, amount: bnAmount } = await ethUtils.sign(address, amount);
     user.nonce = nonce;
     user.cashOut = { sig, amount: bnAmount, nonce, earningId: earning._id };
-    await user.save();
+    user = await user.save();
     return res.status(200).json({ user, earning });
   } catch (err) {
     return next(err);

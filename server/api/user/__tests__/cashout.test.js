@@ -87,6 +87,7 @@ describe('Cashout', () => {
     const apiRes = res.json.mock.calls[0][0];
     expect(apiRes.user.cashOut.amount).toBe((amnt * 1e18).toString());
     const updatedUser = await User.findOne({ _id: alice._id });
+
     expect(updatedUser.cashedOut).toBe(amnt);
   });
 
@@ -103,6 +104,7 @@ describe('Cashout', () => {
     };
     const startCashout = user.cashedOut;
     await cashOut(req, res, next);
+
     const updatedUser = await User.findOne({ _id: alice._id });
     expect(updatedUser.cashedOut).toBe(amnt + startCashout);
   });
