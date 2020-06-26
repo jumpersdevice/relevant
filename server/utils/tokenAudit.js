@@ -18,8 +18,6 @@ const { RELEVANT_ENV, SYS_ADMIN_EMAIL } = process.env;
 export async function runAudit() {
   try {
     await auditUserEarnings();
-    // await auditUser('slava');
-    // listAllBalances();
     console.log('finished audit');
   } catch (err) {
     console.log(err);
