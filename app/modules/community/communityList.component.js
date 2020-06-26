@@ -74,32 +74,30 @@ class CommunityAdminList extends Component {
         {Object.values(communities).map(c => {
           const communityURl = `/${c.slug}/new`;
           return (
-            <Box flex={1}>
-              <ULink
-                to={communityURl}
-                onPress={() => actions.setCommunity(c.slug)}
-                onClick={() => actions.setCommunity(c.slug)}
-                key={c._id}
-                styles={linkStyles}
-                fdirection="column"
-                flex={1}
-              >
-                <View fdirection="row" align="flex-start" p={`2 ${hP}`}>
-                  <Image
-                    source={{ uri: c.image }}
-                    h={8}
-                    w={8}
-                    mr={2}
-                    bg={colors.secondaryBG}
-                  />
-                  <View fdirection="column" flex={1}>
-                    <Title inline={1}>{c.name} </Title>
-                    <View wrap>{this.renderInnerText(c)}</View>
-                  </View>
-                  <Box mt={6} />
+            <ULink
+              to={communityURl}
+              onPress={() => actions.setCommunity(c.slug)}
+              onClick={() => actions.setCommunity(c.slug)}
+              key={c._id}
+              styles={linkStyles}
+              fdirection="column"
+              flex={1}
+            >
+              <View fdirection="row" align="flex-start" p={`2 ${hP}`}>
+                <Image
+                  source={{ uri: c.image }}
+                  h={8}
+                  w={8}
+                  mr={2}
+                  bg={colors.secondaryBG}
+                />
+                <View fdirection="column" flex={1}>
+                  <Title inline={1}>{c.name} </Title>
+                  <View wrap>{this.renderInnerText(c)}</View>
                 </View>
-              </ULink>
-            </Box>
+                <Box mt={6} />
+              </View>
+            </ULink>
           );
         })}
       </View>
