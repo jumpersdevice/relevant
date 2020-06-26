@@ -800,7 +800,7 @@ exports.ethAddress = async (req, res, next) => {
 
 exports.cashOut = async (req, res, next) => {
   try {
-    let {user} = req;
+    let { user } = req;
     const {
       body: { customAmount }
     } = req;
@@ -821,7 +821,7 @@ exports.cashOut = async (req, res, next) => {
     const maxClaim = CASHOUT_MAX - user.cashedOut;
 
     const canClaim = Math.min(maxClaim, user.balance - (user.airdropTokens || 0));
-    const amount = customAmount;
+    const amount = Number(customAmount);
 
     if (amount > maxClaim)
       throw new Error(`You cannot claim more than ${maxClaim} coins at this time.`);
