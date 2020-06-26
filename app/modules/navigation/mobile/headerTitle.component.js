@@ -23,7 +23,7 @@ const HeaderTitle = props => {
   }
 
   if (routeName === 'discoverView') {
-    title = communityName;
+    title = communityName || 'Communities';
   }
 
   let clipped = title || navigationOptions.title;

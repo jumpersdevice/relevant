@@ -25,6 +25,7 @@ import { TabViewContext } from './discoverTabContext';
 import TabBar from './TabBar';
 import Discover from './discover.container';
 import DiscoverHeader from './discoverHeader.component';
+import CommunityList from 'modules/community/communityList.container';
 
 let styles;
 
@@ -43,6 +44,7 @@ class DiscoverTabs extends Component {
     const disabled = routeName === 'discoverTag' && tab > 0;
     const isLocked = tab > 0;
     return {
+      title: 'Communitites',
       gesturesEnabled: !disabled,
       drawerLockMode: isLocked ? 'locked-closed' : 'unlocked'
     };
@@ -56,7 +58,10 @@ class DiscoverTabs extends Component {
     super(props, context);
     this.state = {
       index: 0,
-      routes: [{ key: 'new', title: 'New' }, { key: 'top', title: 'Top' }],
+      routes: [
+        { key: 'new', title: 'New' },
+        { key: 'top', title: 'Top' }
+      ],
       headerHeight: 50
     };
     this.renderHeader = this.renderHeader.bind(this);
@@ -65,7 +70,10 @@ class DiscoverTabs extends Component {
     const { params } = this.props.navigation.state;
     if (params && params.topic) {
       this.topicId = params.id;
-      this.state.routes = [{ key: 'new', title: 'New' }, { key: 'top', title: 'Top' }];
+      this.state.routes = [
+        { key: 'new', title: 'New' },
+        { key: 'top', title: 'Top' }
+      ];
     }
     this.loaded = false;
   }
@@ -86,7 +94,7 @@ class DiscoverTabs extends Component {
   }
 
   componentDidUpdate(prev, prevState) {
-    const { navigation, tabId, actions } = this.props;
+    const { navigation, tabId, actions, auth } = this.props;
     const newSortUrlParam = get(navigation, 'state.params.sort');
     const oldSortUrlParam = get(prev.navigation, 'state.params.sort');
 
@@ -103,7 +111,7 @@ class DiscoverTabs extends Component {
 
     if (index !== prevIndex) {
       const isActive = index !== 0;
-      this.header.current.showHeader();
+      this.header?.current?.showHeader();
     }
   }
 
@@ -165,6 +173,11 @@ class DiscoverTabs extends Component {
     const { index } = this.state;
     const { actions, gesture } = this.props;
 
+    const { auth } = this.props;
+    const { community } = auth;
+
+    if (!community) return <CommunityList />;
+
     return (
       <View style={{ flex: 1 }}>
         <TabViewContext.Provider value={this.tabView}>
@@ -203,6 +216,7 @@ styles = { ...globalStyles, ...localStyles };
 
 function mapStateToProps(state) {
   return {
+    auth: state.auth,
     tags: state.tags,
     tabId: state.navigation.discover.tab,
     topics: state.navigation.showTopics,
@@ -226,7 +240,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DiscoverTabs);
+export default connect(mapStateToProps, mapDispatchToProps)(DiscoverTabs);

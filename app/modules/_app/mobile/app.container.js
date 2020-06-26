@@ -73,12 +73,6 @@ class Application extends Component {
     this.backgroundTime = 0;
   }
 
-  componentWillMount() {
-    // hard-code community for now
-    const community = 'relevant';
-    this.props.actions.setCommunity(community);
-  }
-
   componentDidMount() {
     const { actions } = this.props;
     AppState.addEventListener('change', this.handleAppStateChange.bind(this));
@@ -139,10 +133,7 @@ class Application extends Component {
     const { actions, navigation, auth } = this.props;
 
     // TWitter callback
-    if (url.url.match('://callback')) {
-      if (!auth.community) actions.setCommunity('relevant');
-      return;
-    }
+    if (url.url.match('://callback')) return;
 
     const params = url.url.split(/\/\//)[1].split(/\/|\?/);
     let newCommunity = params[1];
@@ -162,7 +153,7 @@ class Application extends Component {
       newCommunity === 'info' ||
       newCommunity === 'admin'
     ) {
-      newCommunity = 'relevant';
+      newCommunity = null;
     }
 
     if (
@@ -294,7 +285,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Application);
+export default connect(mapStateToProps, mapDispatchToProps)(Application);
