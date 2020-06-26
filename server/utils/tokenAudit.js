@@ -72,8 +72,6 @@ async function userEarnings(user) {
     logUser(user, totalRewards);
     console.log(user.handle, 'discrepancy', diff);
     console.log(user.handle, 'cashed out is', user.cashedOut, 'should be', cashedOut);
-    // user.cashedOut = cashedOut;
-    // await user.save();
     sendAdminAlert(user, diff);
   }
 }
