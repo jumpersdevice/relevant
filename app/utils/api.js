@@ -52,7 +52,7 @@ export async function _request(options, getState) {
   // Add community query parameter
   const state = getState();
   const community = state.community.active;
-  const query = { community, ...options.query };
+  const query = community ? { community, ...options.query } : { ...options.query };
   const params = { ...options, query };
 
   // ---------------------------------------------

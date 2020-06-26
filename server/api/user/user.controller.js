@@ -854,7 +854,7 @@ exports.cashOut = async (req, res, next) => {
     console.log('prev cashout', cashedOut, 'cashout', amount); // eslint-disable-line
     user.cashedOut += amount;
     user = await user.save();
-    console.log('new cashout', cashedOut); // eslint-disable-line
+    console.log('new cashout', user.cashedOut); // eslint-disable-line
 
     const { sig, amount: bnAmount } = await ethUtils.sign(address, amount);
     user.nonce = nonce;

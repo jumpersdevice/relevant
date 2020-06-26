@@ -18,8 +18,6 @@ const { RELEVANT_ENV, SYS_ADMIN_EMAIL } = process.env;
 export async function runAudit() {
   try {
     await auditUserEarnings();
-    // await auditUser('slava');
-    // listAllBalances();
     console.log('finished audit');
   } catch (err) {
     console.log(err);
@@ -72,8 +70,6 @@ async function userEarnings(user) {
     logUser(user, totalRewards);
     console.log(user.handle, 'discrepancy', diff);
     console.log(user.handle, 'cashed out is', user.cashedOut, 'should be', cashedOut);
-    // user.cashedOut = cashedOut;
-    // await user.save();
     sendAdminAlert(user, diff);
   }
 }

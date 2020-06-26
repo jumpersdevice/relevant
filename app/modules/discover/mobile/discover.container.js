@@ -277,7 +277,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Discover);
+export default connect(mapStateToProps, mapDispatchToProps)(Discover);

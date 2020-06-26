@@ -15,7 +15,7 @@ describe('Cashout', () => {
     const { address, provider } = await deployContract();
     await init(provider, address);
     ({ alice, bob } = getUsers());
-    // global.console.log = jest.fn(); // hides logs
+    global.console.log = jest.fn(); // hides logs
   }, 60000);
 
   beforeEach(() => {

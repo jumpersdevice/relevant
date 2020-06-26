@@ -1,6 +1,7 @@
 import htmlToText from 'html-to-text';
 import MailGun from 'mailgun-js';
 import MailerLite from 'mailerlite-mailerlite';
+import { shouldSkip } from 'server/utils/skipErrors';
 
 const { SYS_ADMIN_EMAIL, RELEVANT_ENV } = process.env;
 const IS_PRODUCTION = RELEVANT_ENV === 'production';
@@ -58,6 +59,7 @@ export const sendEmail = data => {
 
 export async function sendAdminAlert(err) {
   if (!SYS_ADMIN_EMAIL) return null;
+  if (shouldSkip(err.message)) return null;
   const data = {
     from: 'Relevant <info@relevant.community>',
     to: SYS_ADMIN_EMAIL,
