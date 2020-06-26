@@ -10,6 +10,7 @@ import { sendEmail, addUserToEmailList, removeFromEmailList } from 'server/utils
 import { BANNED_USER_HANDLES, CASHOUT_MAX } from 'server/config/globalConstants';
 // import { idUtils } from '3box';
 import { verifyEthSignature } from 'server/auth/web3/passport';
+import Earnings from 'server/api/earnings/earnings.model';
 import User from './user.model';
 import Post from '../post/post.model';
 import CommunityMember from '../community/community.member.model';
@@ -818,7 +819,16 @@ exports.cashOut = async (req, res, next) => {
       return res.status(200).json({ user, earning: null });
     }
 
-    const maxClaim = CASHOUT_MAX - user.cashedOut;
+    const userCashoutLog = await Earnings.find({
+      user: user._id,
+      cashOutAttempt: true
+    });
+    const cashedOut = userCashoutLog.reduce((a, e) => a + e.cashOutAmt, 0);
+
+    if (user.cashedOut !== cashedOut)
+      throw new Error('Something is wrong - please contact the site admin');
+
+    const maxClaim = CASHOUT_MAX - cashedOut;
 
     const canClaim = Math.min(maxClaim, user.balance - (user.airdropTokens || 0));
     const amount = Number(customAmount);
@@ -841,10 +851,10 @@ exports.cashOut = async (req, res, next) => {
     const earning = await logCashOut(user, amount);
 
     user.balance -= amount;
-    console.log('prev cashout', user.cashedOut, 'cashout', amount); // eslint-disable-line
+    console.log('prev cashout', cashedOut, 'cashout', amount); // eslint-disable-line
     user.cashedOut += amount;
     user = await user.save();
-    console.log('new cashout', user.cashedOut); // eslint-disable-line
+    console.log('new cashout', cashedOut); // eslint-disable-line
 
     const { sig, amount: bnAmount } = await ethUtils.sign(address, amount);
     user.nonce = nonce;

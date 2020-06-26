@@ -64,13 +64,16 @@ async function userEarnings(user) {
 
   if (Math.abs(diff) > 0.000001) {
     console.log('error! earnings mismatch for', user._id);
-    logUser(user, totalRewards);
-    console.log(user.handle, 'discrepancy', diff);
+
     const userCashoutLog = await Earnings.find({ user: user._id, cashOutAttempt: true });
     const cashedOut = userCashoutLog
       .filter(e => e.status === 'completed')
       .reduce((a, e) => a + e.cashOutAmt, 0);
-    console.log('cashed out is', user.cashedOut, 'should be', cashedOut);
+    logUser(user, totalRewards);
+    console.log(user.handle, 'discrepancy', diff);
+    console.log(user.handle, 'cashed out is', user.cashedOut, 'should be', cashedOut);
+    // user.cashedOut = cashedOut;
+    // await user.save();
     sendAdminAlert(user, diff);
   }
 }

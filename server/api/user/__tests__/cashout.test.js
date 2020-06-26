@@ -15,7 +15,7 @@ describe('Cashout', () => {
     const { address, provider } = await deployContract();
     await init(provider, address);
     ({ alice, bob } = getUsers());
-    global.console.log = jest.fn(); // hides logs
+    // global.console.log = jest.fn(); // hides logs
   }, 60000);
 
   beforeEach(() => {
@@ -46,7 +46,7 @@ describe('Cashout', () => {
   test('cashout 0', async () => {
     const req = {
       user: alice,
-      body: { customAmount: 0 }
+      body: { customAmount: '0' }
     };
     await cashOut(req, res, next);
     expect(next).toHaveBeenCalled();
@@ -55,7 +55,7 @@ describe('Cashout', () => {
   test('cashout negative', async () => {
     const req = {
       user: alice,
-      body: { customAmount: 0 }
+      body: { customAmount: '0' }
     };
     await cashOut(req, res, next);
     expect(next).toHaveBeenCalled();
@@ -81,7 +81,7 @@ describe('Cashout', () => {
     const amnt = 10;
     const req = {
       user: alice,
-      body: { customAmount: amnt }
+      body: { customAmount: amnt.toString() }
     };
     await cashOut(req, res, next);
     const apiRes = res.json.mock.calls[0][0];
@@ -100,7 +100,7 @@ describe('Cashout', () => {
     );
     const req = {
       user,
-      body: { customAmount: amnt }
+      body: { customAmount: amnt.toString() }
     };
     const startCashout = user.cashedOut;
     await cashOut(req, res, next);
