@@ -47,10 +47,6 @@ export async function handleResults({ scores, nodes, communityId, debug, postNod
 
       postNode.rank += inputNode.rank / (d + negDegree);
 
-      if (!inputNode.prevPos) {
-        console.log('rank', postNode.rank, inputNode);
-        console.log('degree', d, 'negDegree', negDegree, negPosRatio);
-      }
       inputNode.adjustedDegree = d + negDegree;
       maxPost = Math.max(postNode.rank, maxPost);
     });
