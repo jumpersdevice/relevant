@@ -19,7 +19,10 @@ const errors = [
   'Missing user when trying to claim tokens.',
   'Missing token claim amount.',
   'This address is already in use by',
-  'No authorization token was found'
+  'No authorization token was found',
+  'You can not upvote your own comment',
+  'You can not downvote your own comment',
+  'E11000 duplicate key error collection: relevant.users index:'
 ];
 
 export const shouldSkip = errMsg => {

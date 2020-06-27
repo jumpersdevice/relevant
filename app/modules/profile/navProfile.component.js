@@ -51,7 +51,8 @@ export class NavProfile extends Component {
   }
 
   render() {
-    const { user, earnings, actions } = this.props;
+    const { user, earnings, actions, auth } = this.props;
+    const { community } = auth;
     if (!user) return null;
 
     // TODO optimize this so its not on every render?
@@ -61,7 +62,7 @@ export class NavProfile extends Component {
       pendingPayouts += computeUserPayout(earning);
     });
 
-    const hideGetTokens = user.twitterId && user.confirmed;
+    const hideGetTokens = (user.twitterId && user.confirmed) || !community;
 
     return (
       <View bb flex={1}>
@@ -167,21 +168,23 @@ export class NavProfile extends Component {
               </ULink>
             )}
             {hideGetTokens ? null : <Text> &nbsp;&nbsp; </Text>}
-            <ULink
-              to="/user/wallet"
-              ml={1}
-              c={colors.blue}
-              hu
-              onPress={() => {
-                actions.push('invites');
-              }}
-              onClick={e => {
-                e.preventDefault();
-                actions.showModal('invite');
-              }}
-            >
-              <CTALink c={colors.blue}>Invite Friends</CTALink>
-            </ULink>
+            {community && (
+              <ULink
+                to="/user/wallet"
+                ml={1}
+                c={colors.blue}
+                hu
+                onPress={() => {
+                  actions.push('invites');
+                }}
+                onClick={e => {
+                  e.preventDefault();
+                  actions.showModal('invite');
+                }}
+              >
+                <CTALink c={colors.blue}>Invite Friends</CTALink>
+              </ULink>
+            )}
           </View>
         </View>
       </View>
@@ -206,7 +209,4 @@ const mapDispatchToProps = dispatch => ({
   )
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NavProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(NavProfile);

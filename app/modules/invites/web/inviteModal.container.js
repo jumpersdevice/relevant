@@ -10,7 +10,8 @@ import { copyToClipBoard } from 'utils/text';
 
 class InviteModalContainer extends Component {
   componentDidMount() {
-    this.props.actions.getInviteCount();
+    const { community } = this.props.auth;
+    if (community) this.props.actions.getInviteCount();
   }
 
   postInviteGeneration(invite) {
@@ -62,7 +63,4 @@ const mapDispatchToProps = dispatch => ({
   )
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(InviteModalContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(InviteModalContainer);

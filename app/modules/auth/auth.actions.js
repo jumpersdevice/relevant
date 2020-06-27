@@ -327,7 +327,7 @@ export function getUser(callback) {
       const state = getState();
       const { community } = state.auth;
       if (!community && user.community) {
-        dispatch(setCommunity(user.community));
+        dispatch(setCommunity(null));
       }
       const checkIfEnabled = true;
       dispatch(enableMobileNotifications(user, checkIfEnabled));

@@ -14,11 +14,13 @@ import { ScrollView } from 'react-native';
 
 class Invites extends Component {
   static propTypes = {
-    actions: PropTypes.object
+    actions: PropTypes.object,
+    auth: PropTypes.objec
   };
 
   componentWillMount() {
-    this.props.actions.getInviteCount();
+    const { community } = this.props.auth;
+    if (community) this.props.actions.getInviteCount();
   }
 
   handleShare = shareOptions => {
