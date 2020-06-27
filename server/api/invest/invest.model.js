@@ -141,6 +141,9 @@ InvestSchema.statics.createVote = async function createVote({
 }) {
   const isManualBet =
     user.notificationSettings.bet.manual && communityInstance.betEnabled;
+
+  if (!post.data) throw new Error(`Missing post data ${JSON.stringify(post)}`);
+
   let vote = new (this.model('Invest'))({
     investor: user._id,
     post: post._id,
@@ -221,7 +224,7 @@ function canBet({ post, user, stakedTokens }) {
     return true;
   }
 
-  throw new Error('You cannot bet on this post');
+  throw new Error(`You cannot bet on this post, ${JSON.stringify(post)}`);
 }
 
 module.exports = mongoose.model('Invest', InvestSchema);

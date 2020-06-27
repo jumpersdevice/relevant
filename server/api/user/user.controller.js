@@ -805,8 +805,8 @@ exports.cashOut = async (req, res, next) => {
     const {
       body: { customAmount }
     } = req;
-    if (!user) throw new Error('missing user');
-    if (!customAmount) throw new Error('Missing amount');
+    if (!user) throw new Error('Missing user when trying to claim tokens.');
+    if (!customAmount) throw new Error('Missing token claim amount.');
 
     if (!user.ethAddress[0]) throw new Error('No Ethereum address connected');
     const address = user.ethAddress[0];

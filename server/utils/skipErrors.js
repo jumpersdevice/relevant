@@ -15,7 +15,11 @@ const errors = [
   'you cannot change your vote after post payout',
   'A user with this twitter account already exists',
   "Community doesn't exist",
-  'You cannot bet on this post'
+  'You cannot bet on this post',
+  'Missing user when trying to claim tokens.',
+  'Missing token claim amount.',
+  'This address is already in use by',
+  'No authorization token was found'
 ];
 
 export const shouldSkip = errMsg => {

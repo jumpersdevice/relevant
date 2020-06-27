@@ -33,7 +33,7 @@ export default class TwitterSignup extends Component {
     super(props, context);
     this.state = {
       username: '',
-      processing: false
+      inProgress: false
     };
     this.renderUserName = this.renderUserName.bind(this);
     this.signUp = this.signUp.bind(this);
@@ -53,6 +53,8 @@ export default class TwitterSignup extends Component {
   }
 
   async signUp() {
+    const { inProgress } = this.state;
+    if (inProgress) return null;
     if (this.usernameExists) {
       return Alert.alert('This handle is already taken');
     }
@@ -79,7 +81,7 @@ export default class TwitterSignup extends Component {
         'username can only contain letters, numbers, dashes and underscores');
     }
     this.props.actions.checkUser(string, 'name').then(results => {
-      if (results && (!preUser && results._id !== preUser._id)) {
+      if (results && !preUser && results._id !== preUser._id) {
         this.usernameExists = true;
         this.nameError = 'This handle is already taken';
       } else this.usernameExists = false;
