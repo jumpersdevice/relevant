@@ -7,7 +7,8 @@ import { auth, earnings } from 'app/mockdata';
 
 const props = {
   earnings: earnings.earnings,
-  user: auth.auth.user
+  user: auth.auth.user,
+  auth: auth.auth
 };
 
 jest.mock('react-redux', () => ({ useDispatch: () => () => {}, connect: el => el }));

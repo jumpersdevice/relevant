@@ -52,7 +52,7 @@ export class NavProfile extends Component {
 
   render() {
     const { user, earnings, actions, auth } = this.props;
-    const community = auth?.community;
+    const { community } = auth;
     if (!user) return null;
 
     // TODO optimize this so its not on every render?
