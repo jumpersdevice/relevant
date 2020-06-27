@@ -18,8 +18,10 @@ exports.index = async req => {
   let sortQuery;
   let commentarySort;
 
+  if (!community) return [];
+
   const cObj = await Community.findOne({ slug: community }, '_id private');
-  if (!cObj) throw new Error(`Community ${community} doesn't exist`);
+  if (!cObj) return [];
 
   if (cObj.private) {
     if (!user) throw new Error('This community is private');
