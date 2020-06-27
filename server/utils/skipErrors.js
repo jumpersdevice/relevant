@@ -14,7 +14,8 @@ const errors = [
   "You don't have enough tokens to bet",
   'you cannot change your vote after post payout',
   'A user with this twitter account already exists',
-  "Community doesn't exist"
+  "Community doesn't exist",
+  'You cannot bet on this post'
 ];
 
 export const shouldSkip = errMsg => {

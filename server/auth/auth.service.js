@@ -119,7 +119,8 @@ function communityMember(role) {
       if (!user || !user._id) {
         throw new Error('missing user credentials');
       }
-      const community = req.query.community || 'relevant';
+      const community = req?.query?.community;
+      if (!community) next();
       let member = await CommunityMember.findOne({ user: user._id, community });
 
       // add member to default community

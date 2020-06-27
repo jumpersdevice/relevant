@@ -262,6 +262,7 @@ function configurePushNotifications(dispatch) {
           navigationActions.goToPost({
             _id: data.postId,
             title: data.title,
+            community: data.community,
             comment
           })
         );
