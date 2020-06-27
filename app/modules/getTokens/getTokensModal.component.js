@@ -9,7 +9,8 @@ import {
   Divider,
   LinkFont,
   SecondaryText,
-  ViewButton
+  ViewButton,
+  Box
 } from 'modules/styled/uni';
 import CoinStat from 'modules/stats/coinStat.component';
 import {
@@ -38,7 +39,7 @@ function GetTokensModal({
   // redditButton
 }) {
   return (
-    <View display="flex" fdirection="column">
+    <Box>
       {tokenEnabled() && (
         <Fragment>
           <UniswapButton />
@@ -46,7 +47,7 @@ function GetTokensModal({
         </Fragment>
       )}
       {!user.confirmed && (
-        <View fdirection="column" justify={'stretch'}>
+        <View fdirection="column" justify={'space-between'}>
           <View fdirection="row" align="center" mt={4}>
             <BodyText c={colors.secondaryText} inline={1}>
               Confirm your e-mail to earn{' '}
@@ -65,6 +66,7 @@ function GetTokensModal({
             external
             mr={['auto', 0]}
             mobile={mobile}
+            fel
           >
             <ViewButton w={[22, 'auto']} mt={3} mobile={mobile}>
               <LinkFont c={colors.white}>Confirm E-mail</LinkFont>
@@ -75,7 +77,7 @@ function GetTokensModal({
       )}
 
       {!user.twitterId && (
-        <View>
+        <Box>
           <View fdirection="row" align="center" mt={4}>
             <BodyText c={colors.secondaryText} inline={1}>
               Connect your Relevant account with your Twitter account to earn{' '}
@@ -89,7 +91,7 @@ function GetTokensModal({
           </View>
           {twitterButton}
           <Divider mt={4} />
-        </View>
+        </Box>
       )}
       {/*
       {!user.redditId && redditButton && (
@@ -118,7 +120,7 @@ function GetTokensModal({
           <LinkFont c={colors.blue}>Invite Friends</LinkFont>
         </ULink>
       </View>
-    </View>
+    </Box>
   );
 }
 

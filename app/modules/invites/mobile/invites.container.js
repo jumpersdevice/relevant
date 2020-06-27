@@ -9,6 +9,7 @@ import Share from 'react-native-share';
 import InviteComponent from 'modules/invites/inviteModal.component';
 import { View } from 'modules/styled/uni';
 import InviteModalTitle from 'modules/invites/inviteModalTitle.component';
+import { colors } from 'app/styles';
 
 import { ScrollView } from 'react-native';
 
@@ -23,19 +24,19 @@ class Invites extends Component {
 
   handleShare = shareOptions => {
     Share.open(shareOptions)
-    // eslint-disable-next-line
+      // eslint-disable-next-line
       .then(res => {
-      // console.log(res);
-    })
-    // eslint-disable-next-line
+        // console.log(res);
+      })
+      // eslint-disable-next-line
       .catch(err => {
-      // err && console.log(err);
-    });
+        // err && console.log(err);
+      });
   };
 
   render() {
     return (
-      <ScrollView>
+      <ScrollView style={{ backgroundColor: colors.white }}>
         <View m={2}>
           <InviteModalTitle />
           <InviteComponent mobile {...this.props} onShare={this.handleShare} />
@@ -71,7 +72,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Invites);
+export default connect(mapStateToProps, mapDispatchToProps)(Invites);
