@@ -10,7 +10,6 @@ import InviteComponent from 'modules/invites/inviteModal.component';
 import { View } from 'modules/styled/uni';
 import InviteModalTitle from 'modules/invites/inviteModalTitle.component';
 import { colors } from 'app/styles';
-
 import { ScrollView } from 'react-native';
 
 class Invites extends Component {
