@@ -77,7 +77,7 @@ describe('computeApproxPageRank', () => {
   });
 
   beforeEach(() => {
-    // global.console.log = jest.fn(); // hides logs
+    global.console.log = jest.fn(); // hides logs
   });
 
   describe('upvote and undo', () => {
