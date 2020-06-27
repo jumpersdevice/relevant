@@ -825,8 +825,13 @@ exports.cashOut = async (req, res, next) => {
     });
     const cashedOut = userCashoutLog.reduce((a, e) => a + e.cashOutAmt, 0);
 
-    if (user.cashedOut !== cashedOut)
-      throw new Error('Something is wrong - please contact the site admin');
+    if (user.cashedOut !== cashedOut) {
+      throw new Error(
+        'There is a mismatch in previous cashout amounts',
+        user.cashedOut,
+        cashedOut
+      );
+    }
 
     const maxClaim = CASHOUT_MAX - cashedOut;
 
@@ -834,9 +839,9 @@ exports.cashOut = async (req, res, next) => {
     const amount = Number(customAmount);
 
     if (amount > maxClaim)
-      throw new Error(`You cannot claim more than ${maxClaim} coins at this time.`);
+      throw new Error(`You can not claim more than ${maxClaim} coins at this time.`);
 
-    if (amount > canClaim) throw new Error('You con not claim this many coins.');
+    if (amount > canClaim) throw new Error('You can not claim this many coins.');
     if (amount <= 0) throw new Error('You do not have enough coins to claim.');
 
     // if (amount < 100) throw new Error('Balance is too small to withdraw');
