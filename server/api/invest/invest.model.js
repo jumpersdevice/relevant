@@ -142,7 +142,8 @@ InvestSchema.statics.createVote = async function createVote({
   const isManualBet =
     user.notificationSettings.bet.manual && communityInstance.betEnabled;
 
-  if (!post.data) throw new Error(`Missing post data ${JSON.stringify(post)}`);
+  if (!post.data)
+    throw new Error(`Missing post data ${post.id} ${community} ${communityId}`);
 
   let vote = new (this.model('Invest'))({
     investor: user._id,
