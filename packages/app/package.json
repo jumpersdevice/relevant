@@ -19,7 +19,8 @@
     "access": "public"
   },
   "files": [
-    "lib/*"
+    "lib/*",
+    "public/*"
   ],
   "repository": {
     "type": "git",

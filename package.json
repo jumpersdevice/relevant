@@ -42,7 +42,7 @@
     "eslint-check": "eslint --print-config . | eslint-config-prettier-check",
     "jetify": "jetify",
     "testPagerank": "nodemon server/pagerank/manualTest.js",
-    "prepublish": "yarn build:lib"
+    "prepublish": "yarn build:lib && yarn build"
   },
   "workspaces": {
     "packages": [
