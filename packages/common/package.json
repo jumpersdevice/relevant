@@ -1,6 +1,6 @@
 {
   "name": "@r3l/common",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Common utils",
   "keywords": [
     "r3l",
@@ -15,7 +15,6 @@
     "lib": "lib",
     "test": "__tests__"
   },
-
   "files": [
     "lib"
   ],
