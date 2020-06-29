@@ -7,7 +7,7 @@ app/publicenv.js
 *.pem
 app/public/dist
 server/test/mongoTestConfig.json
-packages/*
+packages/
 
 #firebase credentials
 google-services.json
