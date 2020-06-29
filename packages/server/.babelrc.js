@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   ignore: [/node_modules\/(?!react-native)/],
   presets: [
@@ -5,8 +7,7 @@ module.exports = {
       '@babel/preset-env',
       {
         targets: {
-          node: 'current',
-          esmodules: true
+          node: 'current'
         }
       }
     ],
@@ -22,6 +23,7 @@ module.exports = {
     [
       'module-resolver',
       {
+        cwd: path.resolve(__dirname),
         alias: {
           server: './src',
           app: '@r3l/app/lib',

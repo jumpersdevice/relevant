@@ -1,4 +1,7 @@
 import { _request } from 'app/utils/api';
+import fetch from 'cross-fetch';
+
+global.fetch = fetch;
 
 jest.mock('../api/user/user.controller', () => {
   return {

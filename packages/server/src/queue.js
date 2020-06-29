@@ -1,13 +1,14 @@
 import CommunityMember from 'server/api/community/community.member.model';
-import queue from 'queue';
 import computePageRank from 'server/pagerank/pagerankCompute';
 import Stats from './api/statistics/statistics.model';
 import Community from './api/community/community.model';
 import ethRewards from './utils/ethRewards';
 
+const queue = require('queue');
+
 /* eslint no-console: 0 */
 const relevantEnv = process.env.RELEVANT_ENV;
-
+console.log(queue);
 const q = queue({ concurrency: 5 });
 
 q.on('timeout', (next, job) => {

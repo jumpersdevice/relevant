@@ -29,8 +29,8 @@
     "build:lib": "babel --source-maps --extensions '.ts,.tsx,.js,.jsx' --copy-files --no-copy-ignored --delete-dir-on-start --root-mode upward src -d lib --ignore **/*.stories.js,**/*.test.js,**/*.mock.js",
     "build:lib:watch": "babel --watch --source-maps --extensions '.ts,.tsx,.js,.jsx' --copy-files --no-copy-ignored --root-mode upward src -d lib --ignore **/*.stories.js,**/*.test.js,**/*.mock.js",
     "build": "BABEL_ENV='development_web' webpack --config ./webpack.production.config.js --progress --colors -p",
-    "test": "jest",
-    "webpack": "webpack-dev-server"
+    "webpack": "webpack-dev-server",
+    "test": "jest"
   },
   "bugs": {
     "url": "https://github.com/relevant-community/relevant/issues"

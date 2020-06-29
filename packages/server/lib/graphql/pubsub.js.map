@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/graphql/pubsub.js"],"names":["pubsub","PubSub"],"mappings":";;;;;;;AAAA;;AAEO,IAAMA,MAAM,GAAG,IAAIC,oBAAJ,EAAf","sourcesContent":["import { PubSub } from 'apollo-server';\n\nexport const pubsub = new PubSub();\n"],"file":"pubsub.js"}
