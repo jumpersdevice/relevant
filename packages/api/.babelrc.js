@@ -8,8 +8,7 @@ module.exports = {
           esmodules: true
         }
       }
-    ],
-    '@babel/preset-react'
+    ]
   ],
   plugins: [
     '@babel/plugin-transform-runtime',
