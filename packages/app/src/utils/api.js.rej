@@ -1,0 +1,25 @@
+diff a/packages/app/src/utils/api.js b/packages/app/src/utils/api.js	(rejected hunks)
+@@ -40 +40 @@ console.log('test'); // eslint-disable-line
+-export const request = (options) => (dispatch, getState) => _request(options, getState);
++export const request = options => (dispatch, getState) => _request(options, getState);
+@@ -77 +77 @@ async function getDataFromClient(params) {
+-    body: params.body,
++    body: params.body
+@@ -121,2 +121,2 @@ export async function reqOptions() {
+-        Authorization: `Bearer ${token}`,
+-      },
++        Authorization: `Bearer ${token}`
++      }
+@@ -129,2 +129,2 @@ export async function reqOptions() {
+-        'Content-Type': 'application/json',
+-      },
++        'Content-Type': 'application/json'
++      }
+@@ -135 +135 @@ export async function reqOptions() {
+-export const queryParams = (params) => {
++export const queryParams = params => {
+@@ -138,2 +138,2 @@ export const queryParams = (params) => {
+-    .filter((p) => params[p])
+-    .map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
++    .filter(p => params[p])
++    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))

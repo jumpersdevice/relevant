@@ -16,8 +16,6 @@ env();
 
 const API_URL = process.env.API_SERVER || '';
 
-console.log('test'); // eslint-disable-line
-
 // if (IS_CLIENT) {
 //   // this is a weird hack that makes conditional require work in react-native
 // } else {
