@@ -4,7 +4,7 @@ import User from 'server/api/user/user.model';
 import socketRedis from 'socket.io-redis';
 import socketEvent from './socketEvent';
 
-const { REDIS_URL, REDIS_KEY = 'socketio' } = process.env.REDIS_URL;
+const { REDIS_URL, REDIS_KEY = 'socketio' } = process.env;
 
 // TODO store list of clients in Mongo;
 const clients = {};
