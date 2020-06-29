@@ -18,8 +18,8 @@ q.on('timeout', (next, job) => {
 
 async function updateUserStats() {
   const repuatations = await CommunityMember.find({});
-  repuatations.forEach((rel) => {
-    q.push(async (cb) => {
+  repuatations.forEach(rel => {
+    q.push(async cb => {
       const date = new Date();
       const hour = date.getHours();
       const day = date.setUTCHours(0, 0, 0, 0);
@@ -28,33 +28,33 @@ async function updateUserStats() {
         user: rel.user,
         date: day,
         endTime,
-        communityId: rel.communityId,
+        communityId: rel.communityId
       };
       const set = {};
       set['hours.' + hour] = rel.pagerank || 0;
       const update = {
         $set: set,
-        $inc: { aggregateRelevance: rel.pagerank, totalSamples: 1 },
+        $inc: { aggregateRelevance: rel.pagerank, totalSamples: 1 }
       };
       await Stats.findOneAndUpdate(query, update, {
         new: true,
         upsert: true,
-        setDefaultsOnInsert: true,
+        setDefaultsOnInsert: true
       });
       cb();
     });
   });
 
   return new Promise((resolve, reject) => {
-    q.start((err) => (err ? reject(err) : resolve()));
+    q.start(err => (err ? reject(err) : resolve()));
   });
 }
 
 async function updateRepChange() {
   const rep = await CommunityMember.find();
 
-  rep.forEach((userRep) =>
-    q.push(async (cb) => {
+  rep.forEach(userRep =>
+    q.push(async cb => {
       try {
         if (userRep.user) {
           // updates % stats
@@ -69,7 +69,7 @@ async function updateRepChange() {
   );
 
   return new Promise((resolve, reject) => {
-    q.start((err) => (err ? reject(err) : resolve()));
+    q.start(err => (err ? reject(err) : resolve()));
   });
 }
 
@@ -112,5 +112,5 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   updateUserStats,
-  updateRepChange,
+  updateRepChange
 };

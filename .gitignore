@@ -2,10 +2,10 @@
 #
 .DS_Store
 publicenv.js
-app/publicenv.js
+packages/app/publicenv.js
 .env
 *.pem
-app/public/dist
+public/dist
 server/test/mongoTestConfig.json
 lib
 

@@ -15,7 +15,7 @@ export const env = () => {
 env();
 
 const API_URL = process.env.API_SERVER || '';
-console.log('API_URL', API_URL);
+
 // if (IS_CLIENT) {
 //   // this is a weird hack that makes conditional require work in react-native
 // } else {
