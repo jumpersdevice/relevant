@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/styles/screens.js"],"names":["mediumScreenWidth","smallScreenWidth"],"mappings":"gIAAO,GAAMA,CAAAA,iBAAiB,CAAG,GAA1B,C,4CACA,GAAMC,CAAAA,gBAAgB,CAAG,GAAzB,C","sourcesContent":["export const mediumScreenWidth = 746;\nexport const smallScreenWidth = 414;\n"],"file":"screens.js"}

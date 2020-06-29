@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/socket/socketEvent.js"],"names":["EventEmitter"],"mappings":";;;;;;;AAAA;;eAEe,IAAIA,oBAAJ,E","sourcesContent":["import { EventEmitter } from 'events';\n\nexport default new EventEmitter();\n"],"file":"socketEvent.js"}

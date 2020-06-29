@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../../src/modules/wallet/web/web3Warning/index.js"],"names":[],"mappings":"0YAAA,gDACA","sourcesContent":["import { useCurrentWarning } from './web3Warning.hooks';\nimport Web3Warning from './web3Warning.component';\n\nexport { Web3Warning, useCurrentWarning };\n"],"file":"index.js"}
