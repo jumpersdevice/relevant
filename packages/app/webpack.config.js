@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const CompressionPlugin = require('compression-webpack-plugin');
 const env = require('dotenv');
 
+// TODO use .env.prod for prod build
 env.config({ path: path.join(__dirname, '/.env') });
 env.config({ path: path.join(__dirname, '../../.env') });
 

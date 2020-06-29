@@ -48,7 +48,8 @@ function PostButton({ alt, isActive, imageSet, onPress, color, tooltipData }) {
   const images = BUTTON_IMAGES[imageSet];
   const defaultState = images[color] || images.default;
   const source = (isActive && images.active) || (hover && images.hover) || defaultState;
-
+  console.log('vote button', source); // eslint-disable-line
+  console.log(BUTTON_IMAGES); // eslint-disable-line
   return (
     <Tooltip data={tooltipData} name="voteDesk">
       <Touchable onPress={onPress} bradius={2}>
