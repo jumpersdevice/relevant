@@ -1766,7 +1766,7 @@
     },
     {
       "name": "bundle.js.map",
-      "size": 534442,
+      "size": 534429,
       "chunks": [
         "app"
       ],
@@ -1780,7 +1780,7 @@
     },
     {
       "name": "bundle.js.map.gz",
-      "size": 136051,
+      "size": 136038,
       "chunks": [],
       "chunkNames": [],
       "info": {},
