@@ -2,7 +2,7 @@
   "errors": [],
   "warnings": [],
   "version": "4.43.0",
-  "hash": "620466ac42b530f2dee8",
+  "hash": "df5dff114fce4b379143",
   "publicPath": "/dist/",
   "outputPath": "/Users/slavab/local/relevant/packages/app/public/dist/",
   "assetsByChunkName": {
@@ -318,7 +318,7 @@
   "assets": [
     {
       "name": "activity-activity-container.bundle.js",
-      "size": 78322,
+      "size": 78358,
       "chunks": [
         "activity-activity-container"
       ],
@@ -330,7 +330,7 @@
     },
     {
       "name": "activity-activity-container.bundle.js.gz",
-      "size": 11234,
+      "size": 11236,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -338,7 +338,7 @@
     },
     {
       "name": "activity-activity-container.bundle.js.map",
-      "size": 59807,
+      "size": 59805,
       "chunks": [
         "activity-activity-container"
       ],
@@ -352,7 +352,7 @@
     },
     {
       "name": "activity-activity-container.bundle.js.map.gz",
-      "size": 16940,
+      "size": 16939,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -360,7 +360,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~admin-web~8cdd4fd0.bundle.js",
-      "size": 31979,
+      "size": 32359,
       "chunks": [
         "activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~admin-web~8cdd4fd0"
       ],
@@ -372,7 +372,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~admin-web~8cdd4fd0.bundle.js.gz",
-      "size": 5629,
+      "size": 5643,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -380,7 +380,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~admin-web~8cdd4fd0.bundle.js.map",
-      "size": 27976,
+      "size": 28112,
       "chunks": [
         "activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~admin-web~8cdd4fd0"
       ],
@@ -394,7 +394,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~admin-web~8cdd4fd0.bundle.js.map.gz",
-      "size": 8486,
+      "size": 8500,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -402,7 +402,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~auth-web-login~~c6156ad1.bundle.js",
-      "size": 27449,
+      "size": 27453,
       "chunks": [
         "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~auth-web-login~~c6156ad1"
       ],
@@ -414,7 +414,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~auth-web-login~~c6156ad1.bundle.js.gz",
-      "size": 4060,
+      "size": 4062,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -444,7 +444,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~community-web-c~a9d32160.bundle.js",
-      "size": 45789,
+      "size": 45792,
       "chunks": [
         "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~community-web-c~a9d32160"
       ],
@@ -456,7 +456,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~community-web-c~a9d32160.bundle.js.gz",
-      "size": 19087,
+      "size": 19089,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -464,7 +464,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~community-web-c~a9d32160.bundle.js.map",
-      "size": 39940,
+      "size": 39937,
       "chunks": [
         "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~community-web-c~a9d32160"
       ],
@@ -486,7 +486,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~createPost-crea~6020411c.bundle.js",
-      "size": 80657,
+      "size": 80710,
       "chunks": [
         "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~createPost-crea~6020411c"
       ],
@@ -498,7 +498,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~createPost-crea~6020411c.bundle.js.gz",
-      "size": 14740,
+      "size": 14737,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -520,7 +520,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~createPost-crea~6020411c.bundle.js.map.gz",
-      "size": 21280,
+      "size": 21279,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -528,7 +528,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~createPost-crea~86bc0560.bundle.js",
-      "size": 23482,
+      "size": 23496,
       "chunks": [
         "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~createPost-crea~86bc0560"
       ],
@@ -540,7 +540,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~createPost-crea~86bc0560.bundle.js.gz",
-      "size": 4006,
+      "size": 4010,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -562,7 +562,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~createPost-crea~86bc0560.bundle.js.map.gz",
-      "size": 4694,
+      "size": 4695,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -570,7 +570,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~discover-web-di~2826a171.bundle.js",
-      "size": 163298,
+      "size": 163330,
       "chunks": [
         "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~discover-web-di~2826a171"
       ],
@@ -582,7 +582,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~discover-web-di~2826a171.bundle.js.gz",
-      "size": 40510,
+      "size": 40511,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -612,7 +612,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~discover-web-di~fc576b69.bundle.js",
-      "size": 24864,
+      "size": 24869,
       "chunks": [
         "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~discover-web-di~fc576b69"
       ],
@@ -624,7 +624,7 @@
     },
     {
       "name": "activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~discover-web-di~fc576b69.bundle.js.gz",
-      "size": 5084,
+      "size": 5087,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -654,7 +654,7 @@
     },
     {
       "name": "admin-web-communityAdminForm-component.bundle.js",
-      "size": 93701,
+      "size": 93766,
       "chunks": [
         "admin-web-communityAdminForm-component"
       ],
@@ -666,7 +666,7 @@
     },
     {
       "name": "admin-web-communityAdminForm-component.bundle.js.gz",
-      "size": 10654,
+      "size": 10658,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -674,7 +674,7 @@
     },
     {
       "name": "admin-web-communityAdminForm-component.bundle.js.map",
-      "size": 50470,
+      "size": 50394,
       "chunks": [
         "admin-web-communityAdminForm-component"
       ],
@@ -688,7 +688,7 @@
     },
     {
       "name": "admin-web-communityAdminForm-component.bundle.js.map.gz",
-      "size": 14030,
+      "size": 13961,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -696,7 +696,7 @@
     },
     {
       "name": "admin-web-communityAdminForm-component~auth-web-profile-form~auth-web-signup3Box~profile-web-setting~b08f93dc.bundle.js",
-      "size": 28000,
+      "size": 28012,
       "chunks": [
         "admin-web-communityAdminForm-component~auth-web-profile-form~auth-web-signup3Box~profile-web-setting~b08f93dc"
       ],
@@ -708,7 +708,7 @@
     },
     {
       "name": "admin-web-communityAdminForm-component~auth-web-profile-form~auth-web-signup3Box~profile-web-setting~b08f93dc.bundle.js.gz",
-      "size": 4397,
+      "size": 4401,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -738,7 +738,7 @@
     },
     {
       "name": "admin-web-communityAdminList-component.bundle.js",
-      "size": 26264,
+      "size": 26270,
       "chunks": [
         "admin-web-communityAdminList-component"
       ],
@@ -750,7 +750,7 @@
     },
     {
       "name": "admin-web-communityAdminList-component.bundle.js.gz",
-      "size": 3574,
+      "size": 3575,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -758,7 +758,7 @@
     },
     {
       "name": "admin-web-communityAdminList-component.bundle.js.map",
-      "size": 13756,
+      "size": 13745,
       "chunks": [
         "admin-web-communityAdminList-component"
       ],
@@ -772,7 +772,7 @@
     },
     {
       "name": "admin-web-communityAdminList-component.bundle.js.map.gz",
-      "size": 3799,
+      "size": 3794,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -780,7 +780,7 @@
     },
     {
       "name": "admin-web-contractParams-container.bundle.js",
-      "size": 41606,
+      "size": 41609,
       "chunks": [
         "admin-web-contractParams-container"
       ],
@@ -792,7 +792,7 @@
     },
     {
       "name": "admin-web-contractParams-container.bundle.js.gz",
-      "size": 5718,
+      "size": 5721,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -822,7 +822,7 @@
     },
     {
       "name": "admin-web-downvotes-container.bundle.js",
-      "size": 21812,
+      "size": 21827,
       "chunks": [
         "admin-web-downvotes-container"
       ],
@@ -834,7 +834,7 @@
     },
     {
       "name": "admin-web-downvotes-container.bundle.js.gz",
-      "size": 3352,
+      "size": 3354,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -842,7 +842,7 @@
     },
     {
       "name": "admin-web-downvotes-container.bundle.js.map",
-      "size": 13725,
+      "size": 13729,
       "chunks": [
         "admin-web-downvotes-container"
       ],
@@ -856,7 +856,7 @@
     },
     {
       "name": "admin-web-downvotes-container.bundle.js.map.gz",
-      "size": 4425,
+      "size": 4424,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -864,7 +864,7 @@
     },
     {
       "name": "admin-web-downvotes-container~admin-web-email-component~admin-web-invites-container~admin-web-topPos~1e73ce4b.bundle.js",
-      "size": 28733,
+      "size": 28763,
       "chunks": [
         "admin-web-downvotes-container~admin-web-email-component~admin-web-invites-container~admin-web-topPos~1e73ce4b"
       ],
@@ -876,7 +876,7 @@
     },
     {
       "name": "admin-web-downvotes-container~admin-web-email-component~admin-web-invites-container~admin-web-topPos~1e73ce4b.bundle.js.gz",
-      "size": 4160,
+      "size": 4165,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -906,7 +906,7 @@
     },
     {
       "name": "admin-web-email-component.bundle.js",
-      "size": 29972,
+      "size": 29980,
       "chunks": [
         "admin-web-email-component"
       ],
@@ -918,7 +918,7 @@
     },
     {
       "name": "admin-web-email-component.bundle.js.gz",
-      "size": 5728,
+      "size": 5731,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -926,7 +926,7 @@
     },
     {
       "name": "admin-web-email-component.bundle.js.map",
-      "size": 24445,
+      "size": 24443,
       "chunks": [
         "admin-web-email-component"
       ],
@@ -940,7 +940,7 @@
     },
     {
       "name": "admin-web-email-component.bundle.js.map.gz",
-      "size": 7150,
+      "size": 7148,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -990,7 +990,7 @@
     },
     {
       "name": "admin-web-flagged-component.bundle.js",
-      "size": 9409,
+      "size": 9416,
       "chunks": [
         "admin-web-flagged-component"
       ],
@@ -1002,7 +1002,7 @@
     },
     {
       "name": "admin-web-flagged-component.bundle.js.gz",
-      "size": 1839,
+      "size": 1841,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1074,7 +1074,7 @@
     },
     {
       "name": "admin-web-invite-component.bundle.js",
-      "size": 9935,
+      "size": 9940,
       "chunks": [
         "admin-web-invite-component"
       ],
@@ -1086,7 +1086,7 @@
     },
     {
       "name": "admin-web-invite-component.bundle.js.gz",
-      "size": 2234,
+      "size": 2236,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1094,7 +1094,7 @@
     },
     {
       "name": "admin-web-invite-component.bundle.js.map",
-      "size": 5599,
+      "size": 5608,
       "chunks": [
         "admin-web-invite-component"
       ],
@@ -1108,7 +1108,7 @@
     },
     {
       "name": "admin-web-invite-component.bundle.js.map.gz",
-      "size": 1962,
+      "size": 1965,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1116,7 +1116,7 @@
     },
     {
       "name": "admin-web-invites-container.bundle.js",
-      "size": 36011,
+      "size": 36027,
       "chunks": [
         "admin-web-invites-container"
       ],
@@ -1128,7 +1128,7 @@
     },
     {
       "name": "admin-web-invites-container.bundle.js.gz",
-      "size": 5672,
+      "size": 5675,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1136,7 +1136,7 @@
     },
     {
       "name": "admin-web-invites-container.bundle.js.map",
-      "size": 26709,
+      "size": 26713,
       "chunks": [
         "admin-web-invites-container"
       ],
@@ -1150,7 +1150,7 @@
     },
     {
       "name": "admin-web-invites-container.bundle.js.map.gz",
-      "size": 7929,
+      "size": 7930,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1158,7 +1158,7 @@
     },
     {
       "name": "admin-web-topPosts-component.bundle.js",
-      "size": 9349,
+      "size": 9356,
       "chunks": [
         "admin-web-topPosts-component"
       ],
@@ -1170,7 +1170,7 @@
     },
     {
       "name": "admin-web-topPosts-component.bundle.js.gz",
-      "size": 1919,
+      "size": 1921,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1200,7 +1200,7 @@
     },
     {
       "name": "admin-web-topics-container.bundle.js",
-      "size": 24959,
+      "size": 25015,
       "chunks": [
         "admin-web-topics-container"
       ],
@@ -1212,7 +1212,7 @@
     },
     {
       "name": "admin-web-topics-container.bundle.js.gz",
-      "size": 4244,
+      "size": 4253,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1220,7 +1220,7 @@
     },
     {
       "name": "admin-web-topics-container.bundle.js.map",
-      "size": 16663,
+      "size": 16720,
       "chunks": [
         "admin-web-topics-container"
       ],
@@ -1234,7 +1234,7 @@
     },
     {
       "name": "admin-web-topics-container.bundle.js.map.gz",
-      "size": 4758,
+      "size": 4757,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1242,7 +1242,7 @@
     },
     {
       "name": "admin-web-waitlist-component.bundle.js",
-      "size": 19279,
+      "size": 19287,
       "chunks": [
         "admin-web-waitlist-component"
       ],
@@ -1254,7 +1254,7 @@
     },
     {
       "name": "admin-web-waitlist-component.bundle.js.gz",
-      "size": 3657,
+      "size": 3660,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1262,7 +1262,7 @@
     },
     {
       "name": "admin-web-waitlist-component.bundle.js.map",
-      "size": 11986,
+      "size": 12092,
       "chunks": [
         "admin-web-waitlist-component"
       ],
@@ -1284,7 +1284,7 @@
     },
     {
       "name": "animation-downvoteAnimation-component.bundle.js",
-      "size": 12607,
+      "size": 12613,
       "chunks": [
         "animation-downvoteAnimation-component"
       ],
@@ -1296,7 +1296,7 @@
     },
     {
       "name": "animation-downvoteAnimation-component.bundle.js.gz",
-      "size": 2457,
+      "size": 2458,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1326,7 +1326,7 @@
     },
     {
       "name": "animation-upvoteAnimation-component.bundle.js",
-      "size": 31658,
+      "size": 31672,
       "chunks": [
         "animation-upvoteAnimation-component"
       ],
@@ -1338,7 +1338,7 @@
     },
     {
       "name": "animation-upvoteAnimation-component.bundle.js.gz",
-      "size": 8032,
+      "size": 8034,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1368,7 +1368,7 @@
     },
     {
       "name": "auth-web-auth-container.bundle.js",
-      "size": 9632,
+      "size": 9638,
       "chunks": [
         "auth-web-auth-container"
       ],
@@ -1380,7 +1380,7 @@
     },
     {
       "name": "auth-web-auth-container.bundle.js.gz",
-      "size": 2020,
+      "size": 2022,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1388,7 +1388,7 @@
     },
     {
       "name": "auth-web-auth-container.bundle.js.map",
-      "size": 4222,
+      "size": 4203,
       "chunks": [
         "auth-web-auth-container"
       ],
@@ -1402,7 +1402,7 @@
     },
     {
       "name": "auth-web-auth-container.bundle.js.map.gz",
-      "size": 1515,
+      "size": 1504,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1410,7 +1410,7 @@
     },
     {
       "name": "auth-web-confirmEmail-component.bundle.js",
-      "size": 26771,
+      "size": 26778,
       "chunks": [
         "auth-web-confirmEmail-component"
       ],
@@ -1422,7 +1422,7 @@
     },
     {
       "name": "auth-web-confirmEmail-component.bundle.js.gz",
-      "size": 3682,
+      "size": 3683,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1430,7 +1430,7 @@
     },
     {
       "name": "auth-web-confirmEmail-component.bundle.js.map",
-      "size": 15607,
+      "size": 15590,
       "chunks": [
         "auth-web-confirmEmail-component"
       ],
@@ -1444,7 +1444,7 @@
     },
     {
       "name": "auth-web-confirmEmail-component.bundle.js.map.gz",
-      "size": 4506,
+      "size": 4496,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1452,7 +1452,7 @@
     },
     {
       "name": "auth-web-forgot-component.bundle.js",
-      "size": 43633,
+      "size": 43646,
       "chunks": [
         "auth-web-forgot-component"
       ],
@@ -1464,7 +1464,7 @@
     },
     {
       "name": "auth-web-forgot-component.bundle.js.gz",
-      "size": 6060,
+      "size": 6062,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1494,7 +1494,7 @@
     },
     {
       "name": "auth-web-handle-component.bundle.js",
-      "size": 41672,
+      "size": 41683,
       "chunks": [
         "auth-web-handle-component"
       ],
@@ -1506,7 +1506,7 @@
     },
     {
       "name": "auth-web-handle-component.bundle.js.gz",
-      "size": 5852,
+      "size": 5854,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1536,7 +1536,7 @@
     },
     {
       "name": "auth-web-login.bundle.js",
-      "size": 53169,
+      "size": 53185,
       "chunks": [
         "auth-web-login"
       ],
@@ -1548,7 +1548,7 @@
     },
     {
       "name": "auth-web-login.bundle.js.gz",
-      "size": 14111,
+      "size": 14115,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1578,7 +1578,7 @@
     },
     {
       "name": "auth-web-profile-form.bundle.js",
-      "size": 32358,
+      "size": 32362,
       "chunks": [
         "auth-web-profile-form"
       ],
@@ -1590,7 +1590,7 @@
     },
     {
       "name": "auth-web-profile-form.bundle.js.gz",
-      "size": 4678,
+      "size": 4679,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1598,7 +1598,7 @@
     },
     {
       "name": "auth-web-profile-form.bundle.js.map",
-      "size": 20867,
+      "size": 20831,
       "chunks": [
         "auth-web-profile-form"
       ],
@@ -1612,7 +1612,7 @@
     },
     {
       "name": "auth-web-profile-form.bundle.js.map.gz",
-      "size": 6054,
+      "size": 6046,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1620,7 +1620,7 @@
     },
     {
       "name": "auth-web-resetPassword-component.bundle.js",
-      "size": 41588,
+      "size": 41599,
       "chunks": [
         "auth-web-resetPassword-component"
       ],
@@ -1632,7 +1632,7 @@
     },
     {
       "name": "auth-web-resetPassword-component.bundle.js.gz",
-      "size": 5799,
+      "size": 5802,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1640,7 +1640,7 @@
     },
     {
       "name": "auth-web-resetPassword-component.bundle.js.map",
-      "size": 25913,
+      "size": 25896,
       "chunks": [
         "auth-web-resetPassword-component"
       ],
@@ -1654,7 +1654,7 @@
     },
     {
       "name": "auth-web-resetPassword-component.bundle.js.map.gz",
-      "size": 7755,
+      "size": 7742,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1662,7 +1662,7 @@
     },
     {
       "name": "auth-web-signup3Box.bundle.js",
-      "size": 21988,
+      "size": 21993,
       "chunks": [
         "auth-web-signup3Box"
       ],
@@ -1674,7 +1674,7 @@
     },
     {
       "name": "auth-web-signup3Box.bundle.js.gz",
-      "size": 3964,
+      "size": 3967,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1682,7 +1682,7 @@
     },
     {
       "name": "auth-web-signup3Box.bundle.js.map",
-      "size": 14703,
+      "size": 14667,
       "chunks": [
         "auth-web-signup3Box"
       ],
@@ -1696,7 +1696,7 @@
     },
     {
       "name": "auth-web-signup3Box.bundle.js.map.gz",
-      "size": 5029,
+      "size": 5020,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1704,7 +1704,7 @@
     },
     {
       "name": "auth-web-signupSocial.bundle.js",
-      "size": 17843,
+      "size": 17849,
       "chunks": [
         "auth-web-signupSocial"
       ],
@@ -1716,7 +1716,7 @@
     },
     {
       "name": "auth-web-signupSocial.bundle.js.gz",
-      "size": 6645,
+      "size": 6648,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1724,7 +1724,7 @@
     },
     {
       "name": "auth-web-signupSocial.bundle.js.map",
-      "size": 12635,
+      "size": 12616,
       "chunks": [
         "auth-web-signupSocial"
       ],
@@ -1738,7 +1738,7 @@
     },
     {
       "name": "auth-web-signupSocial.bundle.js.map.gz",
-      "size": 6815,
+      "size": 6804,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1746,7 +1746,7 @@
     },
     {
       "name": "bundle.js",
-      "size": 730572,
+      "size": 731041,
       "chunks": [
         "app"
       ],
@@ -1758,7 +1758,7 @@
     },
     {
       "name": "bundle.js.gz",
-      "size": 99584,
+      "size": 99587,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1766,7 +1766,7 @@
     },
     {
       "name": "bundle.js.map",
-      "size": 535450,
+      "size": 534523,
       "chunks": [
         "app"
       ],
@@ -1780,7 +1780,7 @@
     },
     {
       "name": "bundle.js.map.gz",
-      "size": 136220,
+      "size": 136078,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1788,7 +1788,7 @@
     },
     {
       "name": "community-communityList-container.bundle.js",
-      "size": 16122,
+      "size": 16129,
       "chunks": [
         "community-communityList-container"
       ],
@@ -1800,7 +1800,7 @@
     },
     {
       "name": "community-communityList-container.bundle.js.gz",
-      "size": 2745,
+      "size": 2749,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1830,7 +1830,7 @@
     },
     {
       "name": "community-communityMembersTitle-component.bundle.js",
-      "size": 7649,
+      "size": 7655,
       "chunks": [
         "community-communityMembersTitle-component"
       ],
@@ -1842,7 +1842,7 @@
     },
     {
       "name": "community-communityMembersTitle-component.bundle.js.gz",
-      "size": 1529,
+      "size": 1532,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1872,7 +1872,7 @@
     },
     {
       "name": "community-web-communityMembers-component.bundle.js",
-      "size": 46737,
+      "size": 46754,
       "chunks": [
         "community-web-communityMembers-component"
       ],
@@ -1884,7 +1884,7 @@
     },
     {
       "name": "community-web-communityMembers-component.bundle.js.gz",
-      "size": 6431,
+      "size": 6432,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1892,7 +1892,7 @@
     },
     {
       "name": "community-web-communityMembers-component.bundle.js.map",
-      "size": 29373,
+      "size": 29377,
       "chunks": [
         "community-web-communityMembers-component"
       ],
@@ -1906,7 +1906,7 @@
     },
     {
       "name": "community-web-communityMembers-component.bundle.js.map.gz",
-      "size": 8727,
+      "size": 8729,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1914,7 +1914,7 @@
     },
     {
       "name": "createPost-createPost-container.bundle.js",
-      "size": 50441,
+      "size": 50459,
       "chunks": [
         "createPost-createPost-container"
       ],
@@ -1926,7 +1926,7 @@
     },
     {
       "name": "createPost-createPost-container.bundle.js.gz",
-      "size": 7456,
+      "size": 7459,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1956,7 +1956,7 @@
     },
     {
       "name": "createPost-web-createPostModal-header.bundle.js",
-      "size": 12472,
+      "size": 12473,
       "chunks": [
         "createPost-web-createPostModal-header"
       ],
@@ -1968,7 +1968,7 @@
     },
     {
       "name": "createPost-web-createPostModal-header.bundle.js.gz",
-      "size": 4759,
+      "size": 4762,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -1998,7 +1998,7 @@
     },
     {
       "name": "discover-web-discover-container.bundle.js",
-      "size": 41121,
+      "size": 41144,
       "chunks": [
         "discover-web-discover-container"
       ],
@@ -2010,7 +2010,7 @@
     },
     {
       "name": "discover-web-discover-container.bundle.js.gz",
-      "size": 6049,
+      "size": 6051,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2018,7 +2018,7 @@
     },
     {
       "name": "discover-web-discover-container.bundle.js.map",
-      "size": 30272,
+      "size": 30257,
       "chunks": [
         "discover-web-discover-container"
       ],
@@ -2032,7 +2032,7 @@
     },
     {
       "name": "discover-web-discover-container.bundle.js.map.gz",
-      "size": 9088,
+      "size": 9078,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2040,7 +2040,7 @@
     },
     {
       "name": "getTokens-web-getTokensModal-container.bundle.js",
-      "size": 53090,
+      "size": 53111,
       "chunks": [
         "getTokens-web-getTokensModal-container"
       ],
@@ -2060,7 +2060,7 @@
     },
     {
       "name": "getTokens-web-getTokensModal-container.bundle.js.map",
-      "size": 39356,
+      "size": 39350,
       "chunks": [
         "getTokens-web-getTokensModal-container"
       ],
@@ -2074,7 +2074,7 @@
     },
     {
       "name": "getTokens-web-getTokensModal-container.bundle.js.map.gz",
-      "size": 17329,
+      "size": 17322,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2138,7 +2138,7 @@
     },
     {
       "name": "invites-inviteModalTitle-component.bundle.js",
-      "size": 9622,
+      "size": 9631,
       "chunks": [
         "invites-inviteModalTitle-component"
       ],
@@ -2150,7 +2150,7 @@
     },
     {
       "name": "invites-inviteModalTitle-component.bundle.js.gz",
-      "size": 1900,
+      "size": 1903,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2158,7 +2158,7 @@
     },
     {
       "name": "invites-inviteModalTitle-component.bundle.js.map",
-      "size": 2489,
+      "size": 2480,
       "chunks": [
         "invites-inviteModalTitle-component"
       ],
@@ -2172,7 +2172,7 @@
     },
     {
       "name": "invites-inviteModalTitle-component.bundle.js.map.gz",
-      "size": 1171,
+      "size": 1165,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2180,7 +2180,7 @@
     },
     {
       "name": "invites-web-inviteModal-container.bundle.js",
-      "size": 54001,
+      "size": 54031,
       "chunks": [
         "invites-web-inviteModal-container"
       ],
@@ -2192,7 +2192,7 @@
     },
     {
       "name": "invites-web-inviteModal-container.bundle.js.gz",
-      "size": 8670,
+      "size": 8662,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2200,7 +2200,7 @@
     },
     {
       "name": "invites-web-inviteModal-container.bundle.js.map",
-      "size": 36810,
+      "size": 36803,
       "chunks": [
         "invites-web-inviteModal-container"
       ],
@@ -2214,7 +2214,7 @@
     },
     {
       "name": "invites-web-inviteModal-container.bundle.js.map.gz",
-      "size": 12019,
+      "size": 12020,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2222,7 +2222,7 @@
     },
     {
       "name": "navigation-web-topnav-component.bundle.js",
-      "size": 61395,
+      "size": 61416,
       "chunks": [
         "navigation-web-topnav-component"
       ],
@@ -2234,7 +2234,7 @@
     },
     {
       "name": "navigation-web-topnav-component.bundle.js.gz",
-      "size": 7698,
+      "size": 7702,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2242,7 +2242,7 @@
     },
     {
       "name": "navigation-web-topnav-component.bundle.js.map",
-      "size": 35959,
+      "size": 35912,
       "chunks": [
         "navigation-web-topnav-component"
       ],
@@ -2256,7 +2256,7 @@
     },
     {
       "name": "navigation-web-topnav-component.bundle.js.map.gz",
-      "size": 10114,
+      "size": 10083,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2264,7 +2264,7 @@
     },
     {
       "name": "navigation-web-withSideNav-component.bundle.js",
-      "size": 146161,
+      "size": 146204,
       "chunks": [
         "navigation-web-withSideNav-component"
       ],
@@ -2276,7 +2276,7 @@
     },
     {
       "name": "navigation-web-withSideNav-component.bundle.js.gz",
-      "size": 22055,
+      "size": 22057,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2284,7 +2284,7 @@
     },
     {
       "name": "navigation-web-withSideNav-component.bundle.js.map",
-      "size": 94808,
+      "size": 94752,
       "chunks": [
         "navigation-web-withSideNav-component"
       ],
@@ -2298,7 +2298,7 @@
     },
     {
       "name": "navigation-web-withSideNav-component.bundle.js.map.gz",
-      "size": 28916,
+      "size": 28840,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2306,7 +2306,7 @@
     },
     {
       "name": "navigation-web-withSideNav-component~post-bet-bet~wallet-web-wallet-container.bundle.js",
-      "size": 24523,
+      "size": 24538,
       "chunks": [
         "navigation-web-withSideNav-component~post-bet-bet~wallet-web-wallet-container"
       ],
@@ -2318,7 +2318,7 @@
     },
     {
       "name": "navigation-web-withSideNav-component~post-bet-bet~wallet-web-wallet-container.bundle.js.gz",
-      "size": 4983,
+      "size": 4981,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2326,7 +2326,7 @@
     },
     {
       "name": "navigation-web-withSideNav-component~post-bet-bet~wallet-web-wallet-container.bundle.js.map",
-      "size": 19202,
+      "size": 19205,
       "chunks": [
         "navigation-web-withSideNav-component~post-bet-bet~wallet-web-wallet-container"
       ],
@@ -2348,7 +2348,7 @@
     },
     {
       "name": "navigation-web-withSideNav-component~web_about-about-component.bundle.js",
-      "size": 42019,
+      "size": 42021,
       "chunks": [
         "navigation-web-withSideNav-component~web_about-about-component"
       ],
@@ -2360,7 +2360,7 @@
     },
     {
       "name": "navigation-web-withSideNav-component~web_about-about-component.bundle.js.gz",
-      "size": 15911,
+      "size": 15913,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2390,7 +2390,7 @@
     },
     {
       "name": "navigation-web-withTopNav-component.bundle.js",
-      "size": 3589,
+      "size": 3590,
       "chunks": [
         "navigation-web-withTopNav-component"
       ],
@@ -2402,7 +2402,7 @@
     },
     {
       "name": "navigation-web-withTopNav-component.bundle.js.gz",
-      "size": 889,
+      "size": 891,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2432,7 +2432,7 @@
     },
     {
       "name": "post-bet-bet.bundle.js",
-      "size": 35437,
+      "size": 35443,
       "chunks": [
         "post-bet-bet"
       ],
@@ -2444,7 +2444,7 @@
     },
     {
       "name": "post-bet-bet.bundle.js.gz",
-      "size": 5557,
+      "size": 5560,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2474,7 +2474,7 @@
     },
     {
       "name": "post-web-singlePost-container.bundle.js",
-      "size": 29658,
+      "size": 29675,
       "chunks": [
         "post-web-singlePost-container"
       ],
@@ -2486,7 +2486,7 @@
     },
     {
       "name": "post-web-singlePost-container.bundle.js.gz",
-      "size": 4214,
+      "size": 4217,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2558,7 +2558,7 @@
     },
     {
       "name": "profile-web-profile-container.bundle.js",
-      "size": 80684,
+      "size": 80687,
       "chunks": [
         "profile-web-profile-container"
       ],
@@ -2570,7 +2570,7 @@
     },
     {
       "name": "profile-web-profile-container.bundle.js.gz",
-      "size": 11133,
+      "size": 11117,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2578,7 +2578,7 @@
     },
     {
       "name": "profile-web-profile-container.bundle.js.map",
-      "size": 49886,
+      "size": 49632,
       "chunks": [
         "profile-web-profile-container"
       ],
@@ -2592,7 +2592,7 @@
     },
     {
       "name": "profile-web-profile-container.bundle.js.map.gz",
-      "size": 15313,
+      "size": 15227,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2600,7 +2600,7 @@
     },
     {
       "name": "profile-web-settingsModal-container.bundle.js",
-      "size": 62225,
+      "size": 62248,
       "chunks": [
         "profile-web-settingsModal-container"
       ],
@@ -2612,7 +2612,7 @@
     },
     {
       "name": "profile-web-settingsModal-container.bundle.js.gz",
-      "size": 11486,
+      "size": 11489,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2620,7 +2620,7 @@
     },
     {
       "name": "profile-web-settingsModal-container.bundle.js.map",
-      "size": 38327,
+      "size": 38318,
       "chunks": [
         "profile-web-settingsModal-container"
       ],
@@ -2634,7 +2634,7 @@
     },
     {
       "name": "profile-web-settingsModal-container.bundle.js.map.gz",
-      "size": 13745,
+      "size": 13736,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2642,7 +2642,7 @@
     },
     {
       "name": "setupStatesauce.bundle.js",
-      "size": 630396,
+      "size": 630774,
       "chunks": [
         "setupStatesauce"
       ],
@@ -2654,7 +2654,7 @@
     },
     {
       "name": "setupStatesauce.bundle.js.gz",
-      "size": 60395,
+      "size": 60406,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2662,7 +2662,7 @@
     },
     {
       "name": "setupStatesauce.bundle.js.map",
-      "size": 6953,
+      "size": 7085,
       "chunks": [
         "setupStatesauce"
       ],
@@ -2676,7 +2676,7 @@
     },
     {
       "name": "setupStatesauce.bundle.js.map.gz",
-      "size": 2555,
+      "size": 2567,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2768,7 +2768,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~a~26a127b2.bundle.js",
-      "size": 2932004,
+      "size": 3019983,
       "chunks": [
         "vendors~activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~a~26a127b2"
       ],
@@ -2780,7 +2780,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~a~26a127b2.bundle.js.gz",
-      "size": 599732,
+      "size": 620087,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2788,7 +2788,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~a~26a127b2.bundle.js.map",
-      "size": 3173035,
+      "size": 3264719,
       "chunks": [
         "vendors~activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~a~26a127b2"
       ],
@@ -2802,7 +2802,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~a~26a127b2.bundle.js.map.gz",
-      "size": 635213,
+      "size": 655074,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2810,7 +2810,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~a~cd170b74.bundle.js",
-      "size": 666027,
+      "size": 668520,
       "chunks": [
         "vendors~activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~a~cd170b74"
       ],
@@ -2822,7 +2822,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~a~cd170b74.bundle.js.gz",
-      "size": 150175,
+      "size": 150322,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2830,7 +2830,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~a~cd170b74.bundle.js.map",
-      "size": 691761,
+      "size": 692166,
       "chunks": [
         "vendors~activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~a~cd170b74"
       ],
@@ -2844,7 +2844,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-contractParams-container~admin-web-flagged-component~a~cd170b74.bundle.js.map.gz",
-      "size": 150227,
+      "size": 149733,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2852,7 +2852,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~auth-we~2bf655f6.bundle.js",
-      "size": 990353,
+      "size": 965452,
       "chunks": [
         "vendors~activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~auth-we~2bf655f6"
       ],
@@ -2864,7 +2864,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~auth-we~2bf655f6.bundle.js.gz",
-      "size": 202756,
+      "size": 198978,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2872,7 +2872,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~auth-we~2bf655f6.bundle.js.map",
-      "size": 969851,
+      "size": 962568,
       "chunks": [
         "vendors~activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~auth-we~2bf655f6"
       ],
@@ -2886,7 +2886,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~auth-we~2bf655f6.bundle.js.map.gz",
-      "size": 201113,
+      "size": 199673,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2936,7 +2936,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~createP~a3d07788.bundle.js",
-      "size": 230156,
+      "size": 230251,
       "chunks": [
         "vendors~activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~createP~a3d07788"
       ],
@@ -2948,7 +2948,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~createP~a3d07788.bundle.js.gz",
-      "size": 45799,
+      "size": 45794,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -2956,7 +2956,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~createP~a3d07788.bundle.js.map",
-      "size": 233272,
+      "size": 233291,
       "chunks": [
         "vendors~activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~createP~a3d07788"
       ],
@@ -2970,7 +2970,7 @@
     },
     {
       "name": "vendors~activity-activity-container~admin-web-flagged-component~admin-web-topPosts-component~createP~a3d07788.bundle.js.map.gz",
-      "size": 45937,
+      "size": 45926,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -3146,7 +3146,7 @@
     },
     {
       "name": "vendors~app.bundle.js",
-      "size": 5275335,
+      "size": 5385667,
       "chunks": [
         "vendors~app"
       ],
@@ -3158,7 +3158,7 @@
     },
     {
       "name": "vendors~app.bundle.js.gz",
-      "size": 1040912,
+      "size": 1058944,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -3166,7 +3166,7 @@
     },
     {
       "name": "vendors~app.bundle.js.map",
-      "size": 5326705,
+      "size": 5427130,
       "chunks": [
         "vendors~app"
       ],
@@ -3180,7 +3180,7 @@
     },
     {
       "name": "vendors~app.bundle.js.map.gz",
-      "size": 1069053,
+      "size": 1085622,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -3314,7 +3314,7 @@
     },
     {
       "name": "vendors~setupStatesauce.bundle.js",
-      "size": 86652,
+      "size": 55014,
       "chunks": [
         "vendors~setupStatesauce"
       ],
@@ -3326,7 +3326,7 @@
     },
     {
       "name": "vendors~setupStatesauce.bundle.js.gz",
-      "size": 13075,
+      "size": 8527,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -3334,7 +3334,7 @@
     },
     {
       "name": "vendors~setupStatesauce.bundle.js.map",
-      "size": 96393,
+      "size": 61750,
       "chunks": [
         "vendors~setupStatesauce"
       ],
@@ -3348,7 +3348,7 @@
     },
     {
       "name": "vendors~setupStatesauce.bundle.js.map.gz",
-      "size": 14654,
+      "size": 9653,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -3356,7 +3356,7 @@
     },
     {
       "name": "wallet-price-context.bundle.js",
-      "size": 10771,
+      "size": 10784,
       "chunks": [
         "wallet-price-context"
       ],
@@ -3368,7 +3368,7 @@
     },
     {
       "name": "wallet-price-context.bundle.js.gz",
-      "size": 2730,
+      "size": 2736,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -3376,7 +3376,7 @@
     },
     {
       "name": "wallet-price-context.bundle.js.map",
-      "size": 7094,
+      "size": 7097,
       "chunks": [
         "wallet-price-context"
       ],
@@ -3390,7 +3390,7 @@
     },
     {
       "name": "wallet-price-context.bundle.js.map.gz",
-      "size": 2730,
+      "size": 2731,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -3398,7 +3398,7 @@
     },
     {
       "name": "wallet-web-cashOutModal.bundle.js",
-      "size": 44551,
+      "size": 44557,
       "chunks": [
         "wallet-web-cashOutModal"
       ],
@@ -3410,7 +3410,7 @@
     },
     {
       "name": "wallet-web-cashOutModal.bundle.js.gz",
-      "size": 7455,
+      "size": 7457,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -3440,7 +3440,7 @@
     },
     {
       "name": "wallet-web-cashOutModal~wallet-web-connectMetamaskModal.bundle.js",
-      "size": 38168,
+      "size": 38184,
       "chunks": [
         "wallet-web-cashOutModal~wallet-web-connectMetamaskModal"
       ],
@@ -3452,7 +3452,7 @@
     },
     {
       "name": "wallet-web-cashOutModal~wallet-web-connectMetamaskModal.bundle.js.gz",
-      "size": 6657,
+      "size": 6662,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -3460,7 +3460,7 @@
     },
     {
       "name": "wallet-web-cashOutModal~wallet-web-connectMetamaskModal.bundle.js.map",
-      "size": 25989,
+      "size": 25992,
       "chunks": [
         "wallet-web-cashOutModal~wallet-web-connectMetamaskModal"
       ],
@@ -3482,7 +3482,7 @@
     },
     {
       "name": "wallet-web-connectMetamaskModal.bundle.js",
-      "size": 6298,
+      "size": 6299,
       "chunks": [
         "wallet-web-connectMetamaskModal"
       ],
@@ -3494,7 +3494,7 @@
     },
     {
       "name": "wallet-web-connectMetamaskModal.bundle.js.gz",
-      "size": 1416,
+      "size": 1418,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -3524,7 +3524,7 @@
     },
     {
       "name": "wallet-web-wallet-container.bundle.js",
-      "size": 77400,
+      "size": 77427,
       "chunks": [
         "wallet-web-wallet-container"
       ],
@@ -3536,7 +3536,7 @@
     },
     {
       "name": "wallet-web-wallet-container.bundle.js.gz",
-      "size": 12490,
+      "size": 12492,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -3544,7 +3544,7 @@
     },
     {
       "name": "wallet-web-wallet-container.bundle.js.map",
-      "size": 54694,
+      "size": 54685,
       "chunks": [
         "wallet-web-wallet-container"
       ],
@@ -3558,7 +3558,7 @@
     },
     {
       "name": "wallet-web-wallet-container.bundle.js.map.gz",
-      "size": 17424,
+      "size": 17425,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -3566,7 +3566,7 @@
     },
     {
       "name": "web_about-about-component.bundle.js",
-      "size": 139067,
+      "size": 139127,
       "chunks": [
         "web_about-about-component"
       ],
@@ -3578,7 +3578,7 @@
     },
     {
       "name": "web_about-about-component.bundle.js.gz",
-      "size": 16542,
+      "size": 16544,
       "chunks": [],
       "chunkNames": [],
       "info": {},
@@ -3586,7 +3586,7 @@
     },
     {
       "name": "web_about-about-component.bundle.js.map",
-      "size": 91240,
+      "size": 91222,
       "chunks": [
         "web_about-about-component"
       ],
@@ -3600,7 +3600,7 @@
     },
     {
       "name": "web_about-about-component.bundle.js.map.gz",
-      "size": 25224,
+      "size": 25190,
       "chunks": [],
       "chunkNames": [],
       "info": {},

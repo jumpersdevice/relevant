@@ -27,20 +27,21 @@ mongoose.Promise = global.Promise;
 
 const { validateTokenLenient, verify } = require('server/auth/auth.service');
 
-const corsOptions = ENABLE_CORS
-  ? {
-      origin: 'https://example.com',
-      optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-    }
-  : null;
+// TODO CORS
+// const { ENABLE_CORS } = process.env;
 
-const { ENABLE_CORS } = process.env;
+// const corsOptions = ENABLE_CORS
+//   ? {
+//       origin: 'https://example.com',
+//       optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+//     }
+//   : null;
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: 1000 // limit each IP to 1000 requests per windowMs
+  max: 1000, // limit each IP to 1000 requests per windowMs
 });
 
 console.log('NODE_ENV', process.env.NODE_ENV);
@@ -77,8 +78,8 @@ app.use(
       autoRemove: 'interval',
       autoRemoveInterval: 10, // In minutes. Default
       touchAfter: 24 * 3600, // time period in seconds
-      clear_interval: 3600
-    })
+      clear_interval: 3600,
+    }),
   })
 );
 
@@ -118,7 +119,7 @@ let server = new ApolloServer({
   schema,
   playground: process.env.NODE_ENV !== 'production',
   context: ({ req, connection }) =>
-    connection ? connection.context : { user: req.user || {} }
+    connection ? connection.context : { user: req.user || {} },
 });
 
 app.use('/graphql', validateTokenLenient);
@@ -126,7 +127,7 @@ server.applyMiddleware({ app, cors: false });
 
 const socketServer = require('./socket').default;
 
-server = app.listen({ port }, error => {
+server = app.listen({ port }, (error) => {
   if (error) {
     console.error(error);
   } else {
@@ -155,18 +156,18 @@ SubscriptionServer.create(
         ...params,
         context: {
           ...params.context,
-          user
-        }
+          user,
+        },
       };
     },
     execute,
     subscribe,
     schema,
-    keepAlive: 10000
+    keepAlive: 10000,
   },
   {
     server,
-    path: '/graphql'
+    path: '/graphql',
   }
 );
 

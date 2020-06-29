@@ -15,7 +15,7 @@ export const env = () => {
 env();
 
 const API_URL = process.env.API_SERVER || '';
-
+console.log('API_URL', API_URL);
 // if (IS_CLIENT) {
 //   // this is a weird hack that makes conditional require work in react-native
 // } else {
@@ -35,7 +35,7 @@ const API_URL = process.env.API_SERVER || '';
 //   routes.community = require(communityApi) || {}; // eslint-disable-line
 // }
 
-export const request = options => (dispatch, getState) => _request(options, getState);
+export const request = (options) => (dispatch, getState) => _request(options, getState);
 
 /**
  * send request to api
@@ -72,7 +72,7 @@ async function getDataFromClient(params) {
   const response = await fetch(uri + queryString, {
     method: params.method,
     ...(await reqOptions()),
-    body: params.body
+    body: params.body,
   });
   const responseOk = await handleErrors(response);
   return responseOk.json();
@@ -116,25 +116,25 @@ export async function reqOptions() {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     };
   } catch (err) {
     return {
       credentials: 'include',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     };
   }
 }
 
-export const queryParams = params => {
+export const queryParams = (params) => {
   if (!params) return '';
   const paramString = Object.keys(params)
-    .filter(p => params[p])
-    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+    .filter((p) => params[p])
+    .map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
     .join('&');
   if (paramString && paramString.length) return '?' + paramString;
   return '';
