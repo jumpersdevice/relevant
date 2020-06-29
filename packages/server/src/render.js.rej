@@ -1,0 +1,18 @@
+diff a/packages/server/src/render.js b/packages/server/src/render.js	(rejected hunks)
+@@ -56 +56 @@ export default async function handleRender(req, res) {
+-      req,
++      req
+@@ -85 +85 @@ export function createInitialState(req) {
+-      community: req.params.community || cachedCommunity,
++      community: req.params.community || cachedCommunity
+@@ -90,2 +90,2 @@ export function createInitialState(req) {
+-      screenSize: getScreenSize(width),
+-    },
++      screenSize: getScreenSize(width)
++    }
+@@ -164 +164 @@ export function fetchMeta({ initialState, req }) {
+-    type: 'summary_large_image',
++    type: 'summary_large_image'
+@@ -171 +171 @@ export function fetchMeta({ initialState, req }) {
+-  Object.keys(postMeta).forEach((key) => {
++  Object.keys(postMeta).forEach(key => {
