@@ -144,6 +144,7 @@ export function renderFullPage({ app, rnWebStyles, initialState, fullUrl, req })
         <div id="app">${app}</div>
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
+          window.API_SERVER = ${JSON.stringify(process.env.API_SERVER)}
         </script>
         <script>
           window.__APOLLO_STATE__ = ${JSON.stringify(client.extract())};

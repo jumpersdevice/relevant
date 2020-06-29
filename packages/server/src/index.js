@@ -10,8 +10,8 @@ process.env.WEB = 'true';
 // This is needed in order to transpile react-native module (required by react-native-web-linear-gradient)
 require('@babel/register')({
   // Ignore everything in node_modules except node_modules/react-native-web-linear-gradient.
-  ignore: [/node_modules\/(?!react-native)/],
-  // only: [/node_modules\/react-native/],
+  // ignore: [/node_modules\/(?!react-native)/],
+  only: [/node_modules\/react-native/],
   plugins: [
     '@babel/plugin-proposal-class-properties',
     [

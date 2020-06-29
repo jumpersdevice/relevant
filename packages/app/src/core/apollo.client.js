@@ -7,8 +7,12 @@ import { concat, split } from 'apollo-link';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 
+let API_URL;
 if (process.env.WEB !== 'true') {
   require('../../publicenv');
+  API_URL = process.env.API_SERVER;
+} else if (process.env.BROWSER) {
+  API_URL = window.API_SERVER;
 }
 
 const cache = new InMemoryCache({
@@ -17,7 +21,7 @@ const cache = new InMemoryCache({
 
 cache.restore(window.__APOLLO_STATE__);
 
-const uri = process.env.API_SERVER;
+const uri = API_URL;
 const wsUri = uri.replace('http', 'ws');
 
 const wsLink = new WebSocketLink({

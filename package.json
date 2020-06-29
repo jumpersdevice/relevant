@@ -8,7 +8,7 @@
     "build:lib": "lerna run build:lib --no-bail --parallel",
     "build:lib:watch": "lerna run build:lib:watch --no-bail --parallel",
     "dev": "yarn build:lib:watch & sleep 15 && lerna run dev --scope @r3l/server --stream",
-    "native": "NODE_ENV='native' yarn build:lib:watch && lerna run native --scope @r3l/server --stream",
+    "native": "NODE_ENV='native' yarn build:lib:watch & sleep 15 && lerna run native --scope @r3l/server --stream",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "startDB": "mongod --fork --logpath /dev/null",

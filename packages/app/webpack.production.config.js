@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const path = require('path');
 
 const prodConfig = {};
 const isAnalyze = typeof process.env.BUNDLE_ANALYZE !== 'undefined';
@@ -38,8 +39,7 @@ prodConfig.plugins = [
       INFURA_NETWORK: JSON.stringify(process.env.INFURA_NETWORK),
       INFURA_API_KEY: JSON.stringify(process.env.INFURA_API_KEY),
       NETWORK_NUMBER: JSON.stringify(process.env.NETWORK_NUMBER),
-      TOKEN_ADDRESS: JSON.stringify(process.env.TOKEN_ADDRESS),
-      API_SERVER: JSON.stringify(process.env.API_SERVER)
+      TOKEN_ADDRESS: JSON.stringify(process.env.TOKEN_ADDRESS)
     }
   }),
   new webpack.NamedModulesPlugin(),
@@ -51,15 +51,18 @@ prodConfig.mode = 'production';
 
 prodConfig.module.rules = [
   {
-    test: /\.(png|woff|woff2|eot|ttf|svg|jpg)$/,
-    use: [
-      {
-        loader: 'file-loader',
-        options: {
-          name: '[path][name].[ext]'
-        }
-      }
-    ]
+    test: /\.(png|woff|woff2|eot|ttf|jpg|jpeg|gif)$/,
+    loader: 'url-loader',
+    include: [
+      path.resolve(__dirname, 'public'),
+      path.resolve(__dirname, 'src'),
+      path.resolve(__dirname, 'node_modules/react-native-vector-icons')
+    ],
+    options: {
+      name: 'images/[name]-[hash:8].[ext]',
+      esModule: false,
+      limit: 10 * 1024
+    }
   },
   {
     test: /\.css$|\.scss$/,
