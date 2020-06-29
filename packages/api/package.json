@@ -7,6 +7,7 @@
   "private": true,
   "scripts": {
     "start": "node ./lib/index.js",
+    "build": "npm run-script build:lib",
     "dev": "nodemon ./lib/index.js",
     "native": "NODE_ENV='native' nodemon server/index.js",
     "build:lib:watch": "babel --watch --source-maps --extensions '.ts,.tsx,.js,.jsx' --copy-files --no-copy-ignored src -d lib --ignore **/*.stories.js,**/*.test.js,**/*.mock.js",
