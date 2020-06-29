@@ -1,5 +1,4 @@
 module.exports = {
-  ignore: [/node_modules\/(?!react-native)/],
   presets: [
     [
       '@babel/preset-env',
@@ -13,12 +12,8 @@ module.exports = {
     '@babel/preset-react'
   ],
   plugins: [
-    'espower',
     '@babel/plugin-transform-runtime',
-    '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-proposal-class-properties',
-    'inline-react-svg',
-    ['styled-components'],
     [
       'module-resolver',
       {
@@ -30,7 +25,6 @@ module.exports = {
           'react-native-linear-gradient$': 'react-native-web-linear-gradient'
         }
       }
-    ],
-    '@loadable/babel-plugin'
+    ]
   ]
 };
