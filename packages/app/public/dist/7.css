@@ -1,0 +1,33 @@
+/*$blue: #3E3EFF;*/
+/*$greyBackground: hsl(0,0%,95%);*/
+.selectTags {
+  font-family: 'HelveticaNeue', 'Arial', sans-serif;
+  font-size: 12px;
+  margin-top: 10px;
+  color: #111112;
+}
+.selectTags span {
+    cursor: pointer;
+    display: inline-block;
+    white-space: nowrap;
+    letter-spacing: 1px;
+    padding: 5px 10px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    /*border: 1px solid #c0c0c0;*/
+    background-color: hsl(0,0%,95%);
+    color: #9C9C9C
+  }
+.selectTags span.selected {
+      background: #0000ff;
+      /*border: 1px solid $blue;*/
+      color: white
+    }
+.selectTags span.selected::after {
+        font-weight: bold;
+        margin-left: 8px;
+        content: '✕';
+      };
+
+
+/*# sourceMappingURL=7.css.map*/

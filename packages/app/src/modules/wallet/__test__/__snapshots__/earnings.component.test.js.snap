@@ -1,0 +1,363 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot Paidout Web 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "display": "flex",
+      "marginBottom": "0rem",
+      "marginLeft": "2rem",
+      "marginRight": "2rem",
+      "marginTop": "0rem",
+      "position": "relative",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "display": "flex",
+        "marginTop": "2rem",
+        "position": "relative",
+      }
+    }
+  >
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(0,0,0,1.00)",
+          "fontFamily": "HelveticaNeue",
+          "fontSize": "0.875rem",
+          "lineHeight": "1.2249999999999999rem",
+        }
+      }
+    >
+      FEBRUARY
+    </div>
+  </div>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxFlex": 1,
+        "WebkitBoxOrient": "horizontal",
+        "WebkitBoxPack": "justify",
+        "WebkitFlexDirection": "row",
+        "WebkitFlexGrow": 1,
+        "WebkitJustifyContent": "space-between",
+        "backgroundColor": "rgba(250,250,250,1.00)",
+        "borderBottomStyle": "solid",
+        "borderLeftColor": "rgba(222,222,222,1.00)",
+        "borderLeftStyle": "solid",
+        "borderLeftWidth": "1px",
+        "borderRightColor": "rgba(222,222,222,1.00)",
+        "borderRightStyle": "solid",
+        "borderRightWidth": "1px",
+        "borderTopColor": "rgba(222,222,222,1.00)",
+        "borderTopStyle": "solid",
+        "borderTopWidth": "1px",
+        "display": "flex",
+        "flexDirection": "row",
+        "flexGrow": 1,
+        "justifyContent": "space-between",
+        "marginTop": "1rem",
+        "msFlexDirection": "row",
+        "msFlexPack": "justify",
+        "msFlexPositive": 1,
+        "paddingBottom": "0.75rem",
+        "paddingLeft": "0.5rem",
+        "paddingRight": "0.5rem",
+        "paddingTop": "0.75rem",
+        "position": "relative",
+      }
+    }
+  >
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxFlex": 1,
+          "WebkitBoxLines": "multiple",
+          "WebkitBoxOrient": "horizontal",
+          "WebkitFlexBasis": "0px",
+          "WebkitFlexDirection": "row",
+          "WebkitFlexGrow": 1,
+          "WebkitFlexShrink": 1,
+          "WebkitFlexWrap": "wrap",
+          "display": "flex",
+          "flexBasis": "0px",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "flexWrap": "wrap",
+          "msFlexDirection": "row",
+          "msFlexNegative": 1,
+          "msFlexPositive": 1,
+          "msFlexPreferredSize": "0px",
+          "msFlexWrap": "wrap",
+          "position": "relative",
+        }
+      }
+    >
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(0,0,0,1.00)",
+            "fontFamily": "HelveticaNeue",
+            "fontSize": "0.875rem",
+            "lineHeight": "1.2249999999999999rem",
+            "marginRight": "2rem",
+          }
+        }
+      >
+        Jan 31, 2019
+      </div>
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "WebkitTextDecorationColor": "rgba(128,128,128,1.00)",
+            "color": "rgba(128,128,128,1.00)",
+            "fontFamily": "HelveticaNeue",
+            "fontSize": "0.875rem",
+            "lineHeight": "1.2249999999999999rem",
+            "textDecorationColor": "rgba(128,128,128,1.00)",
+          }
+        }
+      >
+        paidout
+      </div>
+    </div>
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "WebkitTextDecorationColor": "rgba(126,211,33,1.00)",
+          "color": "rgba(126,211,33,1.00)",
+          "fontFamily": "HelveticaNeue",
+          "fontSize": "0.875rem",
+          "lineHeight": "1.2249999999999999rem",
+          "textDecorationColor": "rgba(126,211,33,1.00)",
+        }
+      }
+    >
+      + 
+      10
+       REL
+    </div>
+  </div>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "borderBottomColor": "rgba(222,222,222,1.00)",
+        "borderBottomStyle": "solid",
+        "borderBottomWidth": "1px",
+        "borderLeftColor": "rgba(222,222,222,1.00)",
+        "borderLeftStyle": "solid",
+        "borderLeftWidth": "1px",
+        "borderRightColor": "rgba(222,222,222,1.00)",
+        "borderRightStyle": "solid",
+        "borderRightWidth": "1px",
+        "borderTopColor": "rgba(222,222,222,1.00)",
+        "borderTopStyle": "solid",
+        "borderTopWidth": "1px",
+        "display": "flex",
+        "position": "relative",
+      }
+    }
+  >
+    Preview
+  </div>
+</div>
+`;
+
+exports[`Snapshot Pending Web 1`] = `
+<div
+  className="css-view-1dbjc4n"
+  style={
+    Object {
+      "display": "flex",
+      "marginBottom": "0rem",
+      "marginLeft": "2rem",
+      "marginRight": "2rem",
+      "marginTop": "0rem",
+      "position": "relative",
+    }
+  }
+>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "display": "flex",
+        "marginTop": "2rem",
+        "position": "relative",
+      }
+    }
+  >
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "color": "rgba(0,0,0,1.00)",
+          "fontFamily": "HelveticaNeue",
+          "fontSize": "0.875rem",
+          "lineHeight": "1.2249999999999999rem",
+        }
+      }
+    >
+      FEBRUARY
+    </div>
+  </div>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "WebkitBoxDirection": "normal",
+        "WebkitBoxFlex": 1,
+        "WebkitBoxOrient": "horizontal",
+        "WebkitBoxPack": "justify",
+        "WebkitFlexDirection": "row",
+        "WebkitFlexGrow": 1,
+        "WebkitJustifyContent": "space-between",
+        "backgroundColor": "rgba(250,250,250,1.00)",
+        "borderBottomStyle": "solid",
+        "borderLeftColor": "rgba(222,222,222,1.00)",
+        "borderLeftStyle": "solid",
+        "borderLeftWidth": "1px",
+        "borderRightColor": "rgba(222,222,222,1.00)",
+        "borderRightStyle": "solid",
+        "borderRightWidth": "1px",
+        "borderTopColor": "rgba(222,222,222,1.00)",
+        "borderTopStyle": "solid",
+        "borderTopWidth": "1px",
+        "display": "flex",
+        "flexDirection": "row",
+        "flexGrow": 1,
+        "justifyContent": "space-between",
+        "marginTop": "1rem",
+        "msFlexDirection": "row",
+        "msFlexPack": "justify",
+        "msFlexPositive": 1,
+        "paddingBottom": "0.75rem",
+        "paddingLeft": "0.5rem",
+        "paddingRight": "0.5rem",
+        "paddingTop": "0.75rem",
+        "position": "relative",
+      }
+    }
+  >
+    <div
+      className="css-view-1dbjc4n"
+      style={
+        Object {
+          "WebkitBoxDirection": "normal",
+          "WebkitBoxFlex": 1,
+          "WebkitBoxLines": "multiple",
+          "WebkitBoxOrient": "horizontal",
+          "WebkitFlexBasis": "0px",
+          "WebkitFlexDirection": "row",
+          "WebkitFlexGrow": 1,
+          "WebkitFlexShrink": 1,
+          "WebkitFlexWrap": "wrap",
+          "display": "flex",
+          "flexBasis": "0px",
+          "flexDirection": "row",
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "flexWrap": "wrap",
+          "msFlexDirection": "row",
+          "msFlexNegative": 1,
+          "msFlexPositive": 1,
+          "msFlexPreferredSize": "0px",
+          "msFlexWrap": "wrap",
+          "position": "relative",
+        }
+      }
+    >
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "color": "rgba(0,0,0,1.00)",
+            "fontFamily": "HelveticaNeue",
+            "fontSize": "0.875rem",
+            "lineHeight": "1.2249999999999999rem",
+            "marginRight": "2rem",
+          }
+        }
+      />
+      <div
+        className="css-text-901oao"
+        dir="auto"
+        style={
+          Object {
+            "WebkitTextDecorationColor": "rgba(128,128,128,1.00)",
+            "color": "rgba(128,128,128,1.00)",
+            "fontFamily": "HelveticaNeue",
+            "fontSize": "0.875rem",
+            "lineHeight": "1.2249999999999999rem",
+            "textDecorationColor": "rgba(128,128,128,1.00)",
+          }
+        }
+      >
+        pending
+      </div>
+    </div>
+    <div
+      className="css-text-901oao"
+      dir="auto"
+      style={
+        Object {
+          "WebkitTextDecorationColor": "rgba(126,211,33,1.00)",
+          "color": "rgba(126,211,33,1.00)",
+          "fontFamily": "HelveticaNeue",
+          "fontSize": "0.875rem",
+          "lineHeight": "1.2249999999999999rem",
+          "textDecorationColor": "rgba(126,211,33,1.00)",
+        }
+      }
+    >
+      + 
+      10
+       REL
+    </div>
+  </div>
+  <div
+    className="css-view-1dbjc4n"
+    style={
+      Object {
+        "borderBottomColor": "rgba(222,222,222,1.00)",
+        "borderBottomStyle": "solid",
+        "borderBottomWidth": "1px",
+        "borderLeftColor": "rgba(222,222,222,1.00)",
+        "borderLeftStyle": "solid",
+        "borderLeftWidth": "1px",
+        "borderRightColor": "rgba(222,222,222,1.00)",
+        "borderRightStyle": "solid",
+        "borderRightWidth": "1px",
+        "borderTopColor": "rgba(222,222,222,1.00)",
+        "borderTopStyle": "solid",
+        "borderTopWidth": "1px",
+        "display": "flex",
+        "position": "relative",
+      }
+    }
+  >
+    Preview
+  </div>
+</div>
+`;

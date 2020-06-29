@@ -1,0 +1,42 @@
+@import 'styles/global.css';
+
+#editor {
+  min-height: 200px;
+  @extend %input;
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-wrap: normal;
+  box-shadow: none;
+  border: 1px solid $borderColor;
+  outline: none;
+  /* ::placeholder: {
+    font-size: ${sizing(1.75)};
+    line-height: ${sizing(1.75)};
+  }; */
+  &:focus {
+    outline: none;
+    /* border: none; */
+    box-shadow: none;
+    border: 1px solid $blue;
+    /* ${layout.universalBorder('', colors.blue)} */
+  }
+  p {
+    margin: 0;
+  }
+  b {
+    color: #3E3EFF;
+    font-weight: normal;
+  }
+  &:empty:before {
+    content: attr(placeholder);
+    font-family: HelveticaNeue, system-ui, Arial, sans-serif;
+    display: block;
+    font-size: 14px;
+    color: $greyText;
+  }
+}
+
+.editor:focus, .editor.active {
+  @extend %activeInput;
+  font-size: 14px;
+}

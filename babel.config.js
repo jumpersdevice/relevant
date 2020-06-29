@@ -6,7 +6,6 @@ const plugins = [
   '@babel/plugin-transform-flow-strip-types',
   '@babel/transform-exponentiation-operator',
   '@babel/plugin-syntax-dynamic-import',
-  '@loadable/babel-plugin',
   'styled-components',
   '@babel/plugin-proposal-class-properties',
   'inline-react-svg'
@@ -14,37 +13,6 @@ const plugins = [
 
 const prodPlugins = ['transform-remove-console'];
 const nativePresets = ['module:metro-react-native-babel-preset'];
-const presetsWeb = [
-  [
-    '@babel/preset-env',
-    {
-      targets: {
-        browsers: '>0.5%',
-        node: 'current'
-      }
-    }
-  ],
-  '@babel/preset-react'
-];
-
-const moduleResolverWeb = [
-  'module-resolver',
-  {
-    root: ['./app'],
-    extensions: ['.ios.js', '.android.js', '.js', '.json'],
-    alias: {
-      server: './server',
-      modules: './app/modules',
-      core: './app/core',
-      app: './app',
-      'react-native-svg$': 'react-native-web-svg',
-      '^react-native$': 'react-native-web',
-      'react-native-linear-gradient$': 'react-native-web-linear-gradient',
-      // 'react-navigation-drawer/src/views/Drawer': './app/modules/ui/mobile/Drawer'
-      'react-native-gesture-handler/DrawerLayout': './app/modules/ui/mobile/DrawerLayout'
-    }
-  }
-];
 
 const moduleResolverNative = [
   'module-resolver',
@@ -75,27 +43,37 @@ module.exports = api => {
   switch (env) {
     case 'production':
       return {
+        babelrcRoots: ['.', './packages/*'],
+        ignore: ['node_modules'],
         plugins: [moduleResolverNative, ...plugins, ...prodPlugins],
         presets: [...presets, ...nativePresets]
       };
     case 'development':
       return {
+        babelrcRoots: ['.', './packages/*'],
+        ignore: ['node_modules'],
         plugins: [moduleResolverNative, ...plugins],
         presets: [...presets, ...nativePresets]
       };
     case 'test':
       return {
-        plugins: [moduleResolverWeb, ...plugins, ...pluginsTest],
-        presets: [...presetsWeb]
+        babelrcRoots: ['.', './packages/*'],
+        ignore: ['node_modules'],
+        plugins: [...plugins, ...pluginsTest],
+        presets: []
       };
     case 'development_web':
       return {
-        plugins: [moduleResolverWeb, ...plugins],
-        presets: [...presetsWeb]
+        babelrcRoots: ['.', './packages/*'],
+        ignore: ['node_modules'],
+        plugins: [...plugins],
+        presets: []
       };
     default:
       return {
-        plugins: [moduleResolverWeb, ...plugins],
+        babelrcRoots: ['.', './packages/*'],
+        ignore: ['node_modules'],
+        plugins: [...plugins],
         presets: [...presets]
       };
   }

@@ -4,3 +4,5 @@ ScrollView.js
 bundle.js
 /ios
 /android
+lib
+public

@@ -1,0 +1,9 @@
+diff a/server/utils/skipErrors.js b/server/utils/skipErrors.js	(rejected hunks)
+@@ -10 +10 @@ const errors = [
+-  "'to' parameter is not a valid address. please check documentation",
++  "'to' parameter is not a valid address. please check documentation"
+@@ -13,2 +13,2 @@ const errors = [
+-export const shouldSkip = (errMsg) => {
+-  const match = errors.find((errString) => errMsg.match(errString));
++export const shouldSkip = errMsg => {
++  const match = errors.find(errString => errMsg.match(errString));
