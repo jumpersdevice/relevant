@@ -40,9 +40,7 @@ export default function(server) {
     let currentUser = null;
     socket.emit('action', { type: 'socketId', payload: socket.id });
 
-    socket.on('pingResponse', () => {
-      // console.log('Pong received from client');
-    });
+    socket.on('pingResponse', () => {});
 
     socket.on('action', action => {
       if (action.type === 'server/storeUser') {
@@ -61,9 +59,8 @@ export default function(server) {
   });
 
   io.of('/').adapter.customHook = (data, cb) => {
-    console.log('forwarding to', data._id);
     emitToUser(data);
-    cb('forwarded message to ' + data._id);
+    cb();
   };
 }
 
