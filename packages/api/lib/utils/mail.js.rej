@@ -1,0 +1,45 @@
+diff a/server/utils/mail.js b/server/utils/mail.js	(rejected hunks)
+@@ -19 +19 @@ const LISTS = {
+-    ml: IS_PRODUCTION ? REGISTERED_USERS : TEST_ID,
++    ml: IS_PRODUCTION ? REGISTERED_USERS : TEST_ID
+@@ -23,2 +23,2 @@ const LISTS = {
+-    ml: IS_PRODUCTION ? NO_DIGEST : TEST_ID,
+-  },
++    ml: IS_PRODUCTION ? NO_DIGEST : TEST_ID
++  }
+@@ -31 +31 @@ export const mailgun = MailGun({
+-  domain: process.env.MAILGUN_DOMAIN || dummyKey,
++  domain: process.env.MAILGUN_DOMAIN || dummyKey
+@@ -39 +39 @@ export const test = () => {
+-    text: 'Test message from relevant!',
++    text: 'Test message from relevant!'
+@@ -44 +44 @@ export const test = () => {
+-export const sendEmail = (data) => {
++export const sendEmail = data => {
+@@ -54 +54 @@ export const sendEmail = (data) => {
+-    .catch((err) => {
++    .catch(err => {
+@@ -74 +74 @@ export async function sendAdminAlert(err) {
+-      `,
++      `
+@@ -84 +84 @@ export async function addUserToEmailList(user, _list) {
+-      name: '@' + user.handle,
++      name: '@' + user.handle
+@@ -96 +96 @@ export async function addUserToEmailList(user, _list) {
+-    return await handleRes((params) => list.members().create(u, params));
++    return await handleRes(params => list.members().create(u, params));
+@@ -108 +108 @@ export async function updateUserEmail(user, previousAddress, _list) {
+-      name: '@' + user.handle,
++      name: '@' + user.handle
+@@ -120 +120 @@ export async function updateUserEmail(user, previousAddress, _list) {
+-    return await handleRes((params) => list.members(previousAddress).update(u, params));
++    return await handleRes(params => list.members(previousAddress).update(u, params));
+@@ -137 +137 @@ export async function removeFromEmailList(user, _list) {
+-    return await handleRes((params) => list.members(user.email).delete(params));
++    return await handleRes(params => list.members(user.email).delete(params));
+@@ -154 +154 @@ function mailgunUser(user) {
+-    name: '@' + user.handle,
++    name: '@' + user.handle
+@@ -178 +178 @@ export default {
+-  send: sendEmail,
++  send: sendEmail

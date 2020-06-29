@@ -1,0 +1,40 @@
+'use strict';
+
+var mongoose = require('mongoose');
+
+var { Schema } = mongoose;
+var SubscriptionSchema = new Schema(
+  {
+    follower: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    following: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    amount: Number,
+    category: [
+      {
+        type: String,
+        ref: 'Tag'
+      }
+    ],
+    community: {
+      type: String
+    },
+    communityId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Community'
+    }
+  },
+  {
+    timestamps: true
+  }
+);
+SubscriptionSchema.index({
+  following: 1,
+  follower: 1
+});
+module.exports = mongoose.model('Subscription', SubscriptionSchema);
+//# sourceMappingURL=subscription.model.js.map

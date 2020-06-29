@@ -22,7 +22,7 @@ Post.propTypes = {
   preview: PropTypes.bool,
   avatarText: PropTypes.func,
   singlePost: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default memo(Post);
@@ -39,9 +39,9 @@ function Post({
   preview,
   avatarText,
   singlePost,
-  children
+  children,
 }) {
-  const screenSize = useSelector(state => state.navigation.screenSize);
+  const screenSize = useSelector((state) => state.navigation.screenSize);
   const [showPost, setShowPost] = useState(false);
 
   if (!post) return null;

@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../src/modules/_app/web/404.js"],"names":["NotFound","Component"],"mappings":"+tBAAA,qD,+yBAEqBA,CAAAA,Q,kRACV,CACP,MAAO,gHAAP,CACD,C,sBAHmCC,gB","sourcesContent":["import React, { Component } from 'react';\n\nexport default class NotFound extends Component {\n  render() {\n    return <div>NOT FOUND</div>;\n  }\n}\n"],"file":"404.js"}

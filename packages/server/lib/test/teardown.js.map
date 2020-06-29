@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/test/teardown.js"],"names":["module","exports","global","__MONGOD__","stop"],"mappings":";;AAAAA,MAAM,CAACC,OAAP,GAAiB,YAAY;AAC3B,QAAMC,MAAM,CAACC,UAAP,CAAkBC,IAAlB,EAAN;AACD,CAFD","sourcesContent":["module.exports = async () => {\n  await global.__MONGOD__.stop();\n};\n"],"file":"teardown.js"}

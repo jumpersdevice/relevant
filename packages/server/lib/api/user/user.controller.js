@@ -1,0 +1,1114 @@
+"use strict";
+
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+var _cryptoPromise = _interopRequireDefault(require("crypto-promise"));
+
+var _v = _interopRequireDefault(require("uuid/v4"));
+
+var _merge = _interopRequireDefault(require("lodash/merge"));
+
+var _url = _interopRequireDefault(require("url"));
+
+var _auth = require("../../auth/auth.service");
+
+var _invite = _interopRequireDefault(require("../invites/invite.model"));
+
+var _mail = require("../../utils/mail");
+
+var _globalConstants = require("../../config/globalConstants");
+
+var _passport = require("../../auth/web3/passport");
+
+var _earnings = _interopRequireDefault(require("../earnings/earnings.model"));
+
+var _user = _interopRequireDefault(require("./user.model"));
+
+var _post = _interopRequireDefault(require("../post/post.model"));
+
+var _communityMember = _interopRequireDefault(require("../community/community.member.model"));
+
+var _subscription = _interopRequireDefault(require("../subscription/subscription.model"));
+
+var _feed = _interopRequireDefault(require("../feed/feed.model"));
+
+var ethUtils = _interopRequireWildcard(require("../../utils/ethereum"));
+
+var _cashOut = require("../../utils/cashOut");
+
+// import sigUtil from 'eth-sig-util';
+// eslint-disable-next-line import/named
+// import { idUtils } from '3box';
+const sigUtil = require('eth-sig-util');
+
+async function sendConfirmation(user, newUser) {
+  let text = '';
+  if (newUser) text = ', welcome to Relevant';
+  const confirmUrl = `${process.env.API_SERVER}/user/confirm/${user.handle}/${user.confirmCode}`;
+  const data = {
+    from: 'Relevant <info@relevant.community>',
+    to: user.email,
+    subject: 'Relevant Email Confirmation',
+    html: `
+        Hi @${user.handle}${text}!
+      <br />
+      <br />
+        Please click on the link below to confirm your email address:
+      <br />
+      <br />
+      <a href="${confirmUrl}" target="_blank">Confirm Email</a>
+      <br />
+      <br />
+      `
+  };
+  await (0, _mail.sendEmail)(data);
+  return {
+    email: user.email
+  };
+}
+
+async function sendResetEmail(user, queryString) {
+  const resetUrl = `${process.env.API_SERVER}/user/resetPassword/${user.resetPasswordToken}${queryString}`;
+  const data = {
+    from: 'Relevant <info@relevant.community>',
+    to: user.email,
+    subject: 'Reset Relevant Password',
+    html: `
+      Hi, @${user.handle}
+      <br/><br/>
+      You are receiving this because you have requested the reset of the password for your account.<br />
+      Please click on the following link, or paste this into your browser to complete the process:<br/><br/>
+      ${resetUrl}<br/><br/>
+      If you did not request a password reset, please ignore this email and your password will remain unchanged.`
+  };
+  return (0, _mail.sendEmail)(data);
+}
+
+exports.forgot = async (req, res, next) => {
+  let email;
+
+  try {
+    const urlParts = _url.default.parse(req.url, true);
+
+    const queryString = urlParts.search || '';
+    const string = req.body.user;
+    email = /^.+@.+\..+$/.test(string);
+    const query = email ? {
+      email: {
+        $regex: `^${string}$`,
+        $options: 'i'
+      }
+    } : {
+      handle: {
+        $regex: `^${string}$`,
+        $options: 'i'
+      }
+    };
+    let user = await _user.default.findOne(query, 'resetPasswordToken resetPasswordExpires email handle');
+
+    if (!user) {
+      const errorText = email ? 'No user with this email exists' : "Couldn't find user with this username";
+      throw new Error(errorText);
+    }
+
+    const rand = await _cryptoPromise.default.randomBytes(32);
+    const token = rand.toString('hex');
+    user.resetPasswordToken = token;
+    user.resetPasswordExpires = Date.now() + 3600000;
+    user = await user.save();
+    await sendResetEmail(user, queryString);
+    return res.status(200).json({
+      email: user.email,
+      username: user.handle
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.confirm = async (req, res, next) => {
+  try {
+    let user;
+    let middleware = false;
+    if (!req.params) req.params = {};
+    if (req.params.user) middleware = true;
+    const confirmCode = req.params.code || req.body.code;
+    const handle = req.params.user || req.body.user;
+    if (!handle || !confirmCode) throw new Error('Missing user id or confirmation token');
+    user = await _user.default.findOne({
+      handle,
+      confirmCode
+    });
+    if (!user) throw new Error('Wrong confirmation code');
+    if (user.confirmed) throw new Error('Email is already confirmed.');
+    user.confirmed = true;
+    user = await user.addReward({
+      type: 'email'
+    });
+    user = await user.save();
+    await (0, _mail.addUserToEmailList)(user);
+    req.confirmed = true;
+    return middleware ? next() : res.status(200).json(user);
+  } catch (err) {
+    return next();
+  }
+};
+
+exports.sendConfirmationCode = async (req, res, next) => {
+  try {
+    let user = await _user.default.findOne({
+      handle: req.user.handle
+    }, 'email confirmCode name handle');
+    user.confirmCode = (0, _v.default)();
+    user = await user.save();
+    const status = await sendConfirmation(user);
+    return res.status(200).json(status);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.webOnboard = (req, res, next) => {
+  const {
+    handle
+  } = req.user;
+  const {
+    step
+  } = req.params;
+  const path = `webOnboard.${step}`;
+
+  _user.default.findOneAndUpdate({
+    handle
+  }, {
+    $set: {
+      [path]: true
+    }
+  }, {
+    projection: 'webOnboard',
+    new: true
+  }).then(newUser => {
+    res.status(200).json(newUser);
+  }).catch(next);
+};
+
+exports.onboarding = (req, res, next) => {
+  const {
+    handle
+  } = req.user;
+  const {
+    step
+  } = req.params;
+
+  _user.default.findOneAndUpdate({
+    handle
+  }, {
+    onboarding: step
+  }, {
+    projection: 'onboarding',
+    new: true
+  }).then(newUser => {
+    res.status(200).json(newUser);
+  }).catch(next);
+};
+/**
+ * Reset password
+ */
+
+
+exports.resetPassword = async (req, res, next) => {
+  try {
+    const {
+      token,
+      password
+    } = req.body;
+    let {
+      user
+    } = req;
+    if (!token && !user) throw new Error('token missing');
+
+    if (!user) {
+      user = await _user.default.findOne({
+        resetPasswordToken: token
+      });
+
+      if (user && user.resetPasswordExpires > Date.now()) {
+        throw new Error('Password reset time has expired');
+      }
+    }
+
+    if (!user) throw new Error('No user found');
+    if (!user.onboarding) user.onboarding = 0;
+    user.password = password;
+    user = await user.save();
+    res.status(200).json({
+      success: true
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+/**
+ * Change a users password
+ */
+
+
+exports.changePassword = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const oldPass = String(req.body.oldPassword);
+    const newPass = String(req.body.newPassword);
+
+    const user = _user.default.findById(userId);
+
+    if (user.authenticate(oldPass)) {
+      user.password = newPass;
+      await user.save();
+      return res.sendStatus(200);
+    }
+
+    throw new Error('incorrect password');
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.search = (req, res, next) => {
+  let blocked = [];
+  const {
+    user
+  } = req;
+
+  if (user) {
+    blocked = [...user.blocked, ...user.blockedBy];
+  }
+
+  const {
+    search,
+    limit
+  } = req.query;
+  const name = new RegExp(search, 'i');
+  const query = {
+    $and: [{
+      $or: [{
+        name
+      }, {
+        handle: name
+      }]
+    }, {
+      handle: {
+        $nin: blocked
+      }
+    }]
+  };
+
+  _user.default.find(query, 'handle name image').sort({
+    handle: 1
+  }).limit(parseInt(limit, 10)).then(users => {
+    res.json(200, users);
+  }).catch(next);
+};
+/**
+ * Get list of users
+ * restriction: 'admin'
+ */
+
+
+exports.index = (req, res, next) => {
+  const {
+    search
+  } = req.query;
+  let query = {};
+
+  if (search) {
+    const name = new RegExp(req.query.name, 'i');
+    query = {
+      name
+    };
+  }
+
+  _user.default.find(query, '-salt -hashedPassword').sort({
+    rank: -1
+  }).then(users => {
+    res.status(200).json(users);
+  }).catch(next);
+};
+
+exports.checkUser = async (req, res, next) => {
+  try {
+    const {
+      name,
+      email,
+      omitSelf
+    } = req.query;
+    const {
+      user
+    } = req;
+    let query = {};
+    let type;
+
+    if (name === 'everyone') {
+      return res.status(200).json({
+        type
+      });
+    }
+
+    let formatted;
+    let omit;
+
+    if (user && omitSelf) {
+      omit = user.handle;
+    }
+
+    if (name) {
+      type = 'user';
+      formatted = '^' + name + '$';
+      query = { ...query,
+        $and: [{
+          handle: {
+            $regex: formatted,
+            $options: 'i'
+          }
+        }, {
+          handle: {
+            $ne: omit
+          }
+        }]
+      };
+    } else if (email) {
+      formatted = '^' + email + '$';
+      type = 'email';
+      query = {
+        $and: [{
+          email: {
+            $regex: formatted,
+            $options: 'i'
+          }
+        }, {
+          handle: {
+            $ne: omit
+          }
+        }]
+      };
+    }
+
+    const userExists = await _user.default.findOne(query, '_id handle');
+    if (userExists) return res.status(200).json(userExists);
+    return res.status(200).json(null);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.testData = async (req, res, next) => {
+  try {
+    const limit = parseInt(req.query.limit, 10) || 5;
+    const skip = parseInt(req.query.skip, 10) || 0;
+    const community = req.query.community || 'relevant';
+    const query = {
+      community,
+      pagerank: {
+        $gt: 0
+      }
+    };
+    const rel = await _communityMember.default.find(query, 'pagerank level community communityId pagerankRaw').limit(limit).skip(skip) // .sort(sort)
+    .populate({
+      path: 'user',
+      select: 'handle name votePower image bio'
+    });
+    return res.status(200).json(rel);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.list = async (req, res, next) => {
+  try {
+    const {
+      user
+    } = req;
+    const limit = parseInt(req.query.limit, 10) || 5;
+    const skip = parseInt(req.query.skip, 10) || 0;
+    let blocked = [];
+
+    if (user) {
+      blocked = [...user.blocked, ...user.blockedBy];
+    }
+
+    const community = req.query.community || 'relevant';
+    const sort = {
+      pagerank: -1
+    };
+    const query = {
+      community,
+      user: {
+        $nin: blocked
+      }
+    };
+    const rel = await _communityMember.default.find(query).limit(limit).skip(skip).sort(sort).populate({
+      path: 'user',
+      select: 'handle name image bio'
+    });
+    const users = rel.map(r => {
+      r = r.toObject();
+      if (!r.user) return null;
+      let u = { ...r.user
+      }; // eslint-disable-line
+
+      u.relevance = {};
+      delete r.user;
+      u.relevance = r;
+      return u;
+    });
+    return res.status(200).json(users);
+  } catch (err) {
+    return next(err);
+  }
+};
+/**
+ * Creates a new user
+ */
+
+
+exports.create = async (req, res, next) => {
+  try {
+    const confirmCode = (0, _v.default)();
+    let {
+      user
+    } = req.body;
+    const {
+      invitecode
+    } = req.body;
+
+    if (_globalConstants.BANNED_USER_HANDLES.includes(user.name)) {
+      throw new Error('this username is taken');
+    }
+
+    if (!user.email) throw new Error('missing email');
+    const usingWeb3 = !!user.ethLogin;
+    const additionalFields = usingWeb3 ? await getEthFields(user) : {};
+
+    if (additionalFields.user) {
+      const token = (0, _auth.signToken)(additionalFields.user._id, 'user');
+      return res.status(200).json({
+        token,
+        user: additionalFields.user
+      });
+    }
+
+    const userObj = {
+      handle: user.name,
+      name: user.name,
+      phone: user.phone,
+      email: user.email,
+      password: user.password,
+      image: user.image,
+      provider: usingWeb3 ? 'web3' : 'local',
+      role: 'user',
+      relevance: 0,
+      confirmCode,
+      ...additionalFields
+    };
+    if (usingWeb3) delete userObj.password;
+    user = new _user.default(userObj);
+    user = await user.save();
+    if (invitecode) user = await _invite.default.processInvite({
+      invitecode,
+      user
+    });
+    user = await user.initialCoins();
+    const token = (0, _auth.signToken)(user._id, 'user');
+    if (!user.confirmed) sendConfirmation(user, true);
+    user = await user.save();
+    user = user.toObject();
+    delete user.hashedPassword;
+    delete user.salt;
+    delete user.password;
+    return res.status(200).json({
+      token,
+      user
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+async function getEthFields({
+  signature,
+  msg,
+  ...profile
+}) {
+  const ethLogin = (0, _passport.verifyEthSignature)({
+    signature,
+    msg
+  });
+  const user = await _user.default.findOne({
+    ethLogin
+  });
+
+  if (user) {
+    user.email = profile.email;
+    user.image = profile.image;
+    user.name = profile.name;
+    await user.save();
+    return {
+      user
+    };
+  }
+
+  return {
+    ethLogin,
+    ethAddress: [ethLogin]
+  };
+} // async function processBoxFields(user) {
+//   const { signature, boxAddress, DID } = user;
+//   if (!signature || !boxAddress || !DID) throw new Error('Missing 3box parametrs');
+//   const claim = await idUtils.verifyClaim(signature, { auth: true });
+//   const { payload } = claim;
+//   const { exp, DID: claimDID, address } = payload;
+//   const claimExp = new Date(exp * 1000);
+//   if (claimExp < new Date()) throw new Error('Expired 3box signature');
+//   if (DID !== claimDID) throw new Error('Invalid 3box DID in signature');
+//   if (boxAddress !== address) throw new Error('Invalid Ethereum address in signature');
+//   const userExists = await User.findOne({ boxDID: DID });
+//   if (userExists) {
+//     userExists.email = user.email;
+//     userExists.image = user.image;
+//     userExists.name = user.name;
+//     await userExists.save();
+//     return { user: userExists };
+//   }
+//   return { boxDID: DID, boxAddress, confirmed: !!user.email };
+// }
+
+/**
+ * Get a single user
+ */
+
+
+exports.show = async function show(req, res, next) {
+  try {
+    let {
+      user
+    } = req;
+    let handle = req.params.id;
+    let me = null;
+    let memberships;
+
+    if (!handle && user) {
+      handle = user.handle;
+    }
+
+    if (user && user._id) {
+      memberships = await _communityMember.default.find({
+        user: user._id
+      });
+    }
+
+    me = user && user.handle === handle;
+    const community = req.query.community || 'relevant'; // don't show blocked user;
+
+    let blocked = [];
+
+    if (user) {
+      blocked = [...(user.blocked || []), ...(user.blockedBy || [])];
+
+      if (blocked.find(u => u === handle)) {
+        return res.status(200).json({});
+      }
+    }
+
+    const select = me ? '+email' : null;
+    user = await _user.default.findOne({
+      handle
+    }, select).populate({
+      path: 'relevance',
+      match: {
+        community
+      },
+      select: 'pagerank relevanceRecord community'
+    });
+    if (!user) throw new Error('no such user ', handle);
+    user = await user.getSubscriptions(); // topic relevance
+
+    const relevance = await _communityMember.default.find({
+      user: user._id
+    }).sort('-relevance').limit(5);
+    const userObj = user.toObject();
+    userObj.topTags = relevance || [];
+    res.status(200).json({ ...userObj,
+      memberships
+    }); // update token balance based on ETH account
+
+    if (me) {
+      const addr = user.ethAddress[0];
+      const tokenBalance = addr ? await ethUtils.getBalance(user.ethAddress[0]) : 0;
+
+      if (user.tokenBalance !== tokenBalance) {
+        user.tokenBalance = tokenBalance;
+        user = await user.save();
+        await user.updateClient();
+      }
+    }
+
+    return null;
+  } catch (err) {
+    return next(err);
+  }
+};
+/**
+ * Deletes a user
+ * restriction: 'admin' or user
+ */
+
+
+exports.destroy = async (req, res, next) => {
+  try {
+    const {
+      id
+    } = req.params;
+
+    if (!req.user || !req.user.role === 'admin' || !req.user._id.equals(id)) {
+      throw new Error('no right to delete');
+    }
+
+    const user = await _user.default.findOne({
+      _id: id
+    });
+    await (0, _mail.removeFromEmailList)(user);
+    await _user.default.deleteOne({
+      handle: req.params.id
+    });
+    return res.sendStatus(204);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.updateComunity = async (req, res, next) => {
+  try {
+    const {
+      user
+    } = req;
+    if (!user) throw new Error('missing user');
+    const {
+      community
+    } = req.body;
+    user.community = community;
+    await user.save();
+    return res.status(200).json({
+      succcess: true
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.updateHandle = async (req, res, next) => {
+  try {
+    let {
+      user
+    } = req;
+    if (user.role !== 'temp') throw new Error('Cannot change user handle');
+    const {
+      handle,
+      email
+    } = req.body.user;
+    if (!handle) throw new Error('missing handle'); // make sure its not used
+
+    if (handle !== user.handle) {
+      const used = await _user.default.findOne({
+        handle
+      });
+      if (used) throw new Error('This handle is already taken');
+    }
+
+    if (email && email !== user.email) {
+      const usedEmail = await _user.default.findOne({
+        _id: {
+          $ne: user._id
+        },
+        email
+      });
+      if (usedEmail) throw new Error('This email is already in use');
+      user.email = email;
+      user.confirmCode = (0, _v.default)();
+      user = await user.save();
+      await sendConfirmation(user, true);
+    }
+
+    user.handle = handle;
+    user.role = 'user';
+    await (0, _mail.addUserToEmailList)(user);
+    const newUser = {
+      name: user.name,
+      image: user.image,
+      handle: user.handle,
+      _id: user._id
+    };
+    await _communityMember.default.updateMany({
+      user: user._id
+    }, {
+      embeddedUser: newUser
+    }, {
+      multi: true
+    });
+    user = await user.save();
+    return res.status(200).json(user);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.update = async (req, res, next) => {
+  try {
+    const {
+      role
+    } = req.user;
+    const authUser = JSON.stringify(req.user._id);
+    const reqUser = JSON.stringify(req.body._id);
+    let updateImage = false;
+    let updateName = false;
+    let user;
+
+    if (authUser !== reqUser && role !== 'admin') {
+      throw new Error('Not authorized to edit this user');
+    }
+
+    user = await _user.default.findOne({
+      _id: req.body._id
+    }, '-salt -hashedPassword -relevance');
+    if (!user) throw new Error('user not found');
+
+    if (user.name !== req.body.name) {
+      updateName = true;
+      user.name = req.body.name;
+    }
+
+    if (user.image !== req.body.image) {
+      updateImage = true;
+      user.image = req.body.image;
+    }
+
+    user.bio = typeof req.body.bio === 'string' ? req.body.bio : user.bio;
+    user.deviceTokens = req.body.deviceTokens;
+
+    if (role === 'admin') {
+      user.role = req.body.role;
+    }
+
+    user = await user.save();
+    user.updateClient();
+
+    if (updateName || updateImage) {
+      const newUser = {
+        name: user.name,
+        image: user.image,
+        handle: user.handle,
+        _id: user._id
+      }; // Do this on a separate thread?
+
+      await _post.default.updateMany({
+        user: user._id
+      }, {
+        embeddedUser: newUser
+      }, {
+        multi: true
+      });
+      await _communityMember.default.updateMany({
+        user: user._id
+      }, {
+        embeddedUser: newUser
+      }, {
+        multi: true
+      });
+    }
+
+    return res.status(200).json(user);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.block = async (req, res, next) => {
+  try {
+    let {
+      user
+    } = req;
+    const {
+      block
+    } = req.body;
+    if (user._id === block) throw new Error("You can't block yourself!");
+
+    const userPromise = _user.default.findOneAndUpdate({
+      _id: user._id
+    }, {
+      $addToSet: {
+        blocked: block
+      }
+    }, {
+      new: true
+    });
+
+    const blockPromise = _user.default.findOneAndUpdate({
+      _id: block
+    }, {
+      $addToSet: {
+        blockedBy: user._id
+      }
+    }, {
+      new: true
+    }); // clear any existing subscriptions
+
+
+    const sub1 = _subscription.default.deleteMany({
+      following: user._id,
+      follower: block
+    }).exec();
+
+    const sub2 = _subscription.default.deleteMany({
+      following: block,
+      follower: user._id
+    }).exec();
+
+    const feed1 = _feed.default.deleteMany({
+      userId: user._id,
+      from: block
+    }).exec();
+
+    const feed2 = _feed.default.deleteMany({
+      userId: block,
+      from: user._id
+    }).exec();
+
+    const results = await Promise.all([userPromise, blockPromise, sub1, sub2, feed1, feed2]);
+    user = results[0];
+    return res.status(200).json(user);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+exports.unblock = async (req, res, next) => {
+  try {
+    let {
+      user
+    } = req;
+    let {
+      block
+    } = req.body;
+    user = await _user.default.findOneAndUpdate({
+      handle: user.handle
+    }, {
+      $pull: {
+        blocked: block
+      }
+    }, {
+      new: true
+    });
+    block = await _user.default.findOneAndUpdate({
+      _id: block
+    }, {
+      $pull: {
+        blockedBy: user._id
+      }
+    });
+    res.status(200).json(user);
+  } catch (err) {
+    next(res, err);
+  }
+};
+
+exports.blocked = async (req, res, next) => {
+  try {
+    let {
+      user
+    } = req;
+    user = await _user.default.findOne({
+      _id: user._id
+    }).populate('blocked');
+    res.status(200).json(user);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.updateUserTokenBalance = async (req, res, next) => {
+  try {
+    const {
+      user
+    } = req;
+
+    if (!user.ethAddress || !user.ethAddress.length) {
+      throw new Error('missing connected Ethereum address');
+    }
+
+    const userBalance = await ethUtils.getBalance(user.ethAddress[0]);
+    user.tokenBalance = userBalance;
+    await user.save();
+    res.status(200).json(user);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.updateUserNotifications = async (req, res, next) => {
+  try {
+    const {
+      user,
+      body
+    } = req;
+    const {
+      notificationSettings,
+      subscription,
+      deviceTokens
+    } = body;
+    const newSettings = (0, _merge.default)(user.notificationSettings.toObject(), notificationSettings);
+
+    if (user.notificationSettings.email.digest !== newSettings.email.digest) {
+      if (!newSettings.email.digest) (0, _mail.addUserToEmailList)(user, 'nodigest');else (0, _mail.removeFromEmailList)(user, 'nodigest');
+    }
+
+    user.notificationSettings = newSettings;
+
+    if (subscription) {
+      const findIndex = user.desktopSubscriptions.findIndex(s => s.endpoint === subscription.endpoint && s.keys && s.keys.auth === subscription.keys.auth && s.keys.p256dh === subscription.keys.p256dh);
+
+      if (findIndex === -1) {
+        user.desktopSubscriptions = [...user.desktopSubscriptions, subscription];
+      }
+    }
+
+    if (deviceTokens) {
+      user.deviceTokens = deviceTokens;
+    }
+
+    await user.save();
+    res.status(200).json(user);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.ethAddress = async (req, res, next) => {
+  try {
+    let {
+      user
+    } = req;
+    const {
+      msg,
+      sig,
+      acc
+    } = req.body;
+    const recovered = sigUtil.recoverTypedSignatureLegacy({
+      data: msg,
+      sig
+    });
+    if (recovered !== acc.toLowerCase()) throw new Error('address does not match');
+    const exists = await _user.default.findOne({
+      ethAddress: acc
+    }, 'handle');
+    if (exists) throw new Error('This address is already in use by @' + exists.handle);
+    user = await _user.default.findOne({
+      handle: user.handle
+    }, 'ethAddress');
+    user.ethAddress = [acc];
+
+    if (!user.ethLogin) {
+      user.ethLogin = acc;
+    }
+
+    const userBalance = await ethUtils.getBalance(user.ethAddress[0]);
+    user.tokenBalance = userBalance;
+    await user.save();
+    res.status(200).json(user);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.cashOut = async (req, res, next) => {
+  try {
+    let {
+      user
+    } = req;
+    const {
+      body: {
+        customAmount
+      }
+    } = req;
+    if (!user) throw new Error('Missing user when trying to claim tokens.');
+    if (!customAmount) throw new Error('Missing token claim amount.');
+    if (!user.ethAddress[0]) throw new Error('No Ethereum address connected');
+    const address = user.ethAddress[0]; // if the nonce is the same as last time, resend last signature
+
+    const nonce = await ethUtils.getNonce(address); // Prioritize last withdrawal attempt
+
+    if (user.cashOut && user.cashOut.nonce === nonce.toString()) {
+      return res.status(200).json({
+        user,
+        earning: null
+      });
+    }
+
+    const userCashoutLog = await _earnings.default.find({
+      user: user._id,
+      cashOutAttempt: true
+    });
+    const cashedOut = userCashoutLog.reduce((a, e) => a + e.cashOutAmt, 0);
+
+    if (user.cashedOut !== cashedOut) {
+      throw new Error('There is a mismatch in previous cashout amounts', user.cashedOut, cashedOut);
+    }
+
+    const maxClaim = _globalConstants.CASHOUT_MAX - cashedOut;
+    const canClaim = Math.min(maxClaim, user.balance - (user.airdropTokens || 0));
+    const amount = Number(customAmount);
+    if (amount > maxClaim) throw new Error(`You can not claim more than ${maxClaim} coins at this time.`);
+    if (amount > canClaim) throw new Error('You can not claim this many coins.');
+    if (amount <= 0) throw new Error('You do not have enough coins to claim.'); // if (amount < 100) throw new Error('Balance is too small to withdraw');
+
+    const allocatedRewards = await ethUtils.getParam('allocatedRewards');
+
+    if (allocatedRewards < amount) {
+      throw new Error('There are not enough funds allocated in the contract at the moment');
+    }
+
+    const earning = await (0, _cashOut.logCashOut)(user, amount);
+    user.balance -= amount;
+    console.log('prev cashout', cashedOut, 'cashout', amount); // eslint-disable-line
+
+    user.cashedOut += amount;
+    user = await user.save();
+    console.log('new cashout', user.cashedOut); // eslint-disable-line
+
+    const {
+      sig,
+      amount: bnAmount
+    } = await ethUtils.sign(address, amount);
+    user.nonce = nonce;
+    user.cashOut = {
+      sig,
+      amount: bnAmount,
+      nonce,
+      earningId: earning._id
+    };
+    user = await user.save();
+    return res.status(200).json({
+      user,
+      earning
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+/**
+ * Authentication callback
+ */
+
+
+exports.authCallback = (req, res) => {
+  res.redirect('/');
+};
+//# sourceMappingURL=user.controller.js.map
