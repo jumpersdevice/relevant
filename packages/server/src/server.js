@@ -106,6 +106,10 @@ if (process.env.NO_SSL !== 'true') {
 }
 
 // public folder
+console.log(
+  'public path',
+  require.resolve('@r3l/app/public/service-worker').replace('/service-worker.js', '')
+);
 app.use(
   '/',
   expressStaticGzip(
