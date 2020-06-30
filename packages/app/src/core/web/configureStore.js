@@ -10,15 +10,15 @@ function* rootSaga() {} // eslint-disable-line
 
 let server = API_URL;
 
-// if (process.env.NODE_ENV === 'development') {
-//   server = 'http://localhost:3000';
-// }
+if (process.env.NODE_ENV === 'development') {
+  server = 'http://localhost:3000';
+}
 
 let socket;
 if (process.env.BROWSER) {
   socket = window.io(server, {
     transports: ['websocket', 'polling'],
-    jsonp: false,
+    jsonp: false
   });
   socket.on('pingKeepAlive', () => {
     socket.emit('pingResponse');
@@ -58,7 +58,7 @@ export default function configureStore(initialState = {}) {
       if (state.auth && state.auth.user) {
         socket.emit('action', {
           type: 'server/storeUser',
-          payload: state.auth.user._id,
+          payload: state.auth.user._id
         });
       }
     });

@@ -61,7 +61,7 @@ prodConfig.module.rules = [
     options: {
       name: 'images/[name]-[hash:8].[ext]',
       esModule: false,
-      limit: 10 * 1024
+      limit: 0
     }
   },
   {
