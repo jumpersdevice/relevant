@@ -2,6 +2,7 @@ import PostData from 'server/api/post/postData.model';
 import { MINIMUM_RANK } from 'server/config/globalConstants';
 import Community from 'server/api/community/community.model';
 import CommunityMember from 'server/api/community/community.member.model';
+import sanitizeHtml from 'sanitize-html';
 
 exports.index = async req => {
   // try {
@@ -103,9 +104,8 @@ exports.index = async req => {
   const posts = [];
   feed.forEach(async f => {
     if (f.post) {
-      // if (f.post.commentary.length && f.post.commentary.find(p => p.twitter)) {
-      //   console.log(f.post.toObject());
-      // }
+      f.post.body = sanitizeHtml(f.post.body);
+      f.post.tags = f.post.tags.map(sanitizeHtml);
       const data = { ...f.toObject() };
       delete data.post;
       f.post.data = data;

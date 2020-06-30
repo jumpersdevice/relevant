@@ -16,6 +16,7 @@ import { getScreenSize } from 'app/utils/nav';
 import { client } from 'app/core/apollo.client.server';
 import { ApolloProvider } from '@apollo/react-common';
 import { initialState as navState } from 'modules/navigation/navigation.reducer';
+import serialize from 'serialize-javascript';
 
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 
@@ -55,7 +56,7 @@ export default async function handleRender(req, res) {
       fullUrl,
       rnWebStyles,
       initialState: store.getState(),
-      req,
+      req
     });
 
     // global.gc();
@@ -84,13 +85,13 @@ export function createInitialState(req) {
       user: req.user,
       confirmed: req.confirmed || (req.user && req.user.confirmed),
       // TODO - get this from req.user
-      community: req.params.community || cachedCommunity,
+      community: req.params.community || cachedCommunity
     },
     navigation: {
       ...navState,
       width,
-      screenSize: getScreenSize(width),
-    },
+      screenSize: getScreenSize(width)
+    }
   };
 }
 
@@ -138,19 +139,17 @@ export function renderFullPage({ app, rnWebStyles, initialState, fullUrl, req })
         ${cssStyleTags}
         ${styledComponentsTags}
 
-        <!--
         <script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script>
         <script type="text/javascript">window.Beacon('init', '40ed799c-8c6c-4226-9215-5adfd59e35eb')</script>
-        -->
 
       </head>
       <body>
         <div id="app">${app}</div>
         <script>
-          window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
+          window.__INITIAL_STATE__ = ${serialize(initialState, { isJSON: true })};
         </script>
         <script>
-          window.__APOLLO_STATE__ = ${JSON.stringify(client.extract())};
+          window.__APOLLO_STATE__ = ${serialize(client.extract(), { isJSON: true })};
         </script>
         ${scriptTags}
       </body>
@@ -164,14 +163,14 @@ export function fetchMeta({ initialState, req }) {
     description: 'Find your community and join the discussion.',
     image: 'https://relevant.community/img/fbImage.png',
     url: 'https://relevant.community' + req.originalUrl,
-    type: 'summary_large_image',
+    type: 'summary_large_image'
   };
 
   const { feed, postId, commentId } = req.params;
   const postMeta = getPostMeta({ postId, commentId, initialState });
   const communityMeta = getCommunityMeta({ initialState });
 
-  Object.keys(postMeta).forEach((key) => {
+  Object.keys(postMeta).forEach(key => {
     if (!postMeta[key]) delete postMeta[key];
   });
 

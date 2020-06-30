@@ -8,7 +8,13 @@ module.exports = {
   devtool: 'source-map',
   target: 'node',
   entry: {
-    app: ['@babel/polyfill', './server/auth/auth.service.js']
+    app: [
+      '@babel/polyfill',
+      './server/auth/auth.service.js',
+      'web3',
+      'ethers',
+      'react-native-web'
+    ]
   },
   output: {
     path: path.join(__dirname, '/server/dist/'),

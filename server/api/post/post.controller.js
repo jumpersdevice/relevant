@@ -6,6 +6,7 @@ import Community from 'server/api/community/community.model';
 import { sendEmail } from 'server/utils/mail';
 import { sendNotification } from 'server/notifications';
 import { checkCommunityAuth } from 'server/api/community/community.auth';
+import sanitizeHtml from 'sanitize-html';
 import * as proxyHelpers from './html';
 import MetaPost from './link.model';
 import Post from './post.model';
@@ -407,6 +408,9 @@ exports.index = async req => {
     }
   ]);
 
+  post.body = sanitizeHtml(post.body);
+  post.tags = post.tags.map(sanitizeHtml);
+
   return post;
 };
 
@@ -450,10 +454,10 @@ exports.update = async (req, res, next) => {
     if (newPost.url !== req.body.url) {
       linkObject = {
         url: req.body.link,
-        title: req.body.title || null,
-        description: req.body.description || null,
+        title: sanitizeHtml(req.body.title || ''),
+        description: sanitizeHtml(req.body.description || ''),
         image: req.body.image || null,
-        articleAuthor: req.body.articleAuthor,
+        articleAuthor: sanitizeHtml(req.body.articleAuthor),
         shortText: req.body.shortText,
         categories: [category],
         domain: req.body.domain,
@@ -645,16 +649,17 @@ exports.create = async (req, res, next) => {
         tags.push(tag.replace('_category_tag', '').trim());
       }
     });
-    tags = [...new Set(tags)];
+    tags = [...new Set(tags)].map(tag => sanitizeHtml(tag));
+    const title = sanitizeHtml(req?.body?.title || '');
 
     const linkObject = {
       // this is stored in metaPost
       url: postUrl,
-      title: req.body.title ? req.body.title : '',
+      title,
       description: req.body.description ? req.body.description : null,
       image: req.body.image ? req.body.image : null,
       articleAuthor: req.body.articleAuthor,
-      shortText: req.body.shortText,
+      shortText: sanitizeHtml(req.body?.shortText || ''),
       keywords,
       domain: req.body.domain,
       categories: [category],
@@ -664,9 +669,9 @@ exports.create = async (req, res, next) => {
     const postObject = {
       url: postUrl,
       inputUrl,
-      image: req.body.image ? req.body.image : null,
-      title: req.body.title ? req.body.title : '',
-      body: hasChildComment ? body : null,
+      image: req?.body?.image,
+      title,
+      body: hasChildComment ? sanitizeHtml(body) : null,
       tags,
       community,
       communityId,
