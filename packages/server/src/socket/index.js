@@ -9,10 +9,10 @@ const { REDIS_URL, REDIS_KEY = 'socketio' } = process.env;
 // TODO store list of clients in Mongo;
 const clients = {};
 
-export default function(server) {
+export default function (server) {
   const redisAdapter = socketRedis(REDIS_URL, { key: REDIS_KEY });
 
-  const io = socketIO(server);
+  const io = socketIO(server, { transports: ['websocket'] });
   io.origins(['*:*']);
 
   function sendHeartbeat() {
@@ -23,7 +23,8 @@ export default function(server) {
 
   registerEvents(io);
 
-  io.adapter(redisAdapter).on('connection', socket => {
+  io.adapter(redisAdapter).on('connection', (socket) => {
+    console.log('connected', socket);
     socket.address =
       socket.request.connection.remoteAddress +
       ':' +
@@ -42,7 +43,7 @@ export default function(server) {
 
     socket.on('pingResponse', () => {});
 
-    socket.on('action', action => {
+    socket.on('action', (action) => {
       if (action.type === 'server/storeUser') {
         currentUser = action.payload;
         addClient(io, socket, currentUser);
@@ -75,7 +76,7 @@ function removeClient(io, socket, currentUser) {
 
     User.findOneAndUpdate({ _id: currentUser }, { online: false })
       .exec()
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }
   console.log('socket disconnected');
 }
@@ -91,15 +92,15 @@ function addClient(io, socket, currentUser) {
   if (Object.keys(userSockets).length === 1) {
     User.findOneAndUpdate({ _id: currentUser }, { online: true })
       .exec()
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }
 }
 
 function createListener(io) {
-  return data => {
+  return (data) => {
     if (data._id) {
       emitToUser(data);
-      io.of('/').adapter.customRequest(data, err => {
+      io.of('/').adapter.customRequest(data, (err) => {
         if (err) console.log(err);
       });
     } else {
@@ -112,7 +113,7 @@ function createListener(io) {
 function emitToUser(data) {
   const sockets = clients[data._id];
   if (!sockets) return;
-  Object.keys(sockets).forEach(id => {
+  Object.keys(sockets).forEach((id) => {
     const socket = sockets[id];
     console.log('emit to ', data._id, ' ', data.type);
     socket.emit('action', data);
@@ -128,7 +129,7 @@ function registerEvents(io) {
 // When the user connects.. perform this
 function onConnect(socket) {
   // When the client emits 'info', this listens and executes
-  socket.on('info', data => {
+  socket.on('info', (data) => {
     socket.log(JSON.stringify(data, null, 2));
   });
 }

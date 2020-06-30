@@ -180,7 +180,7 @@ server = app.listen({ port }, (error) => {
 //   }
 // );
 
-socketServer(server, { pingTimeout: 30000 });
+socketServer(server);
 
 // in production this is a worker
 if (relevantEnv === 'staging' || isDevelopment || process.env.NODE_ENV === 'native') {
