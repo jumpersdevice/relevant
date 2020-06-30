@@ -95,6 +95,7 @@ Object {
         "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cute-cat-captions-1563551865.jpg",
         "keywords": Array [],
         "links": Array [],
+        "shortText": "",
         "tags": Array [
           "tag11",
           "tag12",
@@ -222,6 +223,7 @@ Object {
       "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cute-cat-captions-1563551865.jpg",
       "keywords": Array [],
       "links": Array [],
+      "shortText": "",
       "tags": Array [
         "tag11",
         "tag12",
@@ -270,6 +272,7 @@ Object {
     "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cute-cat-captions-1563551865.jpg",
     "keywords": Array [],
     "links": Array [],
+    "shortText": "",
     "tags": Array [
       "tag11",
       "tag12",
@@ -347,6 +350,7 @@ Object {
       "image": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cute-cat-captions-1563551865.jpg",
       "keywords": Array [],
       "links": Array [],
+      "shortText": "",
       "tags": Array [
         "tag11",
         "tag12",
