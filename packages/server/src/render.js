@@ -54,7 +54,7 @@ export default async function handleRender(req, res) {
       fullUrl,
       rnWebStyles,
       initialState: store.getState(),
-      req
+      req,
     });
 
     // global.gc();
@@ -83,13 +83,13 @@ export function createInitialState(req) {
       user: req.user,
       confirmed: req.confirmed || (req.user && req.user.confirmed),
       // TODO - get this from req.user
-      community: req.params.community || cachedCommunity
+      community: req.params.community || cachedCommunity,
     },
     navigation: {
       ...navState,
       width,
-      screenSize: getScreenSize(width)
-    }
+      screenSize: getScreenSize(width),
+    },
   };
 }
 
@@ -144,6 +144,7 @@ export function renderFullPage({ app, rnWebStyles, initialState, fullUrl, req })
       <body>
         <div id="app">${app}</div>
         <script>
+          window.API_SERVER = ${JSON.stringify(process.env.API_SERVER)}
           window.__INITIAL_STATE__ = ${serialize(initialState, { isJSON: true })};
         </script>
         <script>
@@ -161,14 +162,14 @@ export function fetchMeta({ initialState, req }) {
     description: 'Find your community and join the discussion.',
     image: 'https://relevant.community/img/fbImage.png',
     url: 'https://relevant.community' + req.originalUrl,
-    type: 'summary_large_image'
+    type: 'summary_large_image',
   };
 
   const { feed, postId, commentId } = req.params;
   const postMeta = getPostMeta({ postId, commentId, initialState });
   const communityMeta = getCommunityMeta({ initialState });
 
-  Object.keys(postMeta).forEach(key => {
+  Object.keys(postMeta).forEach((key) => {
     if (!postMeta[key]) delete postMeta[key];
   });
 
