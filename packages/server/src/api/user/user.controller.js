@@ -39,7 +39,7 @@ async function sendConfirmation(user, newUser) {
       <a href="${confirmUrl}" target="_blank">Confirm Email</a>
       <br />
       <br />
-      `
+      `,
   };
   await sendEmail(data);
 
@@ -58,7 +58,7 @@ async function sendResetEmail(user, queryString) {
       You are receiving this because you have requested the reset of the password for your account.<br />
       Please click on the following link, or paste this into your browser to complete the process:<br/><br/>
       ${resetUrl}<br/><br/>
-      If you did not request a password reset, please ignore this email and your password will remain unchanged.`
+      If you did not request a password reset, please ignore this email and your password will remain unchanged.`,
   };
   return sendEmail(data);
 }
@@ -143,7 +143,7 @@ exports.webOnboard = (req, res, next) => {
     { $set: { [path]: true } },
     { projection: 'webOnboard', new: true }
   )
-    .then(newUser => {
+    .then((newUser) => {
       res.status(200).json(newUser);
     })
     .catch(next);
@@ -157,7 +157,7 @@ exports.onboarding = (req, res, next) => {
     { onboarding: step },
     { projection: 'onboarding', new: true }
   )
-    .then(newUser => {
+    .then((newUser) => {
       res.status(200).json(newUser);
     })
     .catch(next);
@@ -218,12 +218,12 @@ exports.search = (req, res, next) => {
   const { search, limit } = req.query;
   const name = new RegExp(search, 'i');
   const query = {
-    $and: [{ $or: [{ name }, { handle: name }] }, { handle: { $nin: blocked } }]
+    $and: [{ $or: [{ name }, { handle: name }] }, { handle: { $nin: blocked } }],
   };
   User.find(query, 'handle name image')
     .sort({ handle: 1 })
     .limit(parseInt(limit, 10))
-    .then(users => {
+    .then((users) => {
       res.json(200, users);
     })
     .catch(next);
@@ -243,7 +243,7 @@ exports.index = (req, res, next) => {
 
   User.find(query, '-salt -hashedPassword')
     .sort({ rank: -1 })
-    .then(users => {
+    .then((users) => {
       res.status(200).json(users);
     })
     .catch(next);
@@ -272,14 +272,17 @@ exports.checkUser = async (req, res, next) => {
         ...query,
         $and: [
           { handle: { $regex: formatted, $options: 'i' } },
-          { handle: { $ne: omit } }
-        ]
+          { handle: { $ne: omit } },
+        ],
       };
     } else if (email) {
       formatted = '^' + email + '$';
       type = 'email';
       query = {
-        $and: [{ email: { $regex: formatted, $options: 'i' } }, { handle: { $ne: omit } }]
+        $and: [
+          { email: { $regex: formatted, $options: 'i' } },
+          { handle: { $ne: omit } },
+        ],
       };
     }
 
@@ -307,7 +310,7 @@ exports.testData = async (req, res, next) => {
       // .sort(sort)
       .populate({
         path: 'user',
-        select: 'handle name votePower image bio'
+        select: 'handle name votePower image bio',
       });
 
     return res.status(200).json(rel);
@@ -337,10 +340,10 @@ exports.list = async (req, res, next) => {
       .sort(sort)
       .populate({
         path: 'user',
-        select: 'handle name image bio'
+        select: 'handle name image bio',
       });
 
-    const users = rel.map(r => {
+    const users = rel.map((r) => {
       r = r.toObject();
       if (!r.user) return null;
       let u = { ...r.user }; // eslint-disable-line
@@ -389,7 +392,7 @@ exports.create = async (req, res, next) => {
       role: 'user',
       relevance: 0,
       confirmCode,
-      ...additionalFields
+      ...additionalFields,
     };
 
     if (usingWeb3) delete userObj.password;
@@ -471,7 +474,7 @@ exports.show = async function show(req, res, next) {
     let blocked = [];
     if (user) {
       blocked = [...(user.blocked || []), ...(user.blockedBy || [])];
-      if (blocked.find(u => u === handle)) {
+      if (blocked.find((u) => u === handle)) {
         return res.status(200).json({});
       }
     }
@@ -480,7 +483,7 @@ exports.show = async function show(req, res, next) {
     user = await User.findOne({ handle }, select).populate({
       path: 'relevance',
       match: { community },
-      select: 'pagerank relevanceRecord community'
+      select: 'pagerank relevanceRecord community',
     });
 
     if (!user) throw new Error('no such user ', handle);
@@ -576,7 +579,7 @@ exports.updateHandle = async (req, res, next) => {
       name: user.name,
       image: user.image,
       handle: user.handle,
-      _id: user._id
+      _id: user._id,
     };
 
     await CommunityMember.updateMany(
@@ -632,7 +635,7 @@ exports.update = async (req, res, next) => {
         name: user.name,
         image: user.image,
         handle: user.handle,
-        _id: user._id
+        _id: user._id,
       };
 
       // Do this on a separate thread?
@@ -684,7 +687,7 @@ exports.block = async (req, res, next) => {
       sub1,
       sub2,
       feed1,
-      feed2
+      feed2,
     ]);
     user = results[0];
     return res.status(200).json(user);
@@ -751,7 +754,7 @@ exports.updateUserNotifications = async (req, res, next) => {
 
     if (subscription) {
       const findIndex = user.desktopSubscriptions.findIndex(
-        s =>
+        (s) =>
           s.endpoint === subscription.endpoint &&
           s.keys &&
           s.keys.auth === subscription.keys.auth &&
@@ -777,7 +780,7 @@ exports.ethAddress = async (req, res, next) => {
     const { msg, sig, acc } = req.body;
     const recovered = sigUtil.recoverTypedSignatureLegacy({
       data: msg,
-      sig
+      sig,
     });
     if (recovered !== acc.toLowerCase()) throw new Error('address does not match');
 
@@ -803,7 +806,7 @@ exports.cashOut = async (req, res, next) => {
   try {
     let { user } = req;
     const {
-      body: { customAmount }
+      body: { customAmount },
     } = req;
     if (!user) throw new Error('Missing user when trying to claim tokens.');
     if (!customAmount) throw new Error('Missing token claim amount.');
@@ -821,17 +824,15 @@ exports.cashOut = async (req, res, next) => {
 
     const userCashoutLog = await Earnings.find({
       user: user._id,
-      cashOutAttempt: true
+      cashOutAttempt: true,
     });
     const cashedOut = userCashoutLog.reduce((a, e) => a + e.cashOutAmt, 0);
 
-    if (user.cashedOut !== cashedOut) {
-      throw new Error(
-        'There is a mismatch in previous cashout amounts',
-        user.cashedOut,
-        cashedOut
-      );
-    }
+    // if (user.cashedOut !== cashedOut) {
+    //   throw new Error(
+    //     'There is a mismatch in previous cashout amounts' + user.cashedOut + cashedOut
+    //   );
+    // }
 
     const maxClaim = CASHOUT_MAX - cashedOut;
 
