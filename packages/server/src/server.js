@@ -28,7 +28,7 @@ const { validateTokenLenient, verify } = require('server/auth/auth.service');
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: 100000, // limit each IP to 1000 requests per windowMs
+  max: 100000 // limit each IP to 1000 requests per windowMs
 });
 
 console.log('NODE_ENV', process.env.NODE_ENV);
@@ -55,7 +55,7 @@ if (isDevelopment) {
     webpackDevMiddleware(compiler, {
       // noInfo: true,
       publicPath: webpackConfig.output.publicPath,
-      writeToDisk: (filePath) => /loadable-stats-dev\.json$/.test(filePath),
+      writeToDisk: filePath => /loadable-stats-dev\.json$/.test(filePath)
     })
   );
   app.use(webpackHotMiddleware(compiler));
@@ -83,8 +83,8 @@ app.use(
       autoRemove: 'interval',
       autoRemoveInterval: 10, // In minutes. Default
       touchAfter: 24 * 3600, // time period in seconds
-      clear_interval: 3600,
-    }),
+      clear_interval: 3600
+    })
   })
 );
 
@@ -128,7 +128,7 @@ let server = new ApolloServer({
   schema,
   playground: process.env.NODE_ENV !== 'production',
   context: ({ req, connection }) =>
-    connection ? connection.context : { user: req.user || {} },
+    connection ? connection.context : { user: req.user || {} }
 });
 
 app.use('/graphql', validateTokenLenient);
@@ -136,7 +136,7 @@ server.applyMiddleware({ app });
 
 const socketServer = require('./socket').default;
 
-server = app.listen({ port }, (error) => {
+server = app.listen({ port }, error => {
   if (error) {
     console.error(error);
   } else {
@@ -149,36 +149,35 @@ server = app.listen({ port }, (error) => {
     console.log('done loading routes', time / 1000, 's');
   }
 });
-// socketServer(server, { pingTimeout: 30000 });
 
-// SubscriptionServer.create(
-//   {
-//     onOperation: async (message, params) => {
-//       const { token } = message.payload;
-//       let user;
-//       try {
-//         user = await verify(token);
-//       } catch (err) {
-//         // console.log(err);
-//       }
-//       return {
-//         ...params,
-//         context: {
-//           ...params.context,
-//           user
-//         }
-//       };
-//     },
-//     execute,
-//     subscribe,
-//     schema,
-//     keepAlive: 10000
-//   },
-//   {
-//     server,
-//     path: '/graphql'
-//   }
-// );
+SubscriptionServer.create(
+  {
+    onOperation: async (message, params) => {
+      const { token } = message.payload;
+      let user;
+      try {
+        user = await verify(token);
+      } catch (err) {
+        // console.log(err);
+      }
+      return {
+        ...params,
+        context: {
+          ...params.context,
+          user
+        }
+      };
+    },
+    execute,
+    subscribe,
+    schema,
+    keepAlive: 10000
+  },
+  {
+    server,
+    path: '/graphql'
+  }
+);
 
 socketServer(server);
 

@@ -6,8 +6,6 @@ import { createInjectSagasStore, sagaMiddleware } from 'redux-sagas-injector';
 import { API_URL } from 'utils/env';
 import rootReducer, { injectReducer } from '../reducers';
 
-// import rootSaga from '../sagas';
-
 function* rootSaga() {} // eslint-disable-line
 
 let server = API_URL;
@@ -17,11 +15,11 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 let socket;
-let io;
-
 if (process.env.BROWSER) {
-  io = require('socket.io-client');
-  socket = io(server);
+  socket = window.io(server, {
+    transports: ['websocket', 'polling'],
+    jsonp: false
+  });
   socket.on('pingKeepAlive', () => {
     socket.emit('pingResponse');
   });
