@@ -826,7 +826,11 @@ exports.cashOut = async (req, res, next) => {
     const cashedOut = userCashoutLog.reduce((a, e) => a + e.cashOutAmt, 0);
 
     if (user.cashedOut !== cashedOut) {
-      throw new Error(
+      // throw new Error(
+      //   'There is a mismatch in previous cashout amounts' + user.cashedOut + cashedOut
+      // );
+      // eslint-disable-next-line
+      console.error(
         'There is a mismatch in previous cashout amounts',
         user.cashedOut,
         cashedOut
