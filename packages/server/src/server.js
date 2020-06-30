@@ -149,35 +149,36 @@ server = app.listen({ port }, (error) => {
     console.log('done loading routes', time / 1000, 's');
   }
 });
+// socketServer(server, { pingTimeout: 30000 });
 
-SubscriptionServer.create(
-  {
-    onOperation: async (message, params) => {
-      const { token } = message.payload;
-      let user;
-      try {
-        user = await verify(token);
-      } catch (err) {
-        // console.log(err);
-      }
-      return {
-        ...params,
-        context: {
-          ...params.context,
-          user,
-        },
-      };
-    },
-    execute,
-    subscribe,
-    schema,
-    keepAlive: 10000,
-  },
-  {
-    server,
-    path: '/graphql',
-  }
-);
+// SubscriptionServer.create(
+//   {
+//     onOperation: async (message, params) => {
+//       const { token } = message.payload;
+//       let user;
+//       try {
+//         user = await verify(token);
+//       } catch (err) {
+//         // console.log(err);
+//       }
+//       return {
+//         ...params,
+//         context: {
+//           ...params.context,
+//           user
+//         }
+//       };
+//     },
+//     execute,
+//     subscribe,
+//     schema,
+//     keepAlive: 10000
+//   },
+//   {
+//     server,
+//     path: '/graphql'
+//   }
+// );
 
 socketServer(server);
 
