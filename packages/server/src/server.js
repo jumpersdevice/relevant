@@ -28,7 +28,7 @@ const { validateTokenLenient, verify } = require('server/auth/auth.service');
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: 1000 // limit each IP to 1000 requests per windowMs
+  max: 100000 // limit each IP to 1000 requests per windowMs
 });
 
 console.log('NODE_ENV', process.env.NODE_ENV);
@@ -149,7 +149,7 @@ server = app.listen({ port }, error => {
     console.log('done loading routes', time / 1000, 's');
   }
 });
-socketServer(server, { pingTimeout: 30000 });
+// socketServer(server, { pingTimeout: 30000 });
 
 SubscriptionServer.create(
   {

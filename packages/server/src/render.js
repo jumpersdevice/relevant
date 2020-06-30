@@ -14,6 +14,7 @@ import { getScreenSize } from 'app/utils/nav';
 import { client } from 'server/apollo.client.server';
 import { ApolloProvider } from '@apollo/react-common';
 import { initialState as navState } from 'app/modules/navigation/navigation.reducer';
+import serialize from 'serialize-javascript';
 
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 
@@ -143,11 +144,10 @@ export function renderFullPage({ app, rnWebStyles, initialState, fullUrl, req })
       <body>
         <div id="app">${app}</div>
         <script>
-          window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
-          window.API_SERVER = ${JSON.stringify(process.env.API_SERVER)}
+          window.__INITIAL_STATE__ = ${serialize(initialState, { isJSON: true })};
         </script>
         <script>
-          window.__APOLLO_STATE__ = ${JSON.stringify(client.extract())};
+          window.__APOLLO_STATE__ = ${serialize(client.extract(), { isJSON: true })};
         </script>
         ${scriptTags}
       </body>

@@ -53,13 +53,14 @@ export default function CommentBody({
   const readMore = text.length < fullText.length;
   text += readMore ? ' _...Read More_' : '';
   const inputUrl = comment.inputUrl || comment.url;
+
+  text = text.replace(/(alert\((.*)\);)/g, '');
   text = linkifyText(text, community, inputUrl);
 
   const body = <Markdown noLink={noLink} className={'markdown-body'} markdown={text} />;
 
   const postLink = comment.parentPost || comment;
   const postLinkObj = postLink._id ? postLink : { _id: postLink };
-
   // link to full post
   if (!noPostLink && (isPreview || noLink)) {
     return (

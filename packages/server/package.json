@@ -73,6 +73,8 @@
     "request": "^2.88.2",
     "request-promise-any": "^1.0.7",
     "serve-favicon": "^2.3.0",
+    "sanitize-html": "^1.27.0",
+    "serialize-javascript": "^4.0.0",
     "socket.io": "^2.2.0",
     "socket.io-redis": "^5.3.0",
     "sqreen": "^1.38.1",

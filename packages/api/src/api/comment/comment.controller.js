@@ -7,6 +7,7 @@ import User from 'server/api/user/user.model';
 import Notification from 'server/api/notification/notification.model';
 import Invest from 'server/api/invest/invest.model';
 import { checkCommunityAuth } from 'server/api/community/community.auth';
+import sanitizeHtml from 'sanitize-html';
 
 // COMMENTS ARE USING POST SCHEMA
 exports.index = async req => {
@@ -67,11 +68,11 @@ exports.create = async (req, res, next) => {
     const mentionsFromBody = getMentions(words);
     const tagsFromBody = getTags(words);
 
-    tags = [...new Set([...tags, ...tagsFromBody])];
-    mentions = [...new Set([...mentions, ...mentionsFromBody])];
+    tags = [...new Set([...tags, ...tagsFromBody])].map(sanitizeHtml);
+    mentions = [...new Set([...mentions, ...mentionsFromBody])].map(sanitizeHtml);
 
     const commentObj = {
-      body,
+      body: sanitizeHtml(body),
       mentions,
       tags,
       parentPost,
@@ -241,8 +242,10 @@ exports.update = async (req, res, next) => {
     const newComment = await Post.findOne({ _id: comment._id });
     if (!user._id.equals(newComment.user)) throw new Error("Can't edit other's comments");
 
-    newComment.body = req.body.body;
-    newMentions = mentions.filter(m => newComment.mentions.indexOf(m) < 0);
+    newComment.body = sanitizeHtml(req.body.body);
+    newMentions = mentions
+      .filter(m => newComment.mentions.indexOf(m) < 0)
+      .map(sanitizeHtml);
     newComment.mentions = mentions;
     newMentions = newMentions || [];
 
