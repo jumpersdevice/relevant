@@ -1,4 +1,5 @@
 import { Alert } from 'app/utils/alert';
+import { API_URL } from 'utils/env';
 
 let RNFetchBlob;
 let Platform = {};
@@ -107,7 +108,7 @@ async function uploadToS3(
 
 function executeOnSignedUrl(uri, fileName) {
   const extension = fileName || uri.substr(uri.length - 4);
-  const signedPutUrl = process.env.API_SERVER + '/api/s3/sign';
+  const signedPutUrl = API_URL + '/api/s3/sign';
   let signedObjectName = Math.random()
     .toString(36)
     .substr(2, 9);

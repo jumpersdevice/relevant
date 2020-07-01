@@ -2,9 +2,9 @@
 import { normalize, schema } from 'normalizr';
 import * as types from 'core/actionTypes';
 import { alert, api } from 'app/utils';
+import { API_URL } from 'utils/env';
 
 const Alert = alert.Alert();
-const API = process.env.API_SERVER + '/api';
 
 const inviteSchema = new schema.Entity(
   'invites',
@@ -178,7 +178,7 @@ export function createInvite(invite) {
 
 export function destroy(invite) {
   return async dispatch =>
-    fetch(API + '/invites/' + invite._id, {
+    fetch(API_URL + '/invites/' + invite._id, {
       method: 'DELETE',
       ...(await api.reqOptions())
     })
@@ -195,7 +195,7 @@ export function destroy(invite) {
 
 export function getWaitlist() {
   return async dispatch =>
-    fetch(API + '/list', {
+    fetch(API_URL + '/list', {
       method: 'GET',
       ...(await api.reqOptions())
     })
@@ -219,7 +219,7 @@ export function getWaitlist() {
 
 export function inviteFromWaitlist(invites) {
   return async dispatch =>
-    fetch(process.env.API_SERVER + '/api/list/', {
+    fetch(API_URL + '/api/list/', {
       method: 'PUT',
       ...(await api.reqOptions()),
       body: JSON.stringify(invites)
@@ -240,7 +240,7 @@ export function inviteFromWaitlist(invites) {
 
 export function signupForMailingList(user) {
   return async () =>
-    fetch(process.env.API_SERVER + '/api/list/', {
+    fetch(API_URL + '/api/list/', {
       method: 'POST',
       ...(await api.reqOptions()),
       body: JSON.stringify(user)
@@ -336,23 +336,6 @@ export function loadEmail() {
   };
 }
 
-export function deleteWaitlistUser(user) {
-  return async dispatch => {
-    try {
-      const result = await fetch(API + '/list/' + user._id, {
-        method: 'DELETE',
-        ...(await api.reqOptions())
-      });
-      // console.log(result)
-      if (result) {
-        dispatch(deleteWaitlistUsers([user]));
-      }
-    } catch (err) {
-      Alert.alert(err.message);
-    }
-  };
-}
-
 export function sendPostNotification(post) {
   return async dispatch => {
     try {
@@ -370,23 +353,3 @@ export function sendPostNotification(post) {
     }
   };
 }
-
-// export function updateWaitlist(user) {
-//   return async dispatch =>
-//   fetch(API + '/list/' + user._id, {
-//     method: 'PUT',
-//     ...await api.reqOptions(),
-//     body: JSON.stringify({ user })
-//   })
-//   .then(api.handleErrors)
-//   .then((response) => response.json())
-//   .then((responseJSON) => {
-//     dispatch(updateWaitlist(responseJSON));
-//     if (responseJSON) return responseJSON;
-//     return false;
-//   })
-//   .catch((error) => {
-//     Alert.alert(error.message);
-//     console.log('invites error', error);
-//   });
-// }

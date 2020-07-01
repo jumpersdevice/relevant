@@ -3,6 +3,7 @@ import * as errorActions from 'modules/ui/error.actions';
 import { api, storage } from 'app/utils';
 import { initPushNotifications } from 'app/utils/notifications';
 import { updateNotificationSettings } from 'modules/auth/auth.actions';
+import { API_URL } from 'utils/env';
 import {
   SHOW_DESKTOP_PROMPT_AFTER_DAYS,
   SHOW_MOBILE_PROMPT_AFTER_DAYS,
@@ -14,7 +15,7 @@ if (process.env.WEB !== 'true') {
   PushNotification = require('react-native-push-notification');
 }
 
-const apiServer = `${process.env.API_SERVER}/api/notification`;
+const apiServer = `${API_URL}/api/notification`;
 
 const reqOptions = tk => ({
   credentials: 'include',

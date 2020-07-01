@@ -46,7 +46,6 @@ module.exports = api => {
   switch (env) {
     case 'production': // these are react-native prod settings
       return {
-        ignore: ['node_modules'],
         plugins: [moduleResolverNative, ...plugins, ...prodPlugins],
         presets: [...presets, ...nativePresets]
       };

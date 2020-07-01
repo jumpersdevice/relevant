@@ -1,5 +1,6 @@
 import * as types from 'core/actionTypes';
 import { storage, api, alert } from 'app/utils';
+import { API_URL } from 'utils/env';
 
 const Alert = alert.Alert();
 
@@ -52,7 +53,7 @@ export function setParentTags(data) {
 
 export function getDiscoverTags() {
   return dispatch => {
-    fetch(process.env.API_SERVER + '/api/tag?sort=count', {
+    fetch(API_URL + '/api/tag?sort=count', {
       credentials: 'include',
       method: 'GET',
       headers: {
@@ -74,7 +75,7 @@ export function searchTags(tag) {
     if (!tag || tag === '') {
       return dispatch(setDiscoverTags([]));
     }
-    return fetch(process.env.API_SERVER + '/api/tag/search/' + tag, {
+    return fetch(API_URL + '/api/tag/search/' + tag, {
       credentials: 'include',
       method: 'GET',
       headers: {
@@ -94,7 +95,7 @@ export function searchTags(tag) {
 
 export function createTag(tag) {
   return async dispatch =>
-    fetch(process.env.API_SERVER + '/api/tag', {
+    fetch(API_URL + '/api/tag', {
       ...(await reqOptions()),
       method: 'POST',
       body: JSON.stringify(tag)
@@ -111,7 +112,7 @@ export function createTag(tag) {
 
 export function updateTag(tag) {
   return async dispatch =>
-    fetch(process.env.API_SERVER + '/api/tag/categories', {
+    fetch(API_URL + '/api/tag/categories', {
       ...(await reqOptions()),
       method: 'PUT',
       body: JSON.stringify(tag)
@@ -124,7 +125,7 @@ export function updateTag(tag) {
 
 export function getParentTags() {
   return async dispatch => {
-    fetch(process.env.API_SERVER + '/api/tag/categories?active', {
+    fetch(API_URL + '/api/tag/categories?active', {
       method: 'GET',
       ...(await reqOptions())
     })
