@@ -63,7 +63,8 @@ const link = split(
       definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
     );
   },
-  wsLink,
+  httpLink,
+  // wsLink,
   httpLink
 );
 
