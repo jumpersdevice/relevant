@@ -22,6 +22,8 @@ import { user2, user3 } from 'app/mockdata/user';
 import computePageRank from 'server/pagerank/pagerankCompute';
 import { handleTwitterAuth } from 'server/auth/twitter/passport';
 
+jest.mock('request-promise-any');
+
 // this will define the database name where the tests are run
 process.env.TEST_SUITE = 'invites';
 
