@@ -67,7 +67,16 @@ function HeaderLeft({ navigation, screenProps }) {
     >
       <View>
         <Icon name="ios-options" size={23} style={{ height: 26 }} color={darkGrey} />
-        <Badge style={{ position: 'absolute', bottom: 0, right: -8 }} number={unread} />
+        <Badge
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            right: -4,
+            marginRight: -8,
+            zIndex: 1
+          }}
+          number={unread}
+        />
       </View>
     </TouchableOpacity>
   );

@@ -26,6 +26,8 @@
 		FB2BD6281E8B0C6200DBC2BA /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF8A9441E6F3A6E009404F2 /* libsqlite3.0.tbd */; };
 		FB51CB7C235F72F6002F7FC2 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51CB7A235F72EE002F7FC2 /* Twitter.framework */; };
 		FB816A931DCD2B52003C4E63 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		FB85705224AC265A004369AA /* BebasNeueRelevant Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB85705124AC2659004369AA /* BebasNeueRelevant Bold.ttf */; };
+		FB85705324AC265A004369AA /* BebasNeueRelevant Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB85705124AC2659004369AA /* BebasNeueRelevant Bold.ttf */; };
 		FB88BE861D9ED742002D0069 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB88BE841D9ED742002D0069 /* MainInterface.storyboard */; };
 		FB88BE8A1D9ED742002D0069 /* Relevant.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FB88BE7F1D9ED742002D0069 /* Relevant.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FB88BE9C1D9ED7C6002D0069 /* Relevant.m in Sources */ = {isa = PBXBuildFile; fileRef = FB88BE9B1D9ED7C6002D0069 /* Relevant.m */; };
@@ -35,9 +37,7 @@
 		FBD8EECD1E087A6A0074EE90 /* Georgia.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A46C3461DEA396400DAFC70 /* Georgia.ttf */; };
 		FBD8EECE1E087A6C0074EE90 /* LibreCaslonDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A13C5CA1DE4EAD100705F90 /* LibreCaslonDisplay-Regular.ttf */; };
 		FBD8EED81E088B510074EE90 /* BebasNeuerelevantRegular-2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBD8EED71E088B510074EE90 /* BebasNeuerelevantRegular-2.ttf */; };
-		FBD8EEDA1E088BF30074EE90 /* BebasNeueRelevant Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBD8EED91E088BF30074EE90 /* BebasNeueRelevant Bold.ttf */; };
 		FBD8EEDB1E08EAFF0074EE90 /* BebasNeuerelevantRegular-2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBD8EED71E088B510074EE90 /* BebasNeuerelevantRegular-2.ttf */; };
-		FBD8EEDC1E08EB020074EE90 /* BebasNeueRelevant Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBD8EED91E088BF30074EE90 /* BebasNeueRelevant Bold.ttf */; };
 		FBDA046F1EEF281F00789ED9 /* CodePush.h in Frameworks */ = {isa = PBXBuildFile; fileRef = FBDA046E1EEF281F00789ED9 /* CodePush.h */; };
 		FBDA04701EEF289600789ED9 /* CodePush.h in Frameworks */ = {isa = PBXBuildFile; fileRef = FBDA046E1EEF281F00789ED9 /* CodePush.h */; };
 		FBFD474323626AF600464A7D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF8A9401E6F3A5A009404F2 /* SystemConfiguration.framework */; };
@@ -90,9 +90,9 @@
 		1657EF8EBCA44BD0B7103C18 /* libRCTActionSheet.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTActionSheet.a; sourceTree = "<group>"; };
 		1DDE082D6CC1A440207588B3 /* libPods-relevantNative-Relevant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-relevantNative-Relevant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		289A11D56C012B3E5C55AF67 /* Pods-relevantNative-Relevant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-relevantNative-Relevant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-relevantNative-Relevant/Pods-relevantNative-Relevant.debug.xcconfig"; sourceTree = "<group>"; };
-		2A13C5CA1DE4EAD100705F90 /* LibreCaslonDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LibreCaslonDisplay-Regular.ttf"; path = "../app/public/fonts/LibreCaslonDisplay-Regular.ttf"; sourceTree = "<group>"; };
-		2A43980B1DFF3B6200E7FC9B /* helvetica-outline.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "helvetica-outline.otf"; path = "../app/public/fonts/helvetica-outline.otf"; sourceTree = "<group>"; };
-		2A46C3461DEA396400DAFC70 /* Georgia.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Georgia.ttf; path = ../app/public/fonts/Georgia.ttf; sourceTree = "<group>"; };
+		2A13C5CA1DE4EAD100705F90 /* LibreCaslonDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "LibreCaslonDisplay-Regular.ttf"; path = "../packages/app/public/fonts/LibreCaslonDisplay-Regular.ttf"; sourceTree = "<group>"; };
+		2A43980B1DFF3B6200E7FC9B /* helvetica-outline.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "helvetica-outline.otf"; path = "../packages/app/public/fonts/helvetica-outline.otf"; sourceTree = "<group>"; };
+		2A46C3461DEA396400DAFC70 /* Georgia.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Georgia.ttf; path = ../packages/app/public/fonts/Georgia.ttf; sourceTree = "<group>"; };
 		2A8277D21D9EE8D000CC62EA /* relevantNative.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = relevantNative.entitlements; path = relevantNative/relevantNative.entitlements; sourceTree = "<group>"; };
 		399DA1B325D0321D5C011495 /* Pods-Relevant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Relevant.release.xcconfig"; path = "Pods/Target Support Files/Pods-Relevant/Pods-Relevant.release.xcconfig"; sourceTree = "<group>"; };
 		6207DE174BD38E3207E5FE23 /* libPods-relevantNative.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-relevantNative.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,7 +111,7 @@
 		CF9476613C0F088EFB746E02 /* Pods-relevantNative.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-relevantNative.staging.xcconfig"; path = "Pods/Target Support Files/Pods-relevantNative/Pods-relevantNative.staging.xcconfig"; sourceTree = "<group>"; };
 		EF67CB4A1BD94842D9A0545E /* Pods-relevantNativeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-relevantNativeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-relevantNativeTests/Pods-relevantNativeTests.release.xcconfig"; sourceTree = "<group>"; };
 		FB04E0BF1E28548800DD436D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = relevantNative/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		FB04E0C11E2856B500DD436D /* default-launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "default-launch.png"; path = "../app/public/img/default-launch.png"; sourceTree = "<group>"; };
+		FB04E0C11E2856B500DD436D /* default-launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "default-launch.png"; path = "../packages/app/public/img/default-launch.png"; sourceTree = "<group>"; };
 		FB0C7CC82285F63300F132A5 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FB1060E6235E8975005FC1DE /* libRCTUserDefaults.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRCTUserDefaults.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB1060EC235E8983005FC1DE /* libRCTUserDefaults.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRCTUserDefaults.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,6 +122,7 @@
 		FB19374722265D2B00C289AA /* libPods-relevantNativeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-relevantNativeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB19378622265D4100C289AA /* libPods-relevantNativeTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-relevantNativeTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB51CB7A235F72EE002F7FC2 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		FB85705124AC2659004369AA /* BebasNeueRelevant Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BebasNeueRelevant Bold.ttf"; path = "../packages/app/public/fonts/BebasNeueRelevant Bold.ttf"; sourceTree = "<group>"; };
 		FB88BE7F1D9ED742002D0069 /* Relevant.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Relevant.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB88BE851D9ED742002D0069 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		FB88BE871D9ED742002D0069 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -129,8 +130,7 @@
 		FB983E3C1DA1E45200DAF00D /* Relevant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Relevant.entitlements; sourceTree = "<group>"; };
 		FB9F3BB61E327FC100C92158 /* WebsiteProcessor.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WebsiteProcessor.js; sourceTree = "<group>"; };
 		FBD6A2531E8B0F840088BBC2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		FBD8EED71E088B510074EE90 /* BebasNeuerelevantRegular-2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BebasNeuerelevantRegular-2.ttf"; path = "../app/public/fonts/BebasNeuerelevantRegular-2.ttf"; sourceTree = "<group>"; };
-		FBD8EED91E088BF30074EE90 /* BebasNeueRelevant Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BebasNeueRelevant Bold.ttf"; path = "../app/public/fonts/BebasNeueRelevant Bold.ttf"; sourceTree = "<group>"; };
+		FBD8EED71E088B510074EE90 /* BebasNeuerelevantRegular-2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BebasNeuerelevantRegular-2.ttf"; path = "../packages/app/public/fonts/BebasNeuerelevantRegular-2.ttf"; sourceTree = "<group>"; };
 		FBDA046E1EEF281F00789ED9 /* CodePush.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CodePush.h; path = "../node_modules/react-native-code-push/ios/CodePush/CodePush.h"; sourceTree = "<group>"; };
 		FBDA04731EEF40F000789ED9 /* libGoogleToolboxForMac.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleToolboxForMac.a; path = "../../../Library/Developer/Xcode/DerivedData/relevantNative-dpmigjkklbelulfgagqhzmnyzxkt/Build/Products/Release-iphoneos/GoogleToolboxForMac/libGoogleToolboxForMac.a"; sourceTree = "<group>"; };
 		FBF8A93E1E6F3A50009404F2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -202,7 +202,7 @@
 			children = (
 				FBD6A2531E8B0F840088BBC2 /* GoogleService-Info.plist */,
 				FB04E0C11E2856B500DD436D /* default-launch.png */,
-				FBD8EED91E088BF30074EE90 /* BebasNeueRelevant Bold.ttf */,
+				FB85705124AC2659004369AA /* BebasNeueRelevant Bold.ttf */,
 				FBD8EED71E088B510074EE90 /* BebasNeuerelevantRegular-2.ttf */,
 				2A43980B1DFF3B6200E7FC9B /* helvetica-outline.otf */,
 				2A46C3461DEA396400DAFC70 /* Georgia.ttf */,
@@ -446,11 +446,11 @@
 			files = (
 				2A43980C1DFF3B6200E7FC9B /* helvetica-outline.otf in Resources */,
 				2A46C3471DEA396400DAFC70 /* Georgia.ttf in Resources */,
+				FB85705224AC265A004369AA /* BebasNeueRelevant Bold.ttf in Resources */,
 				FBD6A2541E8B0F840088BBC2 /* GoogleService-Info.plist in Resources */,
 				FB04E0C21E2856B500DD436D /* default-launch.png in Resources */,
 				FB816A931DCD2B52003C4E63 /* Images.xcassets in Resources */,
 				FBD8EED81E088B510074EE90 /* BebasNeuerelevantRegular-2.ttf in Resources */,
-				FBD8EEDA1E088BF30074EE90 /* BebasNeueRelevant Bold.ttf in Resources */,
 				FB04E0C01E28548800DD436D /* LaunchScreen.xib in Resources */,
 				2A13C5CB1DE4EAD100705F90 /* LibreCaslonDisplay-Regular.ttf in Resources */,
 			);
@@ -462,10 +462,10 @@
 			files = (
 				FBFD4746236356AA00464A7D /* GoogleService-Info.plist in Resources */,
 				FB0D88081EAEC8DE00DEE4B8 /* Images.xcassets in Resources */,
+				FB85705324AC265A004369AA /* BebasNeueRelevant Bold.ttf in Resources */,
 				FB9F3BB71E327FC100C92158 /* WebsiteProcessor.js in Resources */,
 				FBD8EEDB1E08EAFF0074EE90 /* BebasNeuerelevantRegular-2.ttf in Resources */,
 				FB88BE861D9ED742002D0069 /* MainInterface.storyboard in Resources */,
-				FBD8EEDC1E08EB020074EE90 /* BebasNeueRelevant Bold.ttf in Resources */,
 				FBD8EECC1E087A670074EE90 /* helvetica-outline.otf in Resources */,
 				FBD8EECE1E087A6C0074EE90 /* LibreCaslonDisplay-Regular.ttf in Resources */,
 				FBD8EECD1E087A6A0074EE90 /* Georgia.ttf in Resources */,

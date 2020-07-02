@@ -17,14 +17,17 @@ const nativePresets = ['module:metro-react-native-babel-preset'];
 const moduleResolverNative = [
   'module-resolver',
   {
-    root: ['./app'],
     extensions: ['.ios.js', '.android.js', '.js', '.json'],
     alias: {
-      server: './server',
-      modules: './app/modules',
-      core: './app/core',
-      app: './app',
-      'react-native-gesture-handler/DrawerLayout': './app/modules/ui/mobile/DrawerLayout'
+      '@r3/common': './packages/common/src',
+      modules: './packages/app/src/modules',
+      core: './packages/app/src/core',
+      utils: './packages/app/src/utils',
+      styles: './packages/app/src/styles',
+      app: './packages/app/src/',
+      public: './packages/app/public',
+      'react-native-gesture-handler/DrawerLayout':
+        './packages/app/src/modules/ui/mobile/DrawerLayout'
     }
   }
 ];
@@ -41,17 +44,13 @@ module.exports = api => {
       : process.env.NODE_ENV || 'development';
 
   switch (env) {
-    case 'production':
+    case 'production': // these are react-native prod settings
       return {
-        babelrcRoots: ['.', './packages/*'],
-        ignore: ['node_modules'],
         plugins: [moduleResolverNative, ...plugins, ...prodPlugins],
         presets: [...presets, ...nativePresets]
       };
-    case 'development':
+    case 'development': // these are react-native settings
       return {
-        babelrcRoots: ['.', './packages/*'],
-        ignore: ['node_modules'],
         plugins: [moduleResolverNative, ...plugins],
         presets: [...presets, ...nativePresets]
       };
@@ -62,7 +61,7 @@ module.exports = api => {
         plugins: [...plugins, ...pluginsTest],
         presets: []
       };
-    case 'development_web':
+    case 'development_web': // web & node settings
       return {
         babelrcRoots: ['.', './packages/*'],
         ignore: ['node_modules'],

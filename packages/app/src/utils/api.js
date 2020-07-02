@@ -1,27 +1,9 @@
 import * as storage from './storage';
 
+import { API_URL } from './env';
 // const routes = {};
 // const IS_SERVER = !process.env.BROWSER && process.env.WEB === 'true';
 // const IS_CLIENT = !IS_SERVER;
-
-// TODO this should be somewhere else!
-const { WEB, BROWSER, API_SERVER } = process.env;
-let API_URL;
-export const env = () => {
-  if (process.env.WEB !== 'true') {
-    require('../../publicenv');
-    API_URL = API_SERVER;
-    return process.env;
-  }
-  if (WEB === 'true' && BROWSER) {
-    API_URL = window.API_SERVER;
-  }
-  return process.env;
-};
-env();
-
-// const API_URL = BROWSER ? window.API_SERVER : API_SERVER;
-// const API_URL = API_SERVER;
 
 // if (IS_CLIENT) {
 //   // this is a weird hack that makes conditional require work in react-native

@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Touchable, View } from 'modules/styled/uni';
 import PropTypes from 'prop-types';
-import { getTitle } from 'utils/text';
+import { getTitle, decode } from 'utils/text';
 import Markdown from 'modules/comment/renderMarkdown';
 import history from 'modules/navigation/history';
 import { goToPost } from 'modules/navigation/navigation.actions';
@@ -53,13 +53,14 @@ export default function CommentBody({
   const readMore = text.length < fullText.length;
   text += readMore ? ' _...Read More_' : '';
   const inputUrl = comment.inputUrl || comment.url;
+
   text = linkifyText(text, community, inputUrl);
+  text = decode(text);
 
   const body = <Markdown noLink={noLink} className={'markdown-body'} markdown={text} />;
 
   const postLink = comment.parentPost || comment;
   const postLinkObj = postLink._id ? postLink : { _id: postLink };
-
   // link to full post
   if (!noPostLink && (isPreview || noLink)) {
     return (

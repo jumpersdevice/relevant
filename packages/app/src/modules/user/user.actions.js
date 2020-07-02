@@ -1,6 +1,7 @@
 import { api, alert } from 'app/utils';
 import * as errorActions from 'modules/ui/error.actions';
 import * as types from 'core/actionTypes';
+import { API_URL } from 'utils/env';
 
 const Alert = alert.Alert();
 
@@ -103,9 +104,9 @@ export function getSelectedUser(userName) {
 }
 
 export function updateBlock(block, unblock) {
-  let url = process.env.API_SERVER + '/api/user/block';
+  let url = API_URL + '/api/user/block';
   if (unblock) {
-    url = process.env.API_SERVER + '/api/user/unblock';
+    url = API_URL + '/api/user/unblock';
   }
   return async dispatch =>
     fetch(url, {
@@ -129,7 +130,7 @@ export function updateBlock(block, unblock) {
 
 export function getBlocked() {
   return async dispatch =>
-    fetch(process.env.API_SERVER + '/api/user/blocked', {
+    fetch(API_URL + '/api/user/blocked', {
       method: 'GET',
       ...(await api.reqOptions())
     })

@@ -39,8 +39,7 @@ function Post(props) {
   if (!post || !post._id) return blocked;
 
   const isLinkPost = link && (link.url || link.image);
-
-  const renderComment = (commentary && commentary.length) || (isLinkPost && post.body);
+  const renderComment = commentary && commentary.length;
 
   const commentaryEl = renderComment ? (
     <Commentary

@@ -3,15 +3,14 @@ import * as types from 'core/actionTypes';
 import { storage, api, alert } from 'app/utils';
 import * as errorActions from 'modules/ui/error.actions';
 import * as navigationActions from 'modules/navigation/navigation.actions';
+import { API_URL } from 'utils/env';
 
 const Alert = alert.Alert();
 
-const apiServer = process.env.API_SERVER + '/api/';
+const apiServer = API_URL + '/api/';
 const userSchema = new schema.Entity('users', {}, { idAttribute: '_id' });
 const repostSchema = new schema.Entity('posts', { idAttribute: '_id' });
-
 const linkSchema = new schema.Entity('links', {}, { idAttribute: '_id' });
-// const myVoteSchema = new schema.Entity('myVote', {}, { idAttribute: '_id' });
 
 const parentPostSchema = new schema.Entity(
   'posts',

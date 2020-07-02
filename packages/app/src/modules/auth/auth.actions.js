@@ -5,6 +5,7 @@ import * as errorActions from 'modules/ui/error.actions';
 import * as navigationActions from 'modules/navigation/navigation.actions';
 import * as tooltipActions from 'modules/tooltip/tooltip.actions';
 import { setUserMemberships } from 'modules/community/community.actions';
+import { API_URL } from 'utils/env';
 
 const Alert = alert.Alert();
 
@@ -348,7 +349,7 @@ export function getUser(callback) {
 
 export function setOnboardingStep(step) {
   return async dispatch =>
-    fetch(process.env.API_SERVER + '/api/user/onboarding/' + step, {
+    fetch(API_URL + '/api/user/onboarding/' + step, {
       credentials: 'include',
       method: 'GET',
       ...(await reqOptions())
@@ -409,21 +410,14 @@ export function loginUser(user) {
 
 export function userOnline(user, token) {
   return () =>
-    fetch(
-      process.env.API_SERVER +
-        '/notification/online/' +
-        user._id +
-        '?access_token=' +
-        token,
-      {
-        credentials: 'include',
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
+    fetch(API_URL + '/api/notification/online/' + user._id + '?access_token=' + token, {
+      credentials: 'include',
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       }
-    )
+    })
       .then(response => response.json())
       .catch(() => {
         // Handle error?
@@ -432,17 +426,14 @@ export function userOnline(user, token) {
 
 export function checkUser(string, type, omitSelf = false) {
   return () =>
-    fetch(
-      `${process.env.API_SERVER}/api/user/check/user/?${type}=${string}&omitSelf=${omitSelf}`,
-      {
-        credentials: 'include',
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
+    fetch(`${API_URL}/api/user/check/user/?${type}=${string}&omitSelf=${omitSelf}`, {
+      credentials: 'include',
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       }
-    )
+    })
       .then(response => response.json())
       .then(responseJSON => responseJSON)
       .catch(error => {
@@ -452,7 +443,7 @@ export function checkUser(string, type, omitSelf = false) {
 
 export function createUser(user, invitecode) {
   return dispatch =>
-    fetch(process.env.API_SERVER + '/api/user', {
+    fetch(API_URL + '/api/user', {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -526,7 +517,7 @@ export function updateHandle(user) {
 
 export function sendConfirmation() {
   return async () =>
-    fetch(process.env.API_SERVER + '/api/user/sendConfirmation', {
+    fetch(API_URL + '/api/user/sendConfirmation', {
       method: 'GET',
       ...(await reqOptions())
     })
@@ -547,7 +538,7 @@ export function sendConfirmation() {
 
 export function forgotPassword(user, query) {
   return async () =>
-    fetch(process.env.API_SERVER + '/api/user/forgot' + (query || ''), {
+    fetch(API_URL + '/api/user/forgot' + (query || ''), {
       method: 'PUT',
       ...(await reqOptions()),
       body: JSON.stringify({ user })
@@ -563,7 +554,7 @@ export function forgotPassword(user, query) {
 
 export function resetPassword(password, token) {
   return async () =>
-    fetch(process.env.API_SERVER + '/api/user/resetPassword', {
+    fetch(API_URL + '/api/user/resetPassword', {
       method: 'PUT',
       ...(await reqOptions()),
       body: JSON.stringify({ password, token })
@@ -582,7 +573,7 @@ export function resetPassword(password, token) {
 
 export function confirmEmail(user, code) {
   return async dispatch =>
-    fetch(process.env.API_SERVER + '/api/user/confirm', {
+    fetch(API_URL + '/api/user/confirm', {
       method: 'PUT',
       ...(await reqOptions()),
       body: JSON.stringify({ user, code })

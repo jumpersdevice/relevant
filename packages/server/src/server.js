@@ -8,8 +8,8 @@ import { ApolloServer } from 'apollo-server-express';
 import schema from 'server/graphql/schema';
 import rateLimit from 'express-rate-limit';
 
-import { SubscriptionServer } from 'subscriptions-transport-ws';
-import { execute, subscribe } from 'graphql';
+// import { SubscriptionServer } from 'subscriptions-transport-ws';
+// import { execute, subscribe } from 'graphql';
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -24,11 +24,12 @@ const expressStaticGzip = require('express-static-gzip');
 const app = new Express();
 mongoose.Promise = global.Promise;
 
+// eslint-disable-next-line
 const { validateTokenLenient, verify } = require('server/auth/auth.service');
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: 1000 // limit each IP to 1000 requests per windowMs
+  max: 100000 // limit each IP to 1000 requests per windowMs
 });
 
 console.log('NODE_ENV', process.env.NODE_ENV);
@@ -106,6 +107,10 @@ if (process.env.NO_SSL !== 'true') {
 }
 
 // public folder
+console.log(
+  'public path',
+  require.resolve('@r3l/app/public/service-worker').replace('/service-worker.js', '')
+);
 app.use(
   '/',
   expressStaticGzip(
@@ -145,38 +150,36 @@ server = app.listen({ port }, error => {
     console.log('done loading routes', time / 1000, 's');
   }
 });
-socketServer(server, { pingTimeout: 30000 });
+socketServer(server);
 
-SubscriptionServer.create(
-  {
-    onOperation: async (message, params) => {
-      const { token } = message.payload;
-      let user;
-      try {
-        user = await verify(token);
-      } catch (err) {
-        // console.log(err);
-      }
-      return {
-        ...params,
-        context: {
-          ...params.context,
-          user
-        }
-      };
-    },
-    execute,
-    subscribe,
-    schema,
-    keepAlive: 10000
-  },
-  {
-    server,
-    path: '/graphql'
-  }
-);
-
-socketServer(server, { pingTimeout: 30000 });
+// SubscriptionServer.create(
+//   {
+//     onOperation: async (message, params) => {
+//       const { token } = message.payload;
+//       let user;
+//       try {
+//         user = await verify(token);
+//       } catch (err) {
+//         // console.log(err);
+//       }
+//       return {
+//         ...params,
+//         context: {
+//           ...params.context,
+//           user,
+//         },
+//       };
+//     },
+//     execute,
+//     subscribe,
+//     schema,
+//     keepAlive: 10000,
+//   },
+//   {
+//     server,
+//     path: '/graphql',
+//   }
+// );
 
 // in production this is a worker
 if (relevantEnv === 'staging' || isDevelopment || process.env.NODE_ENV === 'native') {

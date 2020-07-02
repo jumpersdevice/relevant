@@ -1,6 +1,7 @@
 import * as types from 'core/actionTypes';
 import { api, alert } from 'app/utils';
 import { showPushNotificationPrompt } from 'modules/activity/activity.actions';
+import { API_URL } from 'utils/env';
 
 const Alert = alert.Alert();
 
@@ -51,12 +52,9 @@ export function submitPost(post) {
 // TODO update to use api util
 export function generatePreviewServer(link) {
   return () =>
-    fetch(
-      process.env.API_SERVER +
-        '/api/post/preview/generate?url=' +
-        encodeURIComponent(link),
-      { method: 'GET' }
-    )
+    fetch(API_URL + '/api/post/preview/generate?url=' + encodeURIComponent(link), {
+      method: 'GET'
+    })
       .then(response => response.json())
       .then(responseJSON => responseJSON)
       .catch(Alert);

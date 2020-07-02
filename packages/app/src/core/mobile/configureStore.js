@@ -2,14 +2,13 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import createSocketIoMiddleware from 'redux-socket.io';
 import rootReducer from 'core/reducers';
-
-require('../../../publicenv');
+import { API_URL } from 'utils/env';
 
 window.navigator.userAgent = 'react-native';
 const io = require('socket.io-client/dist/socket.io');
 
-const socket = io(process.env.API_SERVER, {
-  transports: ['websocket'],
+const socket = io(API_URL, {
+  transports: ['websocket', 'polling'],
   jsonp: false
 });
 
@@ -18,7 +17,7 @@ socket.on('pingKeepAlive', () => {
 });
 
 socket.on('reconnect_attempt', () => {
-  socket.io.opts.transports = ['polling', 'websocket'];
+  socket.io.opts.transports = ['websocket', 'polling'];
 });
 
 let store;

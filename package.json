@@ -5,10 +5,11 @@
   "scripts": {
     "startApp": "REACT_DEBUGGER=\"rndebugger-open --open --port 8081\" node node_modules/react-native/local-cli/cli.js start",
     "start": "node server/index.js",
-    "build:lib": "lerna run build:lib --no-bail --parallel",
-    "build:lib:watch": "lerna run build:lib:watch --no-bail --parallel",
-    "dev": "yarn build:lib:watch & sleep 15 && lerna run dev --scope @r3l/server --stream",
-    "native": "NODE_ENV='native' yarn build:lib:watch & sleep 15 && lerna run native --scope @r3l/server --stream",
+    "build:lib": "BABEL_ENV=development_web lerna run build:lib --no-bail --parallel",
+    "build:lib:watch": "BABEL_ENV=development_web lerna run build:lib:watch --no-bail --parallel",
+    "dev": "BABEL_ENV=development_web yarn build:lib:watch & sleep 15 && lerna run dev --scope @r3l/server --stream",
+    "native": "BABEL_ENV=development_web  NODE_ENV='native' yarn build:lib:watch & sleep 15 && lerna run native --scope @r3l/server --stream",
+    "redis": "redis-server /usr/local/etc/redis.conf",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "startDB": "mongod --fork --logpath /dev/null",
@@ -42,7 +43,7 @@
     "eslint-check": "eslint --print-config . | eslint-config-prettier-check",
     "jetify": "jetify",
     "testPagerank": "nodemon server/pagerank/manualTest.js",
-    "prepublish": "yarn build:lib && yarn build"
+    "prepublish": "BABEL_ENV=development_web yarn build:lib && yarn build"
   },
   "workspaces": {
     "packages": [
@@ -54,6 +55,7 @@
     "@react-native-community/masked-view": "^0.1.7",
     "@react-native-community/push-notification-ios": "^1.0.2",
     "@react-native-community/viewpager": "^2.0.2",
+    "crypto": "^1.0.1",
     "g": "^2.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -102,21 +104,9 @@
     "react-navigation": "^4.2.2",
     "react-navigation-drawer": "^1.4.0",
     "react-navigation-stack": "^2.2.3",
-    "react-navigation-tabs": "^2.8.2"
-  },
-  "react-native": {
-    "crypto": false,
-    "./server/api/post/post.controller": false,
-    "./server/api/user/user.controller": false,
-    "./server/api/comment/comment.controller": false,
-    "./server/api/communityFeed/communityFeed.controller": false,
-    "./server/api/community/community.controller": false,
-    "web3-eth-accounts": false,
-    "web3-providers": false,
-    "./app/core/contracts": false,
-    "./app/core/web3.reducer": false,
-    "web3": false,
-    "react-tooltip": false
+    "react-navigation-tabs": "^2.8.2",
+    "rn-fetch-blob": "^0.12.0",
+    "rn-prompt": "^1.0.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",

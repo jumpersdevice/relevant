@@ -1,6 +1,6 @@
 {
   "name": "@r3l/common",
-  "version": "0.0.6",
+  "version": "0.0.12",
   "description": "Common utils",
   "keywords": [
     "r3l",
@@ -34,5 +34,5 @@
   "bugs": {
     "url": "https://github.com/relevant-community/relevant/issues"
   },
-  "gitHead": "161c93cec7bab781448b29e3d88b7d8c8768486d"
+  "gitHead": "765465b8811870f82989aa9995367fc7284d6a28"
 }

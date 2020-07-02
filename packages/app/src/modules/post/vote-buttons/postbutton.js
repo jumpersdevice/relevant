@@ -11,14 +11,14 @@ const BUTTON_IMAGES = {
     white: require('public/img/vote_buttons/upvote-white.png'),
     default: require('public/img/vote_buttons/upvote-grey-outline.png'),
     active: require('public/img/vote_buttons/upvote-blue.png'),
-    hover: require('public/img/vote_buttons/upvote-blue-outline.png')
+    hover: require('public/img/vote_buttons/upvote-blue-outline.png'),
   },
   DOWNVOTE: {
     white: require('public/img/vote_buttons/downvote-white.png'),
     default: require('public/img/vote_buttons/downvote-grey-outline.png'),
     active: require('public/img/vote_buttons/downvote-red.png'),
-    hover: require('public/img/vote_buttons/downvote-red-outline.png')
-  }
+    hover: require('public/img/vote_buttons/downvote-red-outline.png'),
+  },
 };
 
 const ButtonImage = styled(Image)`
@@ -28,7 +28,7 @@ const ButtonImage = styled(Image)`
         transition-duration: 0.2s;
         transition-timing-function: ease`
       : ''}
-  ${p =>
+  ${(p) =>
     p.hover && !p.active && !p.disabled && !isNative ? 'transform: scale(1.1);' : ''}
 `;
 
@@ -38,7 +38,7 @@ PostButton.propTypes = {
   isActive: PropTypes.bool,
   imageSet: PropTypes.oneOf(['DOWNVOTE', 'UPVOTE']),
   onPress: PropTypes.func,
-  tooltipData: PropTypes.object
+  tooltipData: PropTypes.object,
 };
 
 function PostButton({ alt, isActive, imageSet, onPress, color, tooltipData }) {
@@ -48,7 +48,6 @@ function PostButton({ alt, isActive, imageSet, onPress, color, tooltipData }) {
   const images = BUTTON_IMAGES[imageSet];
   const defaultState = images[color] || images.default;
   const source = (isActive && images.active) || (hover && images.hover) || defaultState;
-
   return (
     <Tooltip data={tooltipData} name="voteDesk">
       <Touchable onPress={onPress} bradius={2}>

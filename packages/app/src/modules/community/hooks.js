@@ -12,7 +12,7 @@ export function useUnread(community, active) {
   const membership =
     myMemberships && myMemberships.find(m => m.communityId === community._id);
   const unread = membership && membership.unread;
-  useSubscribeToUnread(membership);
+  // useSubscribeToUnread(membership);
   useResetUnread(unread, membership, active);
   return unread;
 }
@@ -32,7 +32,7 @@ export function useMembers() {
   return myMemberships;
 }
 
-function useSubscribeToUnread(membership) {
+export function useSubscribeToUnread(membership) {
   const myMemberships = useMembers();
   const client = useApolloClient();
   const { communityId } = membership || {};

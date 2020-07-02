@@ -105,3 +105,5 @@ export const getTitle = text => {
   const title = match && match[1];
   return { titleText: title.trim(), isHeading: true };
 };
+
+export const decode = text => text.replace('&gt;', '>');

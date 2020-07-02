@@ -6,14 +6,7 @@ import { setContext } from 'apollo-link-context';
 import { concat, split } from 'apollo-link';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
-
-let API_URL;
-if (process.env.WEB !== 'true') {
-  require('../../publicenv');
-  API_URL = process.env.API_SERVER;
-} else if (process.env.BROWSER) {
-  API_URL = window.API_SERVER;
-}
+import { API_URL } from 'utils/env';
 
 const cache = new InMemoryCache({
   dataIdFromObject: object => object._id || null
@@ -63,7 +56,8 @@ const link = split(
       definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
     );
   },
-  wsLink,
+  httpLink,
+  // wsLink,
   httpLink
 );
 
