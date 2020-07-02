@@ -2,11 +2,13 @@
 #
 .DS_Store
 publicenv.js
-app/publicenv.js
+packages/app/publicenv.js
 .env
 *.pem
-app/public/dist
+packages/public/dist
 server/test/mongoTestConfig.json
+lib
+dist
 
 #firebase credentials
 google-services.json

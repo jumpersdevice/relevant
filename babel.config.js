@@ -6,7 +6,6 @@ const plugins = [
   '@babel/plugin-transform-flow-strip-types',
   '@babel/transform-exponentiation-operator',
   '@babel/plugin-syntax-dynamic-import',
-  '@loadable/babel-plugin',
   'styled-components',
   '@babel/plugin-proposal-class-properties',
   'inline-react-svg'
@@ -14,49 +13,21 @@ const plugins = [
 
 const prodPlugins = ['transform-remove-console'];
 const nativePresets = ['module:metro-react-native-babel-preset'];
-const presetsWeb = [
-  [
-    '@babel/preset-env',
-    {
-      targets: {
-        browsers: '>0.5%',
-        node: 'current'
-      }
-    }
-  ],
-  '@babel/preset-react'
-];
-
-const moduleResolverWeb = [
-  'module-resolver',
-  {
-    root: ['./app'],
-    extensions: ['.ios.js', '.android.js', '.js', '.json'],
-    alias: {
-      server: './server',
-      modules: './app/modules',
-      core: './app/core',
-      app: './app',
-      'react-native-svg$': 'react-native-web-svg',
-      '^react-native$': 'react-native-web',
-      'react-native-linear-gradient$': 'react-native-web-linear-gradient',
-      // 'react-navigation-drawer/src/views/Drawer': './app/modules/ui/mobile/Drawer'
-      'react-native-gesture-handler/DrawerLayout': './app/modules/ui/mobile/DrawerLayout'
-    }
-  }
-];
 
 const moduleResolverNative = [
   'module-resolver',
   {
-    root: ['./app'],
     extensions: ['.ios.js', '.android.js', '.js', '.json'],
     alias: {
-      server: './server',
-      modules: './app/modules',
-      core: './app/core',
-      app: './app',
-      'react-native-gesture-handler/DrawerLayout': './app/modules/ui/mobile/DrawerLayout'
+      '@r3/common': './packages/common/src',
+      modules: './packages/app/src/modules',
+      core: './packages/app/src/core',
+      utils: './packages/app/src/utils',
+      styles: './packages/app/src/styles',
+      app: './packages/app/src/',
+      public: './packages/app/public',
+      'react-native-gesture-handler/DrawerLayout':
+        './packages/app/src/modules/ui/mobile/DrawerLayout'
     }
   }
 ];
@@ -73,29 +44,35 @@ module.exports = api => {
       : process.env.NODE_ENV || 'development';
 
   switch (env) {
-    case 'production':
+    case 'production': // these are react-native prod settings
       return {
         plugins: [moduleResolverNative, ...plugins, ...prodPlugins],
         presets: [...presets, ...nativePresets]
       };
-    case 'development':
+    case 'development': // these are react-native settings
       return {
         plugins: [moduleResolverNative, ...plugins],
         presets: [...presets, ...nativePresets]
       };
     case 'test':
       return {
-        plugins: [moduleResolverWeb, ...plugins, ...pluginsTest],
-        presets: [...presetsWeb]
+        babelrcRoots: ['.', './packages/*'],
+        ignore: ['node_modules'],
+        plugins: [...plugins, ...pluginsTest],
+        presets: []
       };
-    case 'development_web':
+    case 'development_web': // web & node settings
       return {
-        plugins: [moduleResolverWeb, ...plugins],
-        presets: [...presetsWeb]
+        babelrcRoots: ['.', './packages/*'],
+        ignore: ['node_modules'],
+        plugins: [...plugins],
+        presets: []
       };
     default:
       return {
-        plugins: [moduleResolverWeb, ...plugins],
+        babelrcRoots: ['.', './packages/*'],
+        ignore: ['node_modules'],
+        plugins: [...plugins],
         presets: [...presets]
       };
   }
