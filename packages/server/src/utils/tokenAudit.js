@@ -5,18 +5,23 @@ import User from 'server/api/user/user.model';
 import Earnings from 'server/api/earnings/earnings.model';
 import Invest from 'server/api/invest/invest.model';
 import PostData from 'server/api/post/postData.model';
+import Community from 'server/api/community/community.model';
 import { sendEmail } from 'server/utils/mail';
 
 const queue = require('queue');
 
 const q = queue({
-  concurrency: 1
+  concurrency: 5
 });
 
 const { RELEVANT_ENV, SYS_ADMIN_EMAIL } = process.env;
 
 export async function runAudit() {
   try {
+    const communities = await Community.find({ inactive: { $ne: true } });
+    communities.forEach(c => {
+      console.log(c.slug, 'rewardFund', c.rewardFund);
+    });
     await auditUserEarnings();
     console.log('finished audit');
   } catch (err) {
@@ -47,14 +52,37 @@ async function sendAdminAlert(user, diff) {
 
 async function auditUserEarnings() {
   const users = await User.find({ balance: { $gt: 0 } });
-  const audited = users.map(userEarnings);
-  return Promise.all(audited);
+  const audited = users.map(user =>
+    q.push(async cb => {
+      try {
+        await userEarnings(user);
+      } catch (err) {
+        console.log('Error auditing user earnings', err);
+      }
+      cb();
+    })
+  );
+  return new Promise((resolve, reject) => {
+    q.start(err => (err ? reject(err) : resolve()));
+  });
 }
 
 async function userEarnings(user) {
+  const pendingEarnings = await Earnings.find({
+    user: user._id,
+    status: 'pending'
+  });
+  const totalStaked = pendingEarnings.reduce((a, e) => e.stakedTokens + a, 0);
+
+  const earningDiff = totalStaked - user.lockedTokens;
+
+  if (Math.abs(earningDiff) > 0.000001) {
+    console.log('locked token mismatch', totalStaked, user.lockedTokens);
+  }
+
   const earnings = await Earnings.find({
     user: user._id,
-    $or: [{ status: 'paidout' }]
+    status: 'paidout'
   });
 
   const totalRewards = earnings.reduce((a, e) => e.earned + a, 0);
@@ -173,8 +201,6 @@ async function auditUser(handle) {
     }
   });
   await Promise.all(postData);
-  // user.balance -= diff;
-  // await user.save();
   console.log(adjust, 'vs', diff);
 }
 
