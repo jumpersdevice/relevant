@@ -43,7 +43,7 @@ Object {
   "createdAt": "[SANITIZED]",
   "earned": 0,
   "endBalance": 0,
-  "estimatedPostPayout": 271.8,
+  "estimatedPostPayout": 271.80000000000007,
   "legacyAirdrop": 0,
   "payoutTime": "[SANITIZED]",
   "post": "000000000000000000000006",

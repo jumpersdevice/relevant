@@ -34,7 +34,7 @@ exports.rewards = async () => {
   try {
     rewardPool = await allocateRewards();
     const oldRewards = await getOldRewards();
-    rewardPool -= oldRewards[0].rewardFund;
+    rewardPool -= Math.max(0, oldRewards[0].rewardFund);
     console.log('rewardPool', rewardPool); // eslint-disable;
     if (rewardPool < 0) throw new Error(`not enough funds in reward pool ${rewardPool}`);
   } catch (err) {
@@ -207,9 +207,14 @@ async function postRewards(community) {
   community.lastRewardFundUpdate = now;
   community = await community.save();
 
-  const updatedPosts = await computePostPayout({ posts, community });
-  // estimates post payout
-  const pendingPosts = await computePostPayout({ posts: pendingPayouts, community });
+  const updatedPosts = await computePostPayout({ posts, community, futurePayout: false });
+
+  // estimates future post payout
+  const pendingPosts = await computePostPayout({
+    posts: pendingPayouts,
+    community,
+    futurePayout: true
+  });
   await updatePendingEarnings(pendingPosts);
 
   const postPayouts = updatedPosts.map(p => ({
@@ -218,35 +223,59 @@ async function postRewards(community) {
     payoutShare: p.payoutShare,
     rank: p.pagerank
   }));
-  console.log('\x1b[32m', 'distributed rewards to posts', postPayouts);
+  console.log(
+    '\x1b[32m',
+    'distributed rewards to posts',
+    postPayouts.filter(p => p.payout > 0)
+  );
   console.log('\x1b[0m');
 
   return { updatedPosts, postPayouts };
 }
 
 // ANALYSIS — attack scenario community with low-quality posts to bring down the average?
-async function computePostPayout({ posts, community }) {
+async function computePostPayout({ posts, community, futurePayout }) {
   // let posts = await Post.find({ paidOut: false, payoutTime: { $lt: now } });
   const communityRewardFund = community.rewardFund;
   let updatedPosts = posts.map(async post => {
     const average = community.currentShares / (community.postCount || 1);
 
     // only reward above-average posts
-    console.log('rank vs average', post.pagerank, average);
     if (post.pagerank < average) {
       post.payout = 0;
       return post.save();
+      // if (futurePayout) return;
+      // await Earnings.updateRewardsRecord({
+      //   post: post.post,
+      //   status: 'expired',
+      //   communityId: community._id,
+      // });
+      // return post;
     }
-    // linear reward curve
 
+    // linear reward curve
     // cap rewards share at 1/20th of the fund - especially for the first rewards?
-    post.payoutShare = Math.min(0.05, post.pagerank / (community.topPostShares || 1));
+    const payoutShare = post.pagerank / (community.topPostShares || 1);
+    post.payoutShare = payoutShare > 0.05 ? 0.05 : payoutShare;
+
     const payout = communityRewardFund * post.payoutShare;
-    community.rewardFund -= payout;
     post.payout = payout;
     return post.save();
   });
   updatedPosts = await Promise.all(updatedPosts);
+  updatedPosts = updatedPosts.filter(p => p != null);
+  if (!futurePayout) {
+    const totalPayout = updatedPosts.reduce((a, post) => a + post.payout, 0);
+    console.log(
+      community.slug,
+      'totalPayout',
+      totalPayout,
+      'rewardFund',
+      community.rewardFund
+    );
+    community.rewardFund = Math.max(0, community.rewardFund - totalPayout);
+    console.log('community reward fund after payout', community.rewardFund);
+  }
   await community.save();
   return updatedPosts;
 }
@@ -299,7 +328,7 @@ async function distributeUserRewards(posts, _community) {
       // TODO diff decimal?
       const reward = Math.max(curationPayout, 0) / 10 ** 18;
 
-      const earning = await Earnings.updateRewardsRecord({
+      await Earnings.updateRewardsRecord({
         user: user._id,
         post: post.post,
         earned: reward,
@@ -313,11 +342,17 @@ async function distributeUserRewards(posts, _community) {
         communityId
       });
 
-      const unlockTokens = Math.min(user.lockedTokens, earning.stakedTokens);
+      const pendingEarnings = await Earnings.find({
+        user: user._id,
+        status: 'pending'
+      });
+
+      const lockedTokens = pendingEarnings.reduce((a, e) => e.stakedTokens + a, 0);
+      console.log('pending staked', user.name, lockedTokens, user.lockedTokens);
 
       user = await User.findOneAndUpdate(
         { _id: user._id },
-        { $inc: { balance: reward, lockedTokens: -unlockTokens } },
+        { $inc: { balance: reward }, lockedTokens },
         { new: true }
       );
 
