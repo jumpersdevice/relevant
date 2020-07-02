@@ -78,8 +78,6 @@ async function userEarnings(user) {
 
   if (Math.abs(earningDiff) > 0.000001) {
     console.log('locked token mismatch', totalStaked, user.lockedTokens);
-    // user.lockedTokens = totalStaked;
-    // await user.save();
   }
 
   const earnings = await Earnings.find({
