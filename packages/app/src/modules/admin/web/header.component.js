@@ -16,9 +16,6 @@ function AdminHeader(props) {
         <Link className={'link'} to="/admin/invites">
           Invites
         </Link>
-        <Link className={'link'} to="/admin/waitlist">
-          Waitlist
-        </Link>
         <Link className={'link'} to="/admin/flagged">
           Flagged
         </Link>

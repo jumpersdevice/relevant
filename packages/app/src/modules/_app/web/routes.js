@@ -17,7 +17,6 @@ const Invite = loadable(() => import('modules/admin/web/invite.component'));
 const Faq = loadable(() => import('modules/admin/web/faq.component'));
 const AdminHeader = loadable(() => import('modules/admin/web/header.component'));
 const Flagged = loadable(() => import('modules/admin/web/flagged.component'));
-const Waitlist = loadable(() => import('modules/admin/web/waitlist.component'));
 const Downvotes = loadable(() => import('modules/admin/web/downvotes.container'));
 const Email = loadable(() => import('modules/admin/web/email.component'));
 const TopPosts = loadable(() => import('modules/admin/web/topPosts.component'));
@@ -85,7 +84,6 @@ const routes = [
             routes: [
               { path: '/admin/contract', component: Contract },
               { path: '/admin/flagged', component: Flagged },
-              { path: '/admin/waitlist', component: Waitlist },
               { path: '/admin/downvotes', component: Downvotes },
               { path: '/admin/topics', component: TopicsAdmin },
               { path: '/admin/invites', component: Invites },

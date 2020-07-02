@@ -14,14 +14,6 @@ const inviteSchema = new schema.Entity(
   }
 );
 
-const listSchema = new schema.Entity(
-  'wait',
-  {},
-  {
-    idAttribute: '_id'
-  }
-);
-
 export function setInvites({ data, community, skip }) {
   return {
     type: types.SET_INVITES,
@@ -30,20 +22,6 @@ export function setInvites({ data, community, skip }) {
       community,
       skip
     }
-  };
-}
-
-export function setWaitlist(data) {
-  return {
-    type: types.SET_WAITLIST,
-    payload: data
-  };
-}
-
-export function deleteWaitlistUsers(users) {
-  return {
-    type: types.DELETE_WAITLIST_USER,
-    payload: users
   };
 }
 
@@ -134,51 +112,9 @@ export function createInvite(invite) {
   };
 }
 
-// export function sendInvitationEmail(id) {
-//   return async dispatch =>
-//     fetch(API + '/invites/email', {
-//       method: 'POST',
-//       ...(await api.reqOptions()),
-//       body: JSON.stringify({
-//         inviteId: id
-//       })
-//     })
-//     .then(api.handleErrors)
-//     .then(response => response.json())
-//     .then(responseJSON => {
-//       dispatch(updateInvite(responseJSON));
-//       Alert.alert('Invitation email has been sent');
-//     })
-//     .catch(error => {
-//       console.log('invites error', error);
-//     });
-// }
-
-// export function checkInviteCode(code) {
-//   return async dispatch =>
-//     fetch(API + '/invites', {
-//       method: 'PUT',
-//       ...(await api.reqOptions()),
-//       body: JSON.stringify({
-//         code
-//       })
-//     })
-//     .then(api.handleErrors)
-//     .then(response => response.json())
-//     .then(responseJSON => {
-//       dispatch(updateInvite(responseJSON));
-//       if (responseJSON) return responseJSON;
-//       return false;
-//     })
-//     .catch(error => {
-//       Alert.alert(error.message);
-//       console.log('invites error', error);
-//     });
-// }
-
 export function destroy(invite) {
   return async dispatch =>
-    fetch(API_URL + '/invites/' + invite._id, {
+    fetch(API_URL + '/api/invites/' + invite._id, {
       method: 'DELETE',
       ...(await api.reqOptions())
     })
@@ -190,70 +126,6 @@ export function destroy(invite) {
       .catch(error => {
         Alert.alert(error.message);
         console.log('invites error', error);
-      });
-}
-
-export function getWaitlist() {
-  return async dispatch =>
-    fetch(API_URL + '/list', {
-      method: 'GET',
-      ...(await api.reqOptions())
-    })
-      .then(api.handleErrors)
-      .then(response => response.json())
-      .then(responseJSON => {
-        const data = normalize(
-          {
-            wait: responseJSON
-          },
-          {
-            wait: [listSchema]
-          }
-        );
-        dispatch(setWaitlist(data));
-      })
-      .catch(error => {
-        console.log('invites error', error);
-      });
-}
-
-export function inviteFromWaitlist(invites) {
-  return async dispatch =>
-    fetch(API_URL + '/api/list/', {
-      method: 'PUT',
-      ...(await api.reqOptions()),
-      body: JSON.stringify(invites)
-    })
-      .then(api.handleErrors)
-      // .then(response => response.json())
-      .then(() => {
-        Alert.alert('users have been invited!');
-        dispatch(deleteWaitlistUsers(invites));
-        return true;
-      })
-      .catch(err => {
-        Alert.alert(err.message);
-        console.log(err);
-        return false;
-      });
-}
-
-export function signupForMailingList(user) {
-  return async () =>
-    fetch(API_URL + '/api/list/', {
-      method: 'POST',
-      ...(await api.reqOptions()),
-      body: JSON.stringify(user)
-    })
-      .then(api.handleErrors)
-      .then(() => {
-        Alert.alert("You've been added to the waitlist.", 'success');
-        return true;
-      })
-      .catch(err => {
-        Alert.alert(err.message);
-        console.log(err);
-        return false;
       });
 }
 
