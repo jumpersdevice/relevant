@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "start": "node ./lib/index.js",
-    "worker": "node ./lib/worker.js",
+    "worker": "npm run-script build:lib && node ./lib/worker.js",
     "dev": "nodemon ./lib/index.js",
     "build": "npm run-script build:lib",
     "native": "NODE_ENV='native' nodemon server/index.js",

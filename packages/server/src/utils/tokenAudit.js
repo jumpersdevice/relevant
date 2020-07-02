@@ -5,7 +5,6 @@ import User from 'server/api/user/user.model';
 import Earnings from 'server/api/earnings/earnings.model';
 import Invest from 'server/api/invest/invest.model';
 import PostData from 'server/api/post/postData.model';
-import Community from 'server/api/community/community.model';
 import { sendEmail } from 'server/utils/mail';
 
 const queue = require('queue');
@@ -24,7 +23,7 @@ export async function runAudit() {
     console.log(err);
   }
 }
-runAudit();
+// runAudit();
 
 async function sendAdminAlert(user, diff) {
   if (RELEVANT_ENV !== 'production') return null;
