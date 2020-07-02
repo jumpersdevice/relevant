@@ -1,0 +1,38 @@
+{
+  "name": "@r3l/common",
+  "version": "0.0.6",
+  "description": "Common utils",
+  "keywords": [
+    "r3l",
+    "relevant",
+    "utils"
+  ],
+  "author": "Slava 4REAL <slava@4real.io>",
+  "homepage": "https://github.com/balasan/relevant-native/tree/master/packages/common#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/relevant-community/relevant.git"
+  },
+  "scripts": {
+    "build:lib": "babel --source-maps --extensions '.ts,.tsx,.js,.jsx' --copy-files --no-copy-ignored --delete-dir-on-start --root-mode upward src -d lib --ignore **/*.stories.js,**/*.test.js,**/*.mock.js",
+    "build:lib:watch": "babel --watch --source-maps --extensions '.ts,.tsx,.js,.jsx' --copy-files --no-copy-ignored src -d lib --ignore **/*.stories.js,**/*.test.js,**/*.mock.js",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/relevant-community/relevant/issues"
+  },
+  "gitHead": "161c93cec7bab781448b29e3d88b7d8c8768486d"
+}

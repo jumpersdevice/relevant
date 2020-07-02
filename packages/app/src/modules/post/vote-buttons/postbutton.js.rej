@@ -1,0 +1,15 @@
+diff a/packages/app/src/modules/post/vote-buttons/postbutton.js b/packages/app/src/modules/post/vote-buttons/postbutton.js	(rejected hunks)
+@@ -14 +14 @@ const BUTTON_IMAGES = {
+-    hover: require('public/img/vote_buttons/upvote-blue-outline.png'),
++    hover: require('public/img/vote_buttons/upvote-blue-outline.png')
+@@ -20,2 +20,2 @@ const BUTTON_IMAGES = {
+-    hover: require('public/img/vote_buttons/downvote-red-outline.png'),
+-  },
++    hover: require('public/img/vote_buttons/downvote-red-outline.png')
++  }
+@@ -31 +31 @@ const ButtonImage = styled(Image)`
+-  ${(p) =>
++  ${p =>
+@@ -41 +41 @@ PostButton.propTypes = {
+-  tooltipData: PropTypes.object,
++  tooltipData: PropTypes.object

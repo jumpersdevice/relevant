@@ -1,5 +1,8 @@
+const base = require('./jest.config.base.js');
+
 module.exports = {
-  globalSetup: '<rootDir>server/test/setup',
-  globalTeardown: '<rootDir>server/test/teardown',
-  projects: ['<rootDir>/server', '<rootDir>/app']
+  ...base,
+  projects: ['<rootDir>/packages/*/jest.config.js'],
+  coverageDirectory: '<rootDir>/coverage/',
+  moduleDirectories: ['node_modules']
 };

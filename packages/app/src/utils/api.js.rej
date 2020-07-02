@@ -1,0 +1,25 @@
+diff a/packages/app/src/utils/api.js b/packages/app/src/utils/api.js	(rejected hunks)
+@@ -45 +45 @@ env();
+-export const request = (options) => (dispatch, getState) => _request(options, getState);
++export const request = options => (dispatch, getState) => _request(options, getState);
+@@ -82 +82 @@ async function getDataFromClient(params) {
+-    body: params.body,
++    body: params.body
+@@ -126,2 +126,2 @@ export async function reqOptions() {
+-        Authorization: `Bearer ${token}`,
+-      },
++        Authorization: `Bearer ${token}`
++      }
+@@ -134,2 +134,2 @@ export async function reqOptions() {
+-        'Content-Type': 'application/json',
+-      },
++        'Content-Type': 'application/json'
++      }
+@@ -140 +140 @@ export async function reqOptions() {
+-export const queryParams = (params) => {
++export const queryParams = params => {
+@@ -143,2 +143,2 @@ export const queryParams = (params) => {
+-    .filter((p) => params[p])
+-    .map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
++    .filter(p => params[p])
++    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))

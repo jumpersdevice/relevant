@@ -1,0 +1,12 @@
+{
+  "ext":".js",
+  "watch": [
+    "../app/webpack.config.js",
+    "lib/*",
+    "nodemon.json",
+    "../../env"
+  ],
+  "events": {
+    "start": "echo '\\033c\\033[3J'"
+  }
+}
