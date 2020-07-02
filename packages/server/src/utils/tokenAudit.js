@@ -5,6 +5,7 @@ import User from 'server/api/user/user.model';
 import Earnings from 'server/api/earnings/earnings.model';
 import Invest from 'server/api/invest/invest.model';
 import PostData from 'server/api/post/postData.model';
+import Community from 'server/api/community/community.model';
 import { sendEmail } from 'server/utils/mail';
 
 const queue = require('queue');
@@ -17,6 +18,10 @@ const { RELEVANT_ENV, SYS_ADMIN_EMAIL } = process.env;
 
 export async function runAudit() {
   try {
+    const communities = await Community.find({ inactive: { $ne: true } });
+    communities.forEach(c => {
+      console.log(c.slug, 'rewardFund', c.rewardFund);
+    });
     await auditUserEarnings();
     console.log('finished audit');
   } catch (err) {
