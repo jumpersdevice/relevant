@@ -23,15 +23,10 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/public/dist/'),
     filename: 'bundle.js',
-    chunkFilename: '[name].bundle.js',
     publicPath: '/dist/'
   },
   mode: 'development',
-  optimization: {
-    splitChunks: {
-      chunks: 'all'
-    }
-  },
+
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
