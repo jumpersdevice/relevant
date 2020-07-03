@@ -81,6 +81,7 @@ exports.index = async req => {
     .populate({
       path: 'post',
       select: `
+        url
         embeddedUser
         user
         tags
