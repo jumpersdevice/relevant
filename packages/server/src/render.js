@@ -54,7 +54,7 @@ export default async function handleRender(req, res) {
       fullUrl,
       rnWebStyles,
       initialState: store.getState(),
-      req,
+      req
     });
 
     // global.gc();
@@ -81,15 +81,19 @@ export function createInitialState(req) {
   return {
     auth: {
       user: req.user,
+      token: req.cookies?.token,
       confirmed: req.confirmed || (req.user && req.user.confirmed),
       // TODO - get this from req.user
-      community: req.params.community || cachedCommunity,
+      community: req.params.community || cachedCommunity
+    },
+    communities: {
+      active: req.params.community || cachedCommunity
     },
     navigation: {
       ...navState,
       width,
-      screenSize: getScreenSize(width),
-    },
+      screenSize: getScreenSize(width)
+    }
   };
 }
 
@@ -104,6 +108,9 @@ export function renderFullPage({ app, rnWebStyles, initialState, fullUrl, req })
     styledComponentsTags = sheet.getStyleTags();
     cssStyleTags = extractor.getStyleTags();
   }
+  // scrub token just in case
+  delete initialState?.auth?.token;
+
   const meta = fetchMeta({ initialState, req });
 
   const scriptTags = extractor.getScriptTags();
@@ -162,14 +169,14 @@ export function fetchMeta({ initialState, req }) {
     description: 'Find your community and join the discussion.',
     image: 'https://relevant.community/img/fbImage.png',
     url: 'https://relevant.community' + req.originalUrl,
-    type: 'summary_large_image',
+    type: 'summary_large_image'
   };
 
   const { feed, postId, commentId } = req.params;
   const postMeta = getPostMeta({ postId, commentId, initialState });
   const communityMeta = getCommunityMeta({ initialState });
 
-  Object.keys(postMeta).forEach((key) => {
+  Object.keys(postMeta).forEach(key => {
     if (!postMeta[key]) delete postMeta[key];
   });
 

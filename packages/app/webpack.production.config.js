@@ -2,6 +2,7 @@ const webpack = require('webpack');
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const path = require('path');
 
@@ -21,7 +22,7 @@ prodConfig.entry = {
 };
 
 prodConfig.plugins = [
-  // new ExtractTextPlugin('styles.css'),
+  new CleanWebpackPlugin(),
   new MiniCssExtractPlugin({
     // Options similar to the same options in webpackOptions.output
     // both options are optional
@@ -49,7 +50,29 @@ prodConfig.plugins = [
 
 prodConfig.mode = 'production';
 
+prodConfig.output = {
+  path: path.join(__dirname, '/public/dist/'),
+  filename: 'bundle.[contenthash].js',
+  chunkFilename: '[name].bundle.[contenthash].js',
+  publicPath: '/dist/'
+};
+
+prodConfig.optimization = {
+  moduleIds: 'hashed',
+  splitChunks: {
+    chunks: 'all'
+  }
+};
+
 prodConfig.module.rules = [
+  {
+    test: /\.(gif|png|jpe?g|svg)$/i,
+    loader: 'image-webpack-loader',
+    // Specify enforce: 'pre' to apply the loader
+    // before url-loader/svg-url-loader
+    // and not duplicate it in rules with them
+    enforce: 'pre'
+  },
   {
     test: /\.(png|woff|woff2|eot|ttf|jpg|jpeg|gif)$/,
     loader: 'url-loader',
@@ -59,7 +82,7 @@ prodConfig.module.rules = [
       path.resolve(__dirname, 'node_modules/react-native-vector-icons')
     ],
     options: {
-      name: 'images/[name]-[hash:8].[ext]',
+      name: 'public/img/[name].[ext]',
       esModule: false,
       limit: 0
     }

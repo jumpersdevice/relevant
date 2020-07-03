@@ -6,6 +6,7 @@ import * as navigationActions from 'modules/navigation/navigation.actions';
 import * as tooltipActions from 'modules/tooltip/tooltip.actions';
 import { setUserMemberships } from 'modules/community/community.actions';
 import { API_URL } from 'utils/env';
+import { BANNED_COMMUNITY_SLUGS } from '@r3l/common';
 
 const Alert = alert.Alert();
 
@@ -40,6 +41,7 @@ const reqOptions = async () => {
 };
 
 export function setCommunity(community) {
+  if (BANNED_COMMUNITY_SLUGS.includes(community)) return null;
   return dispatch => {
     dispatch({
       type: types.SET_COMMUNITY,

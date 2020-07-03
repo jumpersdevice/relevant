@@ -55,17 +55,44 @@ exports.index = async req => {
     ? [
         {
           path: 'myVote',
-          match: { investor: user._id, communityId }
+          match: { investor: user._id, communityId },
+          select: 'investor post amount communityId community'
         }
       ]
     : [];
 
-  const feed = await PostData.find(query)
+  const feed = await PostData.find(
+    query,
+    `
+      pagerank
+      upVotes
+      downVotes
+      paidOut
+      payoutTime
+      post
+      community
+      communityId
+    `
+  )
     .sort(sortQuery)
     .skip(skip)
     .limit(limit)
     .populate({
       path: 'post',
+      select: `
+        url
+        embeddedUser
+        user
+        tags
+        title
+        body
+        community
+        communityId
+        mentions
+        type
+        myVote
+        commentCount
+      `,
       populate: [
         ...myVote,
         {
@@ -74,7 +101,6 @@ exports.index = async req => {
             // TODO implement intra-community commentary
             communityId,
             type: 'post',
-
             // TODO - we should probably sort the non-community commentary
             // with some randomness on client side
             // repost: { $exists: false },
@@ -82,9 +108,34 @@ exports.index = async req => {
             hidden: { $ne: true }
           },
           options: { sort: commentarySort },
+          select: `
+            embeddedUser
+            user
+            body
+            parentPost
+            parentComment
+            linkParent
+            myVote
+          `,
           populate: [
             ...myVote,
-            { path: 'data' },
+            {
+              path: 'data',
+              select: `
+                embeddedUser
+                user
+                tags
+                body
+                community
+                communityId
+                mentions
+                type
+                pagerank
+                upVotes
+                downVotes
+                commentCount
+              `
+            },
             {
               path: 'embeddedUser.relevance',
               select: 'pagerank',
@@ -92,7 +143,18 @@ exports.index = async req => {
             }
           ]
         },
-        { path: 'metaPost' },
+        {
+          path: 'metaPost',
+          select: `
+            title
+            image
+            url
+            articleDate
+            articleAuthor
+            tags
+            domain
+          `
+        },
         {
           path: 'embeddedUser.relevance',
           select: 'pagerank',
@@ -104,6 +166,7 @@ exports.index = async req => {
   const posts = [];
   feed.forEach(async f => {
     if (f.post) {
+      f.post.title = sanitizeHtml(f.post.title || '');
       f.post.body = sanitizeHtml(f.post.body);
       f.post.tags = f.post.tags.map(sanitizeHtml);
       const data = { ...f.toObject() };
@@ -111,9 +174,7 @@ exports.index = async req => {
       f.post.data = data;
       posts.push(f.post.toObject());
     } else {
-      // just in case - this shouldn't happen
-      console.log('error: post is null!', f.toObject()); // eslint-disable-line
-      // await f.remove();
+      // this shouldn't happen
     }
   });
 

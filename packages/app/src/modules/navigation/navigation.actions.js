@@ -282,7 +282,7 @@ export function goToPost(post, openComment) {
     key: 'singlePost',
     title: post.title ? post.title : '',
     back: true,
-    community: post.data ? post.data.community : post.community,
+    community: post?.data?.community || post.community,
     id: post._id,
     comment: post.comment,
     commentCount: post.commentCount,

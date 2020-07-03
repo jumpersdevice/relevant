@@ -29,7 +29,6 @@ import BannerPrompt from 'modules/bannerPrompt/banner.container';
 import Tooltip from 'modules/tooltip/mobile/tooltip.container';
 import { fullHeight } from 'app/styles/global';
 import queryString from 'query-string';
-import { BANNED_COMMUNITY_SLUGS } from '@r3l/common';
 import PriceProvider from 'modules/wallet/price.context';
 
 import { BottomSheet } from 'modules/ui/mobile/bottomSheet';
@@ -136,9 +135,6 @@ class Application extends Component {
     if (url.url.match('://callback')) return;
 
     const params = url.url.split(/\/\//)[1].split(/\/|\?/);
-    let newCommunity = params[1];
-
-    newCommunity = newCommunity && newCommunity.replace(/user|admin|info/, '');
 
     // handle confirm email link
     if (url.url.match('/user/confirm')) {
@@ -147,23 +143,8 @@ class Application extends Component {
       actions.confirmEmail(user, confirmCode);
     }
 
-    if (
-      !newCommunity ||
-      newCommunity === 'user' ||
-      newCommunity === 'info' ||
-      newCommunity === 'admin'
-    ) {
-      newCommunity = null;
-    }
-
-    if (
-      newCommunity &&
-      newCommunity !== '' &&
-      newCommunity !== auth.community &&
-      !BANNED_COMMUNITY_SLUGS.includes(newCommunity)
-    ) {
-      actions.setCommunity(newCommunity);
-    }
+    const newCommunity = params[1];
+    if (newCommunity !== auth.community) actions.setCommunity(newCommunity);
 
     const query = url.url.split('?')[1];
     const parsed = queryString.parse(query);

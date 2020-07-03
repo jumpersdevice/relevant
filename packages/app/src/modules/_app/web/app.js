@@ -17,7 +17,6 @@ import * as navigationActions from 'modules/navigation/navigation.actions';
 import * as authActions from 'modules/auth/auth.actions';
 import ModalContainer from 'modules/ui/modals/modal.container';
 import { GlobalStyle } from 'app/styles';
-import { BANNED_COMMUNITY_SLUGS } from '@r3l/common';
 import SmartBanner from 'react-smartbanner';
 import ReactGA from 'react-ga';
 import { TwitterCT } from 'app/utils/social';
@@ -114,13 +113,7 @@ class App extends Component {
     const route = matchRoutes(routes, location.pathname);
     const newCommunity = get(route, `[${route.length - 1}].match.params.community`);
 
-    if (
-      newCommunity &&
-      newCommunity !== auth.community &&
-      !BANNED_COMMUNITY_SLUGS.includes(newCommunity)
-    ) {
-      actions.setCommunity(newCommunity);
-    }
+    if (newCommunity !== auth.community) actions.setCommunity(newCommunity);
   }
 
   initAnalytics = ({ location, history }) => {
@@ -221,7 +214,6 @@ class App extends Component {
           daysReminder={0}
           title={'Relevant Communities'}
           position={'top'}
-          // force={'ios'}
         />
         <TextTooltip
           globalEventOff="click"
@@ -230,8 +222,7 @@ class App extends Component {
           id="mainTooltip"
           multiline
         />
-        {/*        <CustomTooltip id="tooltip" multiline />
-         */}
+
         <AnimationContainer>
           <UpvoteAnimation />
           <DownvoteAnimation />
