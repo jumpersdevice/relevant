@@ -19,7 +19,7 @@ exports.index = async req => {
   if (!post) throw Error('missing parent post id');
 
   const cObj = await Community.findOne({ slug: community }, '_id');
-  const communityId = cObj._id;
+  const communityId = cObj?._id;
 
   const query = { parentPost: post, hidden: { $ne: true }, communityId };
 
