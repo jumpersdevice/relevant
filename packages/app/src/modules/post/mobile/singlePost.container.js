@@ -35,9 +35,15 @@ class SinglePostContainer extends Component {
     comment: null
   };
 
-  componentWillMount() {
-    this.setTitle(this.props);
-    InteractionManager.runAfterInteractions(this.getPost());
+  componentDidMount() {
+    const { auth, actions, navigation } = this.props;
+    const { community } = navigation.state.params;
+    if (auth.community !== community) {
+      requestAnimationFrame(() => {
+        actions.setCommunity(community);
+        InteractionManager.runAfterInteractions(this.getPost);
+      });
+    }
   }
 
   componentDidUpdate(prevProps) {

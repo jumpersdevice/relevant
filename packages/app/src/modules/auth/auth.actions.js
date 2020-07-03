@@ -40,8 +40,8 @@ const reqOptions = async () => {
   };
 };
 
-export function setCommunity(_community) {
-  const community = BANNED_COMMUNITY_SLUGS.includes(_community) ? null : _community;
+export function setCommunity(community) {
+  if (BANNED_COMMUNITY_SLUGS.includes(community)) return null;
   return dispatch => {
     dispatch({
       type: types.SET_COMMUNITY,
