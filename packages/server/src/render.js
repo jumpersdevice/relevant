@@ -86,6 +86,9 @@ export function createInitialState(req) {
       // TODO - get this from req.user
       community: req.params.community || cachedCommunity
     },
+    communities: {
+      active: req.params.community || cachedCommunity
+    },
     navigation: {
       ...navState,
       width,
