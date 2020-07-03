@@ -1,28 +1,6 @@
 import * as storage from './storage';
 
 import { API_URL } from './env';
-// const routes = {};
-// const IS_SERVER = !process.env.BROWSER && process.env.WEB === 'true';
-// const IS_CLIENT = !IS_SERVER;
-
-// if (IS_CLIENT) {
-//   // this is a weird hack that makes conditional require work in react-native
-// } else {
-//   // Desktop ONLY!!!
-//   // use react-native field in package.json
-//   // this will prevent react native from loading these modules
-//   const postApi = '../../server/api/post/post.controller';
-//   const userApi = '../../server/api/user/user.controller';
-//   const commentsApi = '../../server/api/comment/comment.controller';
-//   const feedApi = '../../server/api/communityFeed/communityFeed.controller';
-//   const communityApi = '../../server/api/community/community.controller';
-
-//   routes.comment = require(commentsApi) || {}; // eslint-disable-line
-//   routes.communityFeed = require(feedApi) || {}; // eslint-disable-line
-//   routes.post = require(postApi) || {}; // eslint-disable-line
-//   routes.user = require(userApi) || {}; // eslint-disable-line
-//   routes.community = require(communityApi) || {}; // eslint-disable-line
-// }
 
 export const request = options => (dispatch, getState) => _request(options, getState);
 
@@ -38,20 +16,14 @@ export const request = options => (dispatch, getState) => _request(options, getS
  * body: body
  */
 export async function _request(options, getState) {
-  // Add community query parameter
   const state = getState();
+
+  // Add community query parameter
   const community = state.community.active;
   const query = community ? { community, ...options.query } : { ...options.query };
+
   const params = { ...options, query };
   const { token } = state.auth;
-  // ---------------------------------------------
-  // This is the case when request is orginating from nodejs
-  // ---------------------------------------------
-  // if (IS_SERVER) return getDataOnServer(params);
-
-  // ---------------------------------------------
-  // This is the case when request is orginating from client
-  // ---------------------------------------------
   return getDataFromClient(params, token);
 }
 
@@ -66,26 +38,6 @@ async function getDataFromClient(params, token) {
   const responseOk = await handleErrors(response);
   return responseOk.json();
 }
-
-// async function getDataOnServer(params) {
-//   const path = params.path || '';
-//   if (path === '') params.path = 'index';
-//   const req = {
-//     params: params.params,
-//     body: params.body,
-//     query: params.query,
-//     user: params.user,
-//   };
-//   const next = () => null;
-//   const res = null;
-//   if (!routes[params.endpoint] || !routes[params.endpoint][params.path]) {
-//     return null;
-//   }
-//   const resJSON = await routes[params.endpoint][params.path](req, res, next);
-
-//   // convert to object in case we get a mongoose object back
-//   return resJSON && resJSON.toObject ? resJSON.toObject() : resJSON;
-// }
 
 function constructUri(options) {
   const rootUrl = options.uri || API_URL;
