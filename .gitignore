@@ -6,7 +6,7 @@ packages/app/publicenv.js
 .env
 *.pem
 packages/public/dist
-packages/server/test/mongoTestConfig.json
+packages/server/src/test/mongoTestConfig.json
 lib
 dist
 
