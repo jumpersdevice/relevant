@@ -43,7 +43,7 @@ export async function _request(options, getState) {
   const community = state.community.active;
   const query = community ? { community, ...options.query } : { ...options.query };
   const params = { ...options, query };
-
+  const { token } = state.auth;
   // ---------------------------------------------
   // This is the case when request is orginating from nodejs
   // ---------------------------------------------
@@ -52,15 +52,15 @@ export async function _request(options, getState) {
   // ---------------------------------------------
   // This is the case when request is orginating from client
   // ---------------------------------------------
-  return getDataFromClient(params);
+  return getDataFromClient(params, token);
 }
 
-async function getDataFromClient(params) {
+async function getDataFromClient(params, token) {
   const uri = constructUri(params);
   const queryString = queryParams(params.query);
   const response = await fetch(uri + queryString, {
     method: params.method,
-    ...(await reqOptions()),
+    ...(await reqOptions(token)),
     body: params.body
   });
   const responseOk = await handleErrors(response);
@@ -97,9 +97,9 @@ function constructUri(options) {
   return rootUrl + apiPath + options.endpoint + path + params;
 }
 
-export async function reqOptions() {
+export async function reqOptions(_token) {
   try {
-    const token = await storage.getToken();
+    const token = (await storage.getToken()) || _token;
     return {
       credentials: 'include',
       headers: {

@@ -104,7 +104,7 @@ async function handleMobileNotifications(user, alert, payload) {
       console.log('pushing to device tokens ', deviceToken);
     });
 
-    const postId = post.parentPost ? post.parentPost._id || post.parentPost : post._id;
+    const postId = post?.parentPost?._id || post.parentPost || post._id;
 
     const notePayload = payload.post
       ? {

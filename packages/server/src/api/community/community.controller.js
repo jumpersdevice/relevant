@@ -45,18 +45,23 @@ export async function index(req) {
   const onlyPublic = user && user.role === 'admin' ? {} : { private: { $ne: true } };
   const onlyVisible = user && user.role === 'admin' ? {} : { hidden: { $ne: true } };
 
-  const communties = await Community.find({
-    inactive: { $ne: true },
-    ...onlyPublic,
-    $or: [onlyVisible, { slug: community }]
-  })
+  const communties = await Community.find(
+    {
+      inactive: { $ne: true },
+      ...onlyPublic,
+      $or: [onlyVisible, { slug: community }]
+    },
+    'name image description slug topics description memberCount betEnabled defaultPost'
+  )
     .populate({
       path: 'admins',
-      match: { role: 'admin' }
+      match: { role: 'admin' },
+      select: 'embeddedUser reputation'
     })
     .populate({
       path: 'superAdmins',
-      match: { superAdmin: true }
+      match: { superAdmin: true },
+      select: 'embeddedUser reputation'
     });
 
   // find private communities where user is a member

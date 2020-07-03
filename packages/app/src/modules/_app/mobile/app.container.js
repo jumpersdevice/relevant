@@ -149,6 +149,7 @@ class Application extends Component {
 
     if (
       !newCommunity ||
+      newCommunity === 'communities' ||
       newCommunity === 'user' ||
       newCommunity === 'info' ||
       newCommunity === 'admin'
