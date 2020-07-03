@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, InteractionManager } from 'react-native';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -41,7 +41,7 @@ class SinglePostContainer extends Component {
     if (auth.community !== community) {
       requestAnimationFrame(() => {
         actions.setCommunity(community);
-        InteractionManager.runAfterInteractions(this.getPost);
+        this.getPost();
       });
     }
   }
