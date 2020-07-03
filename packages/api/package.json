@@ -1,6 +1,6 @@
 {
   "name": "@r3l/api",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Relevant Api",
   "homepage": "https://github.com/relevant-community/relevant",
   "license": "MIT",
@@ -17,8 +17,8 @@
     "@babel/polyfill": "^7.4.4",
     "@babel/register": "^7.4.4",
     "@babel/runtime": "^7.8.3",
-    "@r3l/app": "^0.0.13",
-    "@r3l/common": "^0.0.13",
+    "@r3l/app": "^0.0.14",
+    "@r3l/common": "^0.0.14",
     "apn": "^2.2.0",
     "apollo-server": "^2.9.9",
     "apollo-server-express": "^2.15.0",
