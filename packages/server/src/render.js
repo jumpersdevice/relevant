@@ -81,7 +81,7 @@ export function createInitialState(req) {
   return {
     auth: {
       user: req.user,
-      token: req.cookies.token,
+      token: req.cookies?.token,
       confirmed: req.confirmed || (req.user && req.user.confirmed),
       // TODO - get this from req.user
       community: req.params.community || cachedCommunity
