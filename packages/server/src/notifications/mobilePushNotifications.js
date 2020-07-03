@@ -76,7 +76,7 @@ service.on('socketError', console.error);
 
 async function handleMobileNotifications(user, alert, payload) {
   try {
-    if (!user) return;
+    if (!user) return null;
 
     const userObj = user.toObject();
     if (!userObj.notificationSettings || !userObj.deviceTokens) {
@@ -88,7 +88,7 @@ async function handleMobileNotifications(user, alert, payload) {
       !user.deviceTokens ||
       !user.deviceTokens.length
     ) {
-      return;
+      return null;
     }
 
     const { post } = payload;
@@ -96,7 +96,6 @@ async function handleMobileNotifications(user, alert, payload) {
       forUser: user._id,
       read: false
     });
-    // badge += await Feed.count({ userId: user._id, read: false });
 
     const registrationIds = [];
     user.deviceTokens.forEach(deviceToken => {
@@ -105,12 +104,14 @@ async function handleMobileNotifications(user, alert, payload) {
     });
 
     const postId = post?.parentPost?._id || post.parentPost || post._id;
+    const community =
+      post?.data?.community || post.community || post?.parentPost?.data?.community;
 
     const notePayload = payload.post
       ? {
           postId,
-          title: post.title,
-          community: post.data ? post.data.community : post.community,
+          title: post.title || post?.parentPost?.title,
+          community,
           comment: post.parentPost ? post._id : null
         }
       : {};
@@ -130,9 +131,7 @@ async function handleMobileNotifications(user, alert, payload) {
 
     const results = await push.send(registrationIds, data);
 
-    if (!results) {
-      console.log('notification error');
-    }
+    if (!results) return console.log('notification error');
     let updatedTokens = user.deviceTokens;
     results.forEach(result => {
       result.message.forEach(message => {
@@ -146,11 +145,12 @@ async function handleMobileNotifications(user, alert, payload) {
     if (updatedTokens.length !== user.deviceTokens.length) {
       user.markModified('deviceTokens');
       user.deviceTokens = updatedTokens;
-      await user.save();
+      user.save();
     }
   } catch (err) {
     console.log('push notifications error', err);
   }
+  return null;
 }
 
 module.exports = {

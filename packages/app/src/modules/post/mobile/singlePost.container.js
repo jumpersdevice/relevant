@@ -46,8 +46,13 @@ class SinglePostContainer extends Component {
 
   componentDidUpdate(prevProps) {
     // TODO this is not needed if we don't wipe post reducer
-    // when switching communities
-    if (prevProps.auth.community !== this.props.auth.community) this.getPost();
+    const { auth, navigation } = this.props;
+    const { community } = navigation.state.params;
+
+    if (prevProps.auth.community !== auth.community && auth.community !== community)
+      this.getPost();
+
+    if (!navigation.state?.params?.title) this.setTitle(this.props);
   }
 
   getPost = () => {
@@ -58,8 +63,8 @@ class SinglePostContainer extends Component {
     this.props.actions.getComments(id);
   };
 
-  setTitle(props) {
-    const { posts, navigation } = props;
+  setTitle() {
+    const { posts, navigation } = this.props;
     const { id } = navigation.state.params;
     const post = posts.posts[id];
     if (!post) return;
@@ -69,15 +74,6 @@ class SinglePostContainer extends Component {
 
     if (!this.props.navigation.state.params || title !== navigation.state.params.title) {
       navigation.setParams({ title });
-    }
-  }
-
-  componentDidWillUpdate(next) {
-    if (
-      !this.props.navigation.state.params ||
-      !this.props.navigation.state.params.title
-    ) {
-      this.setTitle(next);
     }
   }
 
@@ -135,7 +131,6 @@ function mapStateToProps(state) {
     comments: state.comments,
     users: state.user,
     tags: state.tags
-    // myPostInv: state.investments.myPostInv
   };
 }
 

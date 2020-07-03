@@ -67,7 +67,6 @@ exports.index = async req => {
       pagerank
       upVotes
       downVotes
-      commentCount
       paidOut
       payoutTime
       post
@@ -91,6 +90,7 @@ exports.index = async req => {
         mentions
         type
         myVote
+        commentCount
       `,
       populate: [
         ...myVote,
@@ -112,6 +112,7 @@ exports.index = async req => {
             user
             body
             parentPost
+            parentComment
             linkParent
             myVote
           `,
@@ -150,6 +151,7 @@ exports.index = async req => {
             articleDate
             articleAuthor
             tags
+            domain
           `
         },
         {
