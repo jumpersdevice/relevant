@@ -38,12 +38,10 @@ class SinglePostContainer extends Component {
   componentDidMount() {
     const { auth, actions, navigation } = this.props;
     const { community } = navigation.state.params;
-    if (auth.community !== community) {
-      requestAnimationFrame(() => {
-        actions.setCommunity(community);
-        this.getPost();
-      });
-    }
+    requestAnimationFrame(() => {
+      if (auth.community !== community) actions.setCommunity(community);
+      this.getPost();
+    });
   }
 
   componentDidUpdate(prevProps) {
