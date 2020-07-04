@@ -56,7 +56,7 @@ exports.index = async req => {
         {
           path: 'myVote',
           match: { investor: user._id, communityId },
-          select: 'investor post amount communityId community'
+          select: 'investor post amount communityId community isManualBet'
         }
       ]
     : [];
@@ -72,6 +72,7 @@ exports.index = async req => {
       post
       community
       communityId
+      eligibleForReward
     `
   )
     .sort(sortQuery)
