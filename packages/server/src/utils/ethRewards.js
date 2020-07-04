@@ -244,13 +244,6 @@ async function computePostPayout({ posts, community, futurePayout }) {
     if (post.pagerank < average) {
       post.payout = 0;
       return post.save();
-      // if (futurePayout) return;
-      // await Earnings.updateRewardsRecord({
-      //   post: post.post,
-      //   status: 'expired',
-      //   communityId: community._id,
-      // });
-      // return post;
     }
 
     // linear reward curve

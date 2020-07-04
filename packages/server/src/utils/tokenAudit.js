@@ -18,10 +18,10 @@ const { RELEVANT_ENV, SYS_ADMIN_EMAIL } = process.env;
 
 export async function runAudit() {
   try {
-    const communities = await Community.find({ inactive: { $ne: true } });
-    communities.forEach(c => {
-      console.log(c.slug, 'rewardFund', c.rewardFund);
-    });
+    // const communities = await Community.find({ inactive: { $ne: true } });
+    // communities.forEach((c) => {
+    //   console.log(c.slug, 'rewardFund', c.rewardFund);
+    // });
     await auditUserEarnings();
     console.log('finished audit');
   } catch (err) {
@@ -35,10 +35,10 @@ async function sendAdminAlert(user, diff) {
   const data = {
     from: 'Relevant <info@relevant.community>',
     to: 'slava@relevant.community',
-    subject: 'User balance discreptacy',
+    subject: 'User balance discrepancy',
     html: `
       user: @${user.handle}
-      discreptacy: ${diff}
+      discrepancy: ${diff}
       <br />
       <br />
       user object:
@@ -71,13 +71,13 @@ async function userEarnings(user) {
   const pendingEarnings = await Earnings.find({
     user: user._id,
     status: 'pending'
-  });
+  }).sort('updatedAt');
   const totalStaked = pendingEarnings.reduce((a, e) => e.stakedTokens + a, 0);
 
-  const earningDiff = totalStaked - user.lockedTokens;
-
-  if (Math.abs(earningDiff) > 0.000001) {
-    console.log('locked token mismatch', totalStaked, user.lockedTokens);
+  if (Math.abs(totalStaked - user.lockedTokens) > 0.000001) {
+    console.log('locked token mismatch', user.handle, totalStaked, user.lockedTokens);
+    user.lockedTokens = totalStaked;
+    await user.save();
   }
 
   const earnings = await Earnings.find({
@@ -85,20 +85,33 @@ async function userEarnings(user) {
     status: 'paidout'
   });
 
+  const userCashoutLog = await Earnings.find({ user: user._id, cashOutAttempt: true });
+  const cashedOut = userCashoutLog
+    .filter(e => e.status === 'completed')
+    .reduce((a, e) => a + e.cashOutAmt, 0);
+
+  if (Math.abs(user.cashedOut - cashedOut) > 0.000001) {
+    // console.log(userCashoutLog);
+    console.log(user.handle, 'cashed out is', user.cashedOut, 'should be', cashedOut);
+  }
+
   const totalRewards = earnings.reduce((a, e) => e.earned + a, 0);
   const diff = difference(user, totalRewards);
 
   if (Math.abs(diff) > 0.000001) {
     console.log('error! earnings mismatch for', user._id);
 
-    const userCashoutLog = await Earnings.find({ user: user._id, cashOutAttempt: true });
-    const cashedOut = userCashoutLog
-      .filter(e => e.status === 'completed')
-      .reduce((a, e) => a + e.cashOutAmt, 0);
+    // const weirdEarnings = await Earnings.find({
+    //   user: user._id,
+    //   reward: { $gt: 0 },
+    //   status: 'expired',
+    // });
+
     logUser(user, totalRewards);
     console.log(user.handle, 'discrepancy', diff);
-    console.log(user.handle, 'cashed out is', user.cashedOut, 'should be', cashedOut);
     sendAdminAlert(user, diff);
+    // console.log(weirdEarnings);
+    // earnings.map((e) => console.log(e.updatedAt, e.earned, e.prevBalance, e.endBalance));
   }
 }
 
