@@ -117,6 +117,7 @@ exports.index = async req => {
             parentComment
             linkParent
             myVote
+            createdAt
           `,
           populate: [
             ...myVote,
