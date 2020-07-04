@@ -93,6 +93,7 @@ exports.index = async req => {
         type
         myVote
         commentCount
+        createdAt
       `,
       populate: [
         ...myVote,
