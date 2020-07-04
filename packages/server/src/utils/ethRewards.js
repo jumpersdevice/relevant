@@ -25,11 +25,13 @@ const debug = false;
 
 let computingRewards = false;
 
+let startRewards;
 exports.rewards = async () => {
   // safeguard
   if (computingRewards) throw new Error('computing rewards is already in progress!');
   computingRewards = true;
 
+  startRewards = new Date();
   let rewardPool;
   try {
     rewardPool = await allocateRewards();
@@ -83,14 +85,8 @@ exports.rewards = async () => {
       0
     );
 
-    // TODO do we need these checks?
-    // const remainingRewards = await Eth.getParam('rewardPool', { noConvert: true });
-    // const distPool = await Eth.getParam('distributedRewards', { noConvert: true });
-    // console.log('distributedRewards Pool', distPool);
-    // console.log('Finished distributing rewards, remaining reward fund: ', remainingRewards);
-    const now = new Date();
     await Earnings.updateMany(
-      { payoutTime: { $lte: now }, status: 'pending' },
+      { payoutTime: { $lte: startRewards }, status: 'pending' },
       { status: 'expired' },
       { multi: true }
     );
@@ -165,27 +161,25 @@ function communityRewardShare({ community, stakedTokens, rewardPool }) {
 }
 
 async function postRewards(community) {
-  const now = new Date();
-
   // use postData as post
   const posts = await PostData.find({
     eligibleForReward: true,
     paidOut: false,
-    payoutTime: { $lte: now },
+    payoutTime: { $lte: startRewards },
     communityId: community._id
   });
 
   const pendingPayouts = await PostData.find({
     eligibleForReward: true,
     paidOut: false,
-    payoutTime: { $gt: now },
+    payoutTime: { $gt: startRewards },
     communityId: community._id
   });
 
   // decay current reward shares
   const decay = IS_TEST
     ? 0
-    : (now.getTime() - community.lastRewardFundUpdate.getTime()) / SHARE_DECAY;
+    : (startRewards.getTime() - community.lastRewardFundUpdate.getTime()) / SHARE_DECAY;
 
   community.currentShares *= 1 - Math.min(1, decay);
   community.topPostShares *= 1 - Math.min(1, decay);
@@ -204,7 +198,7 @@ async function postRewards(community) {
     post.paidOut = true;
   });
 
-  community.lastRewardFundUpdate = now;
+  community.lastRewardFundUpdate = startRewards;
   community = await community.save();
 
   const updatedPosts = await computePostPayout({ posts, community, futurePayout: false });

@@ -29,10 +29,10 @@ exports.index = async (req, res, next) => {
       .sort({ updatedAt: -1 })
       .skip(skip)
       .limit(limit);
+    return res.status(200).json(invites);
   } catch (err) {
     return next(err);
   }
-  return res.status(200).json(invites);
 };
 
 // Takes array of invites;

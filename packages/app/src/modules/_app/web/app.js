@@ -65,7 +65,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     const { history } = props;
-    history.listen(loc => this.updateCommunity(loc));
+    history.listen(loc => {
+      this.updateCommunity(loc);
+    });
   }
 
   state = {
