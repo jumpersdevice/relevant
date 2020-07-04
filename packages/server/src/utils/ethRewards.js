@@ -341,7 +341,7 @@ async function distributeUserRewards(posts, _community) {
       });
 
       const lockedTokens = pendingEarnings.reduce((a, e) => e.stakedTokens + a, 0);
-      console.log('pending staked', user.name, lockedTokens, user.lockedTokens);
+      // console.log('pending staked', user.name, lockedTokens, user.lockedTokens);
 
       user = await User.findOneAndUpdate(
         { _id: user._id },
