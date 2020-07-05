@@ -5,7 +5,7 @@ import { unique } from 'utils/list';
 const CommunitySchema = new schema.Entity('communities', {}, { idAttribute: 'slug' });
 const MemberSchema = new schema.Entity('members', {}, { idAttribute: '_id' });
 
-const initialState = {
+export const initialState = {
   communities: {},
   list: [],
   active: null,

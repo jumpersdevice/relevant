@@ -408,6 +408,8 @@ exports.index = async req => {
     }
   ]);
 
+  if (!post) return null;
+
   post.body = sanitizeHtml(post.body);
   post.tags = post.tags.map(sanitizeHtml);
 

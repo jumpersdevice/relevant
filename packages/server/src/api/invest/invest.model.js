@@ -64,7 +64,7 @@ InvestSchema.methods.removeVote = async function removeVote({ post, user }) {
   post.data.shares -= vote.shares;
   post.data.balance = Math.max(post.data.balance - vote.stakedTokens, 0);
   const returnTokens = Math.min(user.lockedTokens, vote.stakedTokens);
-  user.lockedTokens = (user.lockedTokens || 0) - returnTokens;
+  user.lockedTokens -= returnTokens;
   // eslint-disable-next-line
   console.log('UNLOCK TOKENS', vote.stakedTokens, user.balance, user.lockedTokens);
   post.data.needsRankUpdate = true;

@@ -9,7 +9,8 @@ import {
   BodyText,
   Header,
   CTALink,
-  Box
+  Box,
+  WarningBox
 } from 'modules/styled/uni';
 import { colors, sizing } from 'app/styles';
 import styled from 'styled-components/primitives';
@@ -77,6 +78,14 @@ class InviteModal extends Component {
     const { auth, community, count, inviteList, invites, onShare } = this.props;
     const { user } = auth;
     const { userMemberships = [], communities } = community;
+
+    if (!community.active)
+      return (
+        <WarningBox>
+          Please join a community first. You can select one from the left navigation
+          panel.
+        </WarningBox>
+      );
 
     const currentId = Object.keys(communities).find(
       key => communities[key].slug === community.active

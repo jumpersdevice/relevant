@@ -46,7 +46,7 @@ export function Community({ viewCommunityMembers, showSettings }) {
     userMemberships
   } = community;
 
-  const activeCommunity = communities[community.active];
+  const activeCommunity = communities?.[community.active];
   const activeMembers = get(communityMembers, community.active, []).map(
     id => members[id]
   );
@@ -83,6 +83,7 @@ export function Community({ viewCommunityMembers, showSettings }) {
 
 const OtherCommunities = memo(() => {
   const { communities, list, active } = useSelector(state => state.community);
+  if (!list) return null;
   return list
     .map(id => communities[id])
     .filter(community => community && active !== community.slug)

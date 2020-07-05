@@ -837,7 +837,7 @@ exports.cashOut = async (req, res, next) => {
       );
     }
 
-    const maxClaim = CASHOUT_MAX - cashedOut;
+    const maxClaim = CASHOUT_MAX - user.cashedOut;
 
     const canClaim = Math.min(maxClaim, user.balance - (user.airdropTokens || 0));
     const amount = Number(customAmount);

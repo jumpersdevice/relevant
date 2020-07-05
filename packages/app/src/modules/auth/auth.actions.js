@@ -41,9 +41,9 @@ const reqOptions = async () => {
 };
 
 export function setCommunity(community) {
-  if (BANNED_COMMUNITY_SLUGS.includes(community)) return null;
   return dispatch => {
-    dispatch({
+    if (community == null || BANNED_COMMUNITY_SLUGS.includes(community)) return null;
+    return dispatch({
       type: types.SET_COMMUNITY,
       payload: community
     });

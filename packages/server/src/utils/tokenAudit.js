@@ -18,10 +18,10 @@ const { RELEVANT_ENV, SYS_ADMIN_EMAIL } = process.env;
 
 export async function runAudit() {
   try {
-    const communities = await Community.find({ inactive: { $ne: true } });
-    communities.forEach(c => {
-      console.log(c.slug, 'rewardFund', c.rewardFund);
-    });
+    // const communities = await Community.find({ inactive: { $ne: true } });
+    // communities.forEach((c) => {
+    //   console.log(c.slug, 'rewardFund', c.rewardFund);
+    // });
     await auditUserEarnings();
     console.log('finished audit');
   } catch (err) {
@@ -35,10 +35,10 @@ async function sendAdminAlert(user, diff) {
   const data = {
     from: 'Relevant <info@relevant.community>',
     to: 'slava@relevant.community',
-    subject: 'User balance discreptacy',
+    subject: 'User balance discrepancy',
     html: `
       user: @${user.handle}
-      discreptacy: ${diff}
+      discrepancy: ${diff}
       <br />
       <br />
       user object:
@@ -71,19 +71,29 @@ async function userEarnings(user) {
   const pendingEarnings = await Earnings.find({
     user: user._id,
     status: 'pending'
-  });
+  }).sort('updatedAt');
   const totalStaked = pendingEarnings.reduce((a, e) => e.stakedTokens + a, 0);
 
-  const earningDiff = totalStaked - user.lockedTokens;
-
-  if (Math.abs(earningDiff) > 0.000001) {
-    console.log('locked token mismatch', totalStaked, user.lockedTokens);
+  if (Math.abs(totalStaked - user.lockedTokens) > 0.000001) {
+    // console.log('locked token mismatch', user.handle, totalStaked, user.lockedTokens);
+    // user.lockedTokens = totalStaked;
+    // await user.save();
   }
 
   const earnings = await Earnings.find({
     user: user._id,
     status: 'paidout'
   });
+
+  // const userCashoutLog = await Earnings.find({ user: user._id, cashOutAttempt: true });
+  // const cashedOut = userCashoutLog
+  //   .filter((e) => e.status === 'completed')
+  //   .reduce((a, e) => a + e.cashOutAmt, 0);
+
+  // if (Math.abs(user.cashedOut - cashedOut) > 0.000001) {
+  //   // console.log(userCashoutLog);
+  //   console.log(user.handle, 'cashed out is', user.cashedOut, 'should be', cashedOut);
+  // }
 
   const totalRewards = earnings.reduce((a, e) => e.earned + a, 0);
   const diff = difference(user, totalRewards);
@@ -95,10 +105,33 @@ async function userEarnings(user) {
     const cashedOut = userCashoutLog
       .filter(e => e.status === 'completed')
       .reduce((a, e) => a + e.cashOutAmt, 0);
+
+    const allEarnings = await Earnings.find({
+      user: user._id,
+      earned: { $gt: 0 },
+      status: 'expired'
+    });
+    console.log(allEarnings);
+    // const postData =
+    //   messedUp &&
+    //   (await PostData.findOne({
+    //     post: messedUp.post,
+    //     communityId: messedUp.communityId,
+    //   }));
+    // console.log(postData);
+    // console.log(messedUp);
+    // messedUp.status = 'paidout';
+    // await messedUp.save();
+
     logUser(user, totalRewards);
     console.log(user.handle, 'discrepancy', diff);
-    console.log(user.handle, 'cashed out is', user.cashedOut, 'should be', cashedOut);
     sendAdminAlert(user, diff);
+    // allEarnings.forEach((e) => {
+    //   if (e.earned > 0) {
+    //     // console.log(e.earned, e.endBalance - e.prevBalance);
+    //     console.log('earned', new Date(e.updatedAt).toTimeString(), e.earned);
+    //   }
+    // });
   }
 }
 
