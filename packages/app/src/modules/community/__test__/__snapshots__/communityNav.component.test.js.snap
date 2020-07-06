@@ -112,7 +112,7 @@ exports[`Snapshot NavProfile 1`] = `
       <a
         className="c0 ulink-mock"
         flex={1}
-        href="/relevant/new"
+        href="/relevant/top"
         hu={0}
         inline={0}
         onClick={[Function]}
@@ -660,7 +660,7 @@ exports[`Snapshot NavProfile 1`] = `
       <a
         className="c0 ulink-mock"
         flex={1}
-        href="/crypto/new"
+        href="/crypto/top"
         hu={0}
         inline={0}
         onClick={[Function]}
