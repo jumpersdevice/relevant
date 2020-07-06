@@ -1,6 +1,7 @@
 import { BANNED_COMMUNITY_SLUGS } from '@r3l/common';
-import { sendAdminAlert } from 'server/utils/mail';
+// import { sendAdminAlert } from 'server/utils/mail';
 import rateLimit from 'express-rate-limit';
+import * as Sentry from '@sentry/node';
 import handleRender from './render';
 // eslint-disable-next-line import/named
 import { currentUser } from './auth/auth.service';
@@ -67,7 +68,8 @@ module.exports = app => {
   // eslint-disable-next-line
   app.use(async (err, req, res, next) => {
     console.error(err); // eslint-disable-line
-    await sendAdminAlert(err);
+    // await sendAdminAlert(err);
+    Sentry.captureException(err);
     return res.status(500).json({ message: err.message });
   });
 

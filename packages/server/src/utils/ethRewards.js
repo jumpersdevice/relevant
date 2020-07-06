@@ -6,6 +6,7 @@ import { sendAdminAlert } from 'server/utils/mail';
 import Treasury from 'server/api/treasury/treasury.model';
 import computePageRank from 'server/pagerank/pagerankCompute';
 import * as numbers from 'app/utils/numbers';
+import * as Sentry from '@sentry/node';
 import User from '../api/user/user.model';
 import Invest from '../api/invest/invest.model';
 import Earnings from '../api/earnings/earnings.model';
@@ -41,6 +42,7 @@ exports.rewards = async () => {
     if (rewardPool < 0) throw new Error(`not enough funds in reward pool ${rewardPool}`);
   } catch (err) {
     console.log(err);
+    Sentry.captureException(err);
     await sendAdminAlert(err);
     throw err;
   }

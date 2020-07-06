@@ -8,6 +8,7 @@ import { ApolloServer } from 'apollo-server-express';
 import schema from 'server/graphql/schema';
 import rateLimit from 'express-rate-limit';
 import cors from 'cors';
+import * as Sentry from '@sentry/node';
 
 // import { SubscriptionServer } from 'subscriptions-transport-ws';
 // import { execute, subscribe } from 'graphql';
@@ -27,6 +28,8 @@ const { validateTokenLenient, verify } = require('server/auth/auth.service');
 
 const app = new Express();
 mongoose.Promise = global.Promise;
+
+Sentry.init({ dsn: process.env.SENTRY_DNS, environment: process.env.NODE_ENV });
 
 // -------------Dev server watch and hot reload---------------
 const isDevelopment =

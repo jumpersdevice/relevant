@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 import { INFURA_NETWORK, NETWORK_NUMBER } from 'app/core/config';
 import { sendAdminAlert } from 'server/utils/mail';
 import RelevantToken from '@r3l/common/lib/contracts/RelevantToken.json';
+import * as Sentry from '@sentry/node';
 
 let decimals;
 let instance;
@@ -22,6 +23,7 @@ process.on('beforeExit', async () => {
   const err = `Un-executed Pending Transactions: ${pendingTx}`;
   // eslint-disable-next-line
   console.log(err);
+  Sentry.captureException(err);
   await sendAdminAlert(new Error(err));
 });
 
