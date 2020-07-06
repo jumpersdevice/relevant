@@ -7,6 +7,7 @@ import Invest from 'server/api/invest/invest.model';
 import PostData from 'server/api/post/postData.model';
 import Community from 'server/api/community/community.model';
 import { sendEmail } from 'server/utils/mail';
+import * as Sentry from '@sentry/node';
 
 const queue = require('queue');
 
@@ -125,6 +126,7 @@ async function userEarnings(user) {
 
     logUser(user, totalRewards);
     console.log(user.handle, 'discrepancy', diff);
+    Sentry.captureException(new Error(`${user.handle} discrepancy: ${diff}`));
     sendAdminAlert(user, diff);
     // allEarnings.forEach((e) => {
     //   if (e.earned > 0) {
