@@ -36,6 +36,7 @@ Object {
   "blocked": Array [],
   "blockedBy": Array [],
   "cashedOut": 0,
+  "community": "general",
   "confirmCode": "[SANITIZED]",
   "confirmed": false,
   "createdAt": "[SANITIZED]",
