@@ -72,7 +72,7 @@ class CommunityAdminList extends Component {
     return (
       <View fdirection="column">
         {Object.values(communities).map(c => {
-          const communityURl = `/${c.slug}/new`;
+          const communityURl = `/${c.slug}/top`;
           return (
             <ULink
               to={communityURl}

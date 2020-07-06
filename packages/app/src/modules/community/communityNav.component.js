@@ -106,7 +106,7 @@ function CommunityLink({ community, active }) {
       flex={1}
       styles={linkStyle}
       key={community._id}
-      to={'/' + community.slug + '/new'}
+      to={'/' + community.slug + '/top'}
       onPress={() => {
         dispatch(closeDrawer());
         requestAnimationFrame(() => {
