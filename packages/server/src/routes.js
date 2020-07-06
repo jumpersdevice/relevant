@@ -1,4 +1,4 @@
-import { BANNED_COMMUNITY_SLUGS } from 'server/config/globalConstants';
+import { BANNED_COMMUNITY_SLUGS } from '@r3l/common';
 import { sendAdminAlert } from 'server/utils/mail';
 import rateLimit from 'express-rate-limit';
 import handleRender from './render';
@@ -14,9 +14,15 @@ function wwwRedirect(req, res, next) {
   return next();
 }
 
+const authLimit = rateLimit({
+  windowMs: 3 * 60 * 1000, // 3 min window
+  max: 6, // start blocking after 5 requests
+  message: 'You tired to log in too many times, please try again later'
+});
+
 const reloadLimit = rateLimit({
-  windowMs: 1 * 60 * 1000, // 1 hour window
-  max: 200000, // start blocking after 5 requests
+  windowMs: 1 * 60 * 1000, // 1 minute window
+  max: 30, // start blocking after 5 requests
   message: 'You refreshed too many times, please try again in 1 minute'
 });
 
@@ -27,7 +33,7 @@ module.exports = app => {
   // API
   app.use('/api/user', require('./api/user'));
   app.use('/api/s3', require('./api/s3'));
-  app.use('/auth', require('./auth'));
+  app.use('/auth', authLimit, require('./auth'));
   app.use('/api/post', require('./api/post'));
   app.use('/api/subscription', require('./api/subscription'));
   app.use('/api/invest', require('./api/invest'));

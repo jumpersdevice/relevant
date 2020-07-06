@@ -1,6 +1,6 @@
 import uuid from 'uuid/v4';
 import CommunityMember from 'server/api/community/community.member.model';
-import { totalAllowedInvites } from 'server/config/globalConstants';
+import { totalAllowedInvites } from '@r3l/common';
 import Community from 'server/api/community/community.model';
 import { sendEmail } from 'server/utils/mail';
 import Invite from './invite.model';

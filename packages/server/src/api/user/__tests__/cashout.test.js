@@ -3,7 +3,7 @@ import { cashOut } from 'server/api/user/user.controller';
 import { response } from 'jest-mock-express';
 import { getUsers } from 'server/test/seedData';
 import { init, mintRewardTokens, allocateRewards } from 'server/utils/ethereum';
-import { CASHOUT_MAX } from 'server/config/globalConstants';
+import { CASHOUT_MAX } from '@r3l/common';
 import { deployContract } from 'server/test/setup.eth';
 
 process.env.TEST_SUITE = 'cashout';

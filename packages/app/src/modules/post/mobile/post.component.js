@@ -1,11 +1,12 @@
-import React, { useState, memo } from 'react';
+import React, { memo } from 'react';
 import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import PostInfo from 'modules/post/postinfo.mobile.component';
 import ButtonContainer from 'modules/post/mobile/postButtons.container';
 import { Box } from 'modules/styled/uni';
-import HiddenPost from 'modules/post/hidden';
 import Commentary from './commentary.component';
+// import HiddenPost from 'modules/post/hidden';
+// import { MINIMUM_RANK, MINIMUM_DOWNVOTES_NEW, MINIMUM_REP_NEW } from '@r3l/common';
 
 Post.propTypes = {
   link: PropTypes.object,
@@ -19,20 +20,24 @@ Post.propTypes = {
 
 function Post(props) {
   const { link, commentary, singlePost, hideDivider, preview, noLink, post } = props;
-  const [showPost, setShowPost] = useState(false);
-
   const separator = <Box style={[{ height: 30, backgroundColor: 'rgba(0,0,0,.03)' }]} />;
 
-  if (post?.data?.pagerank <= -8 && !showPost) {
-    return (
-      <Box>
-        <Box mt={1} mb={1} ml={[0, 2]}>
-          <HiddenPost onPress={() => setShowPost(true)} />
-        </Box>
-        {!hideDivider ? separator : null}
-      </Box>
-    );
-  }
+  // const [showPost, setShowPost] = useState(false);
+  // const hidePost =
+  //   post?.data?.pagerank <= MINIMUM_REP_NEW ||
+  //   (post?.data?.downvotes < MINIMUM_DOWNVOTES_NEW &&
+  //     post?.data?.pagerank < MINIMUM_RANK);
+
+  // if (hidePost && !showPost) {
+  //   return (
+  //     <Box>
+  //       <Box mt={1} mb={1} ml={[0, 2]}>
+  //         <HiddenPost onPress={() => setShowPost(true)} />
+  //       </Box>
+  //       {!hideDivider ? separator : null}
+  //     </Box>
+  //   );
+  // }
 
   const blocked = <Box style={{ height: StyleSheet.hairlineWidth }} />;
 

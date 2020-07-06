@@ -41,7 +41,7 @@ export default async function handleRender(req, res) {
   let { community } = store.getState().auth;
   if (BANNED_COMMUNITY_SLUGS.includes(community)) community = null;
 
-  if (community && req.url === '/') return res.redirect(`/${community}/new`);
+  if (community && req.url === '/') return res.redirect(`/${community}/top`);
 
   // and populate user store with req.user
   if (req.user) store.dispatch(setUser(req.user));

@@ -22,7 +22,8 @@ const errors = [
   'No authorization token was found',
   'You can not upvote your own comment',
   'You can not downvote your own comment',
-  'E11000 duplicate key error collection: relevant.users index:'
+  'E11000 duplicate key error collection: relevant.users index:',
+  'Please join a community before creating invites.'
 ];
 
 export const shouldSkip = errMsg => {

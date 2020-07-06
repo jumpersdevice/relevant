@@ -59,8 +59,9 @@ class DiscoverTabs extends Component {
     this.state = {
       index: 0,
       routes: [
+        { key: 'top', title: 'Relevant' },
         { key: 'new', title: 'New' },
-        { key: 'top', title: 'Top' }
+        { key: 'spam', title: 'Spam' }
       ],
       headerHeight: 50
     };
@@ -71,8 +72,9 @@ class DiscoverTabs extends Component {
     if (params && params.topic) {
       this.topicId = params.id;
       this.state.routes = [
+        { key: 'top', title: 'Top' },
         { key: 'new', title: 'New' },
-        { key: 'top', title: 'Top' }
+        { key: 'spam', title: 'Spam' }
       ];
     }
     this.loaded = false;
@@ -131,34 +133,17 @@ class DiscoverTabs extends Component {
     const { navigation } = this.props;
     const currentRoute = this.state.routes[index] || {};
     if (!this.loaded) return <View key={route.key} />;
-    switch (route.key) {
-      case 'new':
-        return (
-          <Discover
-            active={currentRoute.key === route.key}
-            type={'new'}
-            key={'new'}
-            navigation={navigation}
-            onScroll={this.onScroll}
-            offsetY={headerHeight}
-            tabLabel={route.title}
-          />
-        );
-      case 'top':
-        return (
-          <Discover
-            active={currentRoute.key === route.key}
-            type={'top'}
-            key={'top'}
-            navigation={navigation}
-            onScroll={this.onScroll}
-            offsetY={headerHeight}
-            tabLabel={route.title}
-          />
-        );
-      default:
-        return null;
-    }
+    return (
+      <Discover
+        active={currentRoute.key === route.key}
+        type={route.key}
+        key={route.key}
+        navigation={navigation}
+        onScroll={this.onScroll}
+        offsetY={headerHeight}
+        tabLabel={route.title}
+      />
+    );
   }
 
   renderHeader(props) {

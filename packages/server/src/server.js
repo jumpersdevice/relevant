@@ -7,6 +7,7 @@ import passport from 'passport';
 import { ApolloServer } from 'apollo-server-express';
 import schema from 'server/graphql/schema';
 import rateLimit from 'express-rate-limit';
+import cors from 'cors';
 
 // import { SubscriptionServer } from 'subscriptions-transport-ws';
 // import { execute, subscribe } from 'graphql';
@@ -21,26 +22,47 @@ const cookiesMiddleware = require('universal-cookie-express');
 const path = require('path');
 const expressStaticGzip = require('express-static-gzip');
 
-const app = new Express();
-mongoose.Promise = global.Promise;
-
 // eslint-disable-next-line
 const { validateTokenLenient, verify } = require('server/auth/auth.service');
 
-const limiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 100000 // limit each IP to 1000 requests per windowMs
-});
-
-console.log('NODE_ENV', process.env.NODE_ENV);
-
-require('events').EventEmitter.prototype._maxListeners = 100;
+const app = new Express();
+mongoose.Promise = global.Promise;
 
 // -------------Dev server watch and hot reload---------------
 const isDevelopment =
   process.env.NODE_ENV !== 'production' &&
   process.env.NODE_ENV !== 'test' &&
   process.env.NODE_ENV !== 'native';
+
+console.log('NODE_ENV', process.env.NODE_ENV);
+
+const whitelist = [process.env.API_SERVER];
+
+const corsOptions = {
+  origin: whitelist,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  credentials: true,
+  optionsSuccessStatus: 200,
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'X-Requested-With',
+    'device-remember-token',
+    'Access-Control-Allow-Origin',
+    'Origin',
+    'Accept'
+  ]
+};
+
+app.use(cors(corsOptions));
+
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 1000 // limit each IP to 1000 requests per windowMs
+});
+
+require('events').EventEmitter.prototype._maxListeners = 100;
 
 const relevantEnv = process.env.RELEVANT_ENV;
 

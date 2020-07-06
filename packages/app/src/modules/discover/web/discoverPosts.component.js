@@ -22,12 +22,7 @@ class DiscoverPosts extends Component {
   }
 
   getData(sort, tag) {
-    let data;
-    if (sort === 'feed') {
-      data = this.props.posts.feed;
-    } else {
-      data = tag ? this.props.posts.topics[sort][tag] : this.props.posts[sort];
-    }
+    const data = tag ? this.props.posts.topics[sort][tag] : this.props.posts[sort];
     return data || [];
   }
 

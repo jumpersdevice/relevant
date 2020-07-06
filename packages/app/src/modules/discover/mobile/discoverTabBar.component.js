@@ -135,11 +135,6 @@ styles = StyleSheet.create({
     height: 50,
     flexDirection: 'row',
     justifyContent: 'space-around'
-    // borderWidth: StyleSheet.hairlineWidth,
-    // borderTopWidth: 0,
-    // borderLeftWidth: 0,
-    // borderRightWidth: 0,
-    // borderColor: '#ccc'
   }
 });
 

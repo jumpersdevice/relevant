@@ -27,11 +27,13 @@ const initialState = {
   // store top & bottom arrays here for feed render
   top: [],
   new: [],
+  spam: [],
   flagged: [],
   loading: true,
   loaded: {
     feed: false,
     top: false,
+    spam: false,
     new: false,
     twitterFeed: false,
     userPosts: false,
@@ -157,8 +159,10 @@ export default function post(state = initialState, action) {
       return {
         ...state,
         [type]: [
-          ...state[type].slice(0, action.payload.index),
-          ...action.payload.data.result[type]
+          ...new Set([
+            ...state[type]?.slice(0, action.payload.index),
+            ...action.payload.data.result[type]
+          ])
         ],
         posts: { ...state.posts, ...posts },
         loaded: {

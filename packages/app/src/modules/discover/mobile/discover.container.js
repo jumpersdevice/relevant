@@ -49,10 +49,9 @@ class Discover extends Component {
 
     this.needsReload = new Date().getTime();
     this.myTabs = [
-      { id: 0, title: 'Trending', type: 'top' },
-      { id: 1, title: 'New', type: 'new' },
-      { id: 2, title: 'People', type: 'people' },
-      { id: 3, title: 'Twitter', type: 'twitterFeed' }
+      { id: 0, title: 'Trending', type: 'top', sort: 'top' },
+      { id: 1, title: 'New', type: 'new', sort: 'new' },
+      { id: 2, title: 'Spam', type: 'spam', sort: 'spam' }
     ];
     this.loaded = true;
     this.type = this.props.type;
@@ -88,36 +87,20 @@ class Discover extends Component {
   shouldComponentUpdate = next => next.active && next.navigation.isFocused();
 
   getViewData(props, view) {
-    switch (view) {
-      case 0:
-        if (this.topic) {
-          return {
-            data: props.posts.topics.top[this.topic],
-            loaded: props.posts.loaded.topics[this.topic]
-              ? props.posts.loaded.topics[this.topic].top
-              : false
-          };
-        }
-        return {
-          data: props.posts.top,
-          loaded: props.posts.loaded.top
-        };
-      case 1:
-        if (this.topic) {
-          return {
-            data: props.posts.topics.new[this.topic],
-            loaded: props.posts.loaded.topics[this.topic]
-              ? props.posts.loaded.topics[this.topic].new
-              : false
-          };
-        }
-        return {
-          data: props.posts.new,
-          loaded: props.posts.loaded.new
-        };
-      default:
-        return null;
+    const { sort } = this.myTabs[view];
+
+    if (this.topic) {
+      return {
+        data: props.posts.topics[sort][this.topic],
+        loaded: props.posts.loaded.topics[this.topic]
+          ? props.posts.loaded.topics[this.topic][sort]
+          : false
+      };
     }
+    return {
+      data: props.posts[sort],
+      loaded: props.posts.loaded[sort]
+    };
   }
 
   scrollToTop() {
@@ -131,15 +114,8 @@ class Discover extends Component {
     if (!view) view = this.state.view;
     if (!length) length = 0;
     const tags = this.filter;
-    switch (view) {
-      case 0:
-        this.props.actions.getPosts(length, tags, 'rank', POST_PAGE_SIZE);
-        break;
-      case 1:
-        this.props.actions.getPosts(length, tags, null, POST_PAGE_SIZE);
-        break;
-      default:
-    }
+    const { sort } = this.myTabs[view];
+    this.props.actions.getPosts(length, tags, sort, POST_PAGE_SIZE);
   }
 
   renderHeader() {
@@ -204,7 +180,6 @@ PostEl.propTypes = {
 
 function PostEl({ posts, rowData, type, index }) {
   const post = posts.posts[rowData];
-
   const commentary = useMemo(() => {
     if (!post) return null;
     return post[type].map(c => posts.posts[c]);

@@ -1,5 +1,5 @@
 import PostData from 'server/api/post/postData.model';
-import { MINIMUM_RANK } from 'server/config/globalConstants';
+import { MINIMUM_RANK, MINIMUM_DOWNVOTES_NEW, MINIMUM_REP_NEW } from '@r3l/common';
 import Community from 'server/api/community/community.model';
 import CommunityMember from 'server/api/community/community.member.model';
 import sanitizeHtml from 'sanitize-html';
@@ -35,12 +35,40 @@ exports.index = async req => {
   const communityId = cObj._id;
 
   let query = { communityId, isInFeed: true };
-  if (sort === 'rank') {
+
+  if (sort === 'rank' || sort === 'top') {
     sortQuery = { rank: -1 };
     query.pagerank = { $gt: MINIMUM_RANK };
     commentarySort = { pagerank: -1 };
-  } else {
+  } else if (sort === 'new') {
     sortQuery = { latestComment: -1 };
+    query = {
+      ...query,
+      $or: [
+        { pagerank: { $gte: MINIMUM_RANK } },
+        {
+          $and: [
+            { downVotes: { $lt: MINIMUM_DOWNVOTES_NEW } },
+            { pagerank: { $gt: MINIMUM_REP_NEW } } // -5
+          ]
+        }
+      ]
+    };
+    commentarySort = { postDate: -1 };
+  } else if (sort === 'spam') {
+    sortQuery = { latestComment: -1 };
+    query = {
+      ...query,
+      $or: [
+        { pagerank: { $lt: MINIMUM_REP_NEW } },
+        {
+          $and: [
+            { downVotes: { $gte: MINIMUM_DOWNVOTES_NEW } },
+            { pagerank: { $lt: MINIMUM_RANK } }
+          ]
+        }
+      ]
+    };
     commentarySort = { postDate: -1 };
   }
 

@@ -37,8 +37,8 @@ export default function TabBar({ navigationState, position, setTab }) {
   }
 
   const left = Animated.interpolate(position, {
-    inputRange: [0, 1],
-    outputRange: [0, fullWidth / nRoutes],
+    inputRange,
+    outputRange: inputRange.map(i => (i * fullWidth) / nRoutes),
     extrapolate: 'clamp'
   });
 

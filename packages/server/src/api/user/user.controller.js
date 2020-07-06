@@ -7,7 +7,7 @@ import url from 'url';
 import { signToken } from 'server/auth/auth.service';
 import Invite from 'server/api/invites/invite.model';
 import { sendEmail, addUserToEmailList, removeFromEmailList } from 'server/utils/mail';
-import { BANNED_USER_HANDLES, CASHOUT_MAX } from 'server/config/globalConstants';
+import { BANNED_USER_HANDLES, CASHOUT_MAX } from '@r3l/common';
 // import { idUtils } from '3box';
 import { verifyEthSignature } from 'server/auth/web3/passport';
 import Earnings from 'server/api/earnings/earnings.model';

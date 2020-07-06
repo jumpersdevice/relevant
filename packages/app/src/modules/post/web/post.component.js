@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { layout } from 'app/styles';
@@ -8,7 +8,8 @@ import PostInfo from 'modules/post/postinfo.component';
 import { View, Text, Divider } from 'modules/styled/uni';
 import ButtonRow from 'modules/post/web/buttonRow.component';
 import { MAX_POST_WIDTH } from 'styles/layout';
-import HiddenPost from 'modules/post/hidden';
+// import HiddenPost from 'modules/post/hidden';
+// import { MINIMUM_RANK, MINIMUM_DOWNVOTES_NEW, MINIMUM_REP_NEW } from '@r3l/common';
 
 Post.propTypes = {
   post: PropTypes.object,
@@ -42,22 +43,28 @@ function Post({
   children
 }) {
   const screenSize = useSelector(state => state.navigation.screenSize);
-  const [showPost, setShowPost] = useState(false);
+
+  // const [showPost, setShowPost] = useState(false);
 
   if (!post) return null;
 
   const isLink = post.type === 'link';
 
-  if (post?.data?.pagerank <= -8 && !showPost) {
-    return (
-      <View>
-        <View mt={1} mb={1} ml={!screenSize ? layout.POST_BUTTONS_WIDTH : 0}>
-          <HiddenPost onPress={() => setShowPost(true)} />
-        </View>
-        {hideDivider ? null : <Divider m={['0 4', 0]} screenSize={screenSize} />}
-      </View>
-    );
-  }
+  // const hidePost =
+  //   post?.data?.pagerank <= MINIMUM_REP_NEW ||
+  //   (post?.data?.downvotes < MINIMUM_DOWNVOTES_NEW &&
+  //     post?.data?.pagerank < MINIMUM_RANK);
+
+  // if (hidePost && !showPost) {
+  //   return (
+  //     <View>
+  //       <View mt={1} mb={1} ml={!screenSize ? layout.POST_BUTTONS_WIDTH : 0}>
+  //         <HiddenPost onPress={() => setShowPost(true)} />
+  //       </View>
+  //       {hideDivider ? null : <Divider m={['0 4', 0]} screenSize={screenSize} />}
+  //     </View>
+  //   );
+  // }
 
   if (post === 'notFound') {
     return (

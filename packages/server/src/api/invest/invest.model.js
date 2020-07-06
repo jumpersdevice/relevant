@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { VOTE_COST_RATIO } from 'server/config/globalConstants';
+import { VOTE_COST_RATIO } from '@r3l/common';
 import Earnings from 'server/api/earnings/earnings.model';
 import { computePostPayout } from 'app/utils/rewards';
 import { computeShares } from 'app/utils/post';

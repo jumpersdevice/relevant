@@ -3,7 +3,7 @@ import {
   // REP_CUTOFF,
   RELEVANCE_DECAY_POSTS,
   REP_CUTOFF_POSTS
-} from 'server/config/globalConstants';
+} from '@r3l/common';
 
 const IS_TEST = process.env.NODE_ENV === 'test';
 const DEFAULT_WEIGHT_FROM_ADMIN = 0.15;

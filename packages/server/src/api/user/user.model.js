@@ -138,7 +138,7 @@ const UserSchema = new Schema(
     // boxAddress: { type: String },
 
     version: String,
-    community: String,
+    community: { type: String, default: 'general' },
     banned: Boolean
   },
   {

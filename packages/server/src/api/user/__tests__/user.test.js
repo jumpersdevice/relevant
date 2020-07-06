@@ -4,7 +4,7 @@ import { create, confirm } from 'server/api/user/user.controller';
 import { user, twitter } from 'app/mockdata';
 import { sanitize } from 'server/test/utils';
 import { handleTwitterAuth } from 'server/auth/twitter/passport';
-import { TWITTER_REWARD, EMAIL_REWARD } from 'server/config/globalConstants';
+import { TWITTER_REWARD, EMAIL_REWARD } from '@r3l/common';
 
 // this will define the database name where the tests are run
 process.env.TEST_SUITE = 'user';

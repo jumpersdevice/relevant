@@ -267,15 +267,14 @@ export function clearSelectedPost() {
 }
 
 // this function queries the meta posts
-export function getPosts(skip, tags, sort, limit, community) {
+export function getPosts(skip, tags, sort = 'top', limit, community) {
   let tagsString = '';
   if (!skip) skip = 0;
   if (!limit) limit = DEFAULT_LIMIT;
-  if (!sort) sort = null;
   let tag = null;
 
   // change this if we want to store top and new in separate places
-  const type = sort ? 'top' : 'new';
+  const type = sort;
   let topic;
 
   if (tags && tags.length) {
@@ -306,6 +305,7 @@ export function getPosts(skip, tags, sort, limit, community) {
       } else dispatch(setPosts(data, type, skip));
       dispatch(errorActions.setError('discover', false));
     } catch (err) {
+      console.error(err); // eslint-disable-line
       dispatch(errorActions.setError('discover', true, err.message));
     }
   };

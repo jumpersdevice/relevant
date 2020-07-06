@@ -197,7 +197,7 @@ const routes = [
               // TODO - parent route doesn't have access to child params
               {
                 path: '/:community/',
-                component: props => <MyRedirect {...props} to={'/new'} />,
+                component: props => <MyRedirect {...props} to={'/top'} />,
                 exact: true,
                 navbar: TopNav
               },

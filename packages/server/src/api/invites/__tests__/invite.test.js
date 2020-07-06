@@ -17,7 +17,7 @@ import {
   newUserCoins,
   PUBLIC_LINK_REWARD,
   MAX_AIRDROP
-} from 'server/config/globalConstants';
+} from '@r3l/common';
 import { user2, user3 } from 'app/mockdata/user';
 import computePageRank from 'server/pagerank/pagerankCompute';
 import { handleTwitterAuth } from 'server/auth/twitter/passport';

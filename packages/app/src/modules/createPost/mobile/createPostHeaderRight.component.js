@@ -133,7 +133,7 @@ class CreatePostHeaderRight extends Component {
       this.props.navigation.navigate('main');
       this.props.navigation.navigate('discover');
       this.props.navigation.popToTop();
-      this.props.actions.setScrollTab('discover', { tab: 0 });
+      this.props.actions.setScrollTab('discover', { tab: 1 });
       this.props.actions.reloadTab('discover');
       return null;
     });
@@ -224,7 +224,7 @@ class CreatePostHeaderRight extends Component {
       this.props.navigation.navigate('discover');
       this.props.navigation.popToTop();
       this.props.actions.reloadTab('discover');
-      this.props.actions.setScrollTab('discover', { tab: 0 });
+      this.props.actions.setScrollTab('discover', { tab: 1 });
       return null;
     });
     return null;

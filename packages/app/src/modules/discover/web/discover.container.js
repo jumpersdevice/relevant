@@ -36,19 +36,7 @@ export class Discover extends Component {
     const { sort, tag, community } = params;
     const length = 0; // TODO: ssr multi-page?
     const tags = tag ? [tag] : [];
-
-    switch (sort) {
-      case 'new':
-        return dispatch(
-          postActions.getPosts(length, tags, null, POST_PAGE_SIZE, community)
-        );
-      case 'top':
-        return dispatch(
-          postActions.getPosts(length, tags, 'rank', POST_PAGE_SIZE, community)
-        );
-      default:
-        return null;
-    }
+    postActions.getPosts(length, tags, sort, POST_PAGE_SIZE, community);
   }
 
   constructor(props, context) {
@@ -133,16 +121,7 @@ export class Discover extends Component {
     props = props || this.props;
     const tags = props.match.params.tag ? [props.match.params.tag] : [];
     const length = _length || 0;
-    switch (sort) {
-      case 'new':
-        actions.getPosts(length, tags, null, POST_PAGE_SIZE, community);
-        break;
-      case 'top':
-        actions.getPosts(length, tags, 'rank', POST_PAGE_SIZE, community);
-        break;
-      default:
-        break;
-    }
+    actions.getPosts(length, tags, sort, POST_PAGE_SIZE, community);
   }
 
   render() {

@@ -25,6 +25,9 @@ export const REP_CUTOFF_POSTS = 90 * DAYS; // time before we ignore votes for po
 
 export const MINIMUM_RANK = 1; // minimum rank to be considered for rewards
 
+export const MINIMUM_REP_NEW = -5; // minimum rep to be in the new feed
+export const MINIMUM_DOWNVOTES_NEW = 5; // minimum downvotes to be in the new feed
+
 export const PUBLIC_LINK_REWARD = 5; // amount of tokens you get for public referral
 export const REFERRAL_REWARD = 20; // amount of tokens awarded both the referrer and referee
 export const TWITTER_REWARD = 20; // amount of tokens awarded for connecting twitter

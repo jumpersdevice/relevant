@@ -1,7 +1,7 @@
 import Invest from 'server/api/invest/invest.model';
 import CommunityMember from 'server/api/community/community.member.model';
 import Community from 'server/api/community/community.model';
-import { REP_CUTOFF } from 'server/config/globalConstants';
+import { REP_CUTOFF } from '@r3l/common';
 import pagerank from './pagerank';
 import Graph from './graph';
 import { handleResults } from './handleResults';
