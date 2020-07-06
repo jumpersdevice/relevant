@@ -2,7 +2,7 @@
 
 exports[`server-side api request generate correct fetch request 1`] = `
 Array [
-  "http://localhost:3000/api/usertest/123?community=relevant&search=user",
+  "/api/usertest/123?community=relevant&search=user",
   Object {
     "body": Object {
       "data": "some data",

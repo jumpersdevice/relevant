@@ -22,7 +22,7 @@
     "build-dev": "webpack --config ./webpack.config.js --progress --colors -p",
     "app:test": "yarn workspace @r3l/app test",
     "server:test": "yarn workspace @r3l/server test",
-    "test": "NODE_ENV=test npx lerna execute test --no-bail --parallel",
+    "test": "NODE_ENV=test npx lerna exec yarn test --no-bail --parallel --stream",
     "test:watch": "NODE_ENV=test npx lerna run test --no-bail --parallel --watch --",
     "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache verify",
     "uninstall": "adb uninstall com.relevantnative",
