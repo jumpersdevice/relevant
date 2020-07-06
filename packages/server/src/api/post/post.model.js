@@ -7,7 +7,7 @@ const socketEvent = require('server/socket/socketEvent').default;
 const { Schema } = mongoose;
 const { sendNotification } = require('server/notifications');
 
-const TENTH_LIFE = 3 * 24 * 60 * 60 * 1000;
+const TENTH_LIFE = 2 * 24 * 60 * 60 * 1000; // 3 days
 
 const PostSchema = new Schema(
   {
