@@ -412,7 +412,6 @@ exports.index = async req => {
 
   post.body = sanitizeHtml(post.body);
   post.tags = post.tags.map(sanitizeHtml);
-
   return post;
 };
 

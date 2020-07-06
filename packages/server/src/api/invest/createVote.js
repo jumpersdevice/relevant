@@ -70,9 +70,10 @@ export const create = async (req, res, next) => {
           user
         });
 
+    const adjustAmount = undoInvest ? vote.amount : amount;
     const adjustVotes = undoInvest ? -1 : 1;
-    post.data.upVotes += amount > 0 ? adjustVotes : 0;
-    post.data.downVotes += amount < 0 ? adjustVotes : 0;
+    post.data.upVotes += adjustAmount > 0 ? adjustVotes : 0;
+    post.data.downVotes += adjustAmount < 0 ? adjustVotes : 0;
     post.data = await post.data.save();
 
     const authorPagerank = author && (author.relevance.pagerank || 0);
@@ -121,7 +122,7 @@ export const create = async (req, res, next) => {
     });
 
     // TODO - put the rest into queue on worker?
-    post.updateClient();
+    post.updateClient(user);
 
     Earnings.updateEarnings({ post, communityId });
 
