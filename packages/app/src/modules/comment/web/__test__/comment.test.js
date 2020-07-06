@@ -26,7 +26,6 @@ test('Snapshot Comment Form Web', async () => {
   });
 
   const textArea = tree.root.find(el => el.type === 'textarea');
-
   act(() => {
     textArea.props.onFocus();
     textArea.props.onChange({ target: { value: 'test input' } });

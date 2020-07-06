@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import fetchMock from 'fetch-mock';
 import * as actions from 'modules/post/post.actions';
 import * as types from 'app/core/actionTypes';
-import { queryParams } from 'app/utils/api';
+import { addQueryParams } from 'app/utils/api';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -19,10 +19,10 @@ describe('async actions', () => {
   const params = { skip, sort, limit, tags: null };
   const type = sort ? 'top' : 'new';
 
-  const queryString = queryParams(params);
+  const url = addQueryParams('/api/communityFeed', params);
 
   it('creates SET_POSTS when getting posts has been done', async () => {
-    fetchMock.getOnce(`/api/communityFeed${queryString}`, {
+    fetchMock.getOnce(url, {
       body: [
         {
           _id: 'parent1',

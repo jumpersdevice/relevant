@@ -90,6 +90,9 @@ export const BANNED_COMMUNITY_SLUGS = [
   'graphql',
   'info',
   'undefined',
+  'api',
+  'dist',
+  'public',
   ''
 ];
 

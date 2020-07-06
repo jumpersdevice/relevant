@@ -376,7 +376,7 @@ export function getSelectedPost(postId) {
         api.request({
           method: 'GET',
           endpoint: 'post',
-          path: '',
+          path: '/',
           params: { id: postId },
           user: auth.user
         })

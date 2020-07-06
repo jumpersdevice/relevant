@@ -40,6 +40,7 @@ describe('CreatePost', () => {
     aliceInitialAirdrop
   } = {};
   global.console.log = jest.fn(); // hides logs
+  global.console.error = jest.fn(); // hides logs
   const next = console.log; // eslint-disable-line
   let newUser;
 
@@ -84,9 +85,9 @@ describe('CreatePost', () => {
       inviteWithEmail = apiRes.invite[0];
       expect(inviteWithEmail.code).toBeDefined();
     });
-  });
+    // });
 
-  describe('after invite was created', () => {
+    // describe('after invite was created', () => {
     test('invite count should update', async () => {
       const aliceMember = await CommunityMember.findOne({ user: alice._id, communityId });
       const totalInvites = totalAllowedInvites({ alice, communityId });
@@ -131,9 +132,9 @@ describe('CreatePost', () => {
       const twitterUser = await User.findOne({ handle: twitter.profile.username });
       expect(twitterUser.balance).toBe(TWITTER_REWARD + EMAIL_REWARD + REFERRAL_REWARD);
     });
-  });
+    // });
 
-  describe('after invite is used', () => {
+    // describe('after invite is used', () => {
     test('invite should not be usable again', async () => {
       const usedInvite = await Invite.findOne({ _id: invite._id });
       expect(usedInvite.redeemed).toBe(true);
@@ -167,9 +168,9 @@ describe('CreatePost', () => {
       expect(inviterNote.coin).toBe(REFERRAL_REWARD);
       expect(inviteeNote.coin).toBe(REFERRAL_REWARD);
     });
-  });
+    // });
 
-  describe('public link', () => {
+    // describe('public link', () => {
     test('should be able to get reward for public link', async () => {
       const req = {
         body: { user: { ...user2, name: 'bobby' }, invitecode: alice.handle }

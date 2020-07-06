@@ -3,7 +3,7 @@ import MailGun from 'mailgun-js';
 import MailerLite from 'mailerlite-mailerlite';
 import { shouldSkip } from 'server/utils/skipErrors';
 
-const { SYS_ADMIN_EMAIL, RELEVANT_ENV } = process.env;
+const { SYS_ADMIN_EMAIL, RELEVANT_ENV, NODE_ENV } = process.env;
 const IS_PRODUCTION = RELEVANT_ENV === 'production';
 
 const ML = new MailerLite(process.env.MAILER_LITE_KEY, 2);
@@ -77,6 +77,7 @@ export async function sendAdminAlert(err) {
 }
 
 export async function addUserToEmailList(user, _list) {
+  if (NODE_ENV === 'test') return null;
   user = await ensureEmail(user);
   const listParams = LISTS[_list || 'general'];
   try {

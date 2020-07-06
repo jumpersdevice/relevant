@@ -1,4 +1,7 @@
 import { _request } from 'app/utils/api';
+import fetchMock from 'fetch-mock';
+
+fetchMock.post('*', { hello: 'world' });
 
 jest.mock('../api/user/user.controller', () => {
   return {
@@ -6,11 +9,12 @@ jest.mock('../api/user/user.controller', () => {
   };
 });
 
-const { test } = require('../api/user/user.controller');
-
 process.env.TEST_SUITE = 'serverapi';
 
 const getStore = () => ({
+  auth: {
+    token: 'myToken'
+  },
   community: {
     active: 'relevant'
   }
@@ -28,7 +32,6 @@ const options = {
 describe('server-side api request', () => {
   it('generate correct fetch request', async () => {
     await _request(options, getStore);
-    expect(test).toMatchSnapshot();
-    expect(test).toBeCalled();
+    expect(fetchMock.lastCall()).toMatchSnapshot();
   });
 });

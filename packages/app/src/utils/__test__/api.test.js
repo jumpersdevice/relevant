@@ -4,6 +4,9 @@ import fetchMock from 'fetch-mock';
 fetchMock.post('*', { hello: 'world' });
 
 const getStore = () => ({
+  auth: {
+    token: 'mytoken'
+  },
   community: {
     active: 'relevant'
   }

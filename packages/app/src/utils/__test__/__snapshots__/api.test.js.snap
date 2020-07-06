@@ -10,7 +10,7 @@ Array [
     "credentials": "include",
     "headers": Object {
       "Accept": "application/json",
-      "Authorization": "Bearer undefined",
+      "Authorization": "Bearer mytoken",
       "Content-Type": "application/json",
     },
     "method": "POST",

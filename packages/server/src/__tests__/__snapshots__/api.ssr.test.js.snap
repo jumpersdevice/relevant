@@ -1,43 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`server-side api request generate correct fetch request 1`] = `
-[MockFunction] {
-  "calls": Array [
-    Array [
-      Object {
-        "body": Object {
-          "data": "some data",
-        },
-        "params": Object {
-          "_id": "123",
-        },
-        "query": Object {
-          "community": "relevant",
-          "search": "user",
-        },
-        "user": undefined,
-      },
-      null,
-      [Function],
-    ],
-  ],
-  "results": Array [
-    Object {
-      "type": "return",
-      "value": Object {
-        "body": Object {
-          "data": "some data",
-        },
-        "params": Object {
-          "_id": "123",
-        },
-        "query": Object {
-          "community": "relevant",
-          "search": "user",
-        },
-        "user": undefined,
-      },
+Array [
+  "http://localhost:3000/api/usertest/123?community=relevant&search=user",
+  Object {
+    "body": Object {
+      "data": "some data",
     },
-  ],
-}
+    "credentials": "include",
+    "headers": Object {
+      "Accept": "application/json",
+      "Authorization": "Bearer myToken",
+      "Content-Type": "application/json",
+    },
+    "method": "POST",
+  },
+]
 `;
