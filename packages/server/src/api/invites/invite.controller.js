@@ -29,10 +29,10 @@ exports.index = async (req, res, next) => {
       .sort({ updatedAt: -1 })
       .skip(skip)
       .limit(limit);
+    return res.status(200).json(invites);
   } catch (err) {
     return next(err);
   }
-  return res.status(200).json(invites);
 };
 
 // Takes array of invites;
@@ -52,6 +52,8 @@ exports.createInvites = async invites => {
 exports.create = async (req, res, next) => {
   try {
     const { user, communityMember } = req;
+    if (!communityMember)
+      throw new Error('Please join a community before creating invites.');
     const { communityId, community } = communityMember;
     const { email, name, invitee } = req.body;
     const type = req.body.type || 'referral';

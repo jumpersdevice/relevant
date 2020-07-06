@@ -28,9 +28,8 @@ export async function _request(options, getState) {
 }
 
 async function getDataFromClient(params, token) {
-  const uri = constructUri(params);
-  const queryString = queryParams(params.query);
-  const response = await fetch(uri + queryString, {
+  const url = constructUri(params);
+  const response = await fetch(addQueryParams(url, params.query), {
     method: params.method,
     ...(await reqOptions(token)),
     body: params.body
@@ -71,14 +70,15 @@ export async function reqOptions(_token) {
   }
 }
 
-export const queryParams = params => {
+export const addQueryParams = (url, params) => {
   if (!params) return '';
   const paramString = Object.keys(params)
     .filter(p => params[p])
     .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
     .join('&');
-  if (paramString && paramString.length) return '?' + paramString;
-  return '';
+  if (paramString && paramString.length)
+    return url.indexOf('?') > 0 ? `${url}&${paramString}` : `${url}?${paramString}`;
+  return url;
 };
 
 export async function handleErrors(response) {
