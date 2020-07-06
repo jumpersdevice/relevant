@@ -121,6 +121,7 @@ function communityMember(role) {
       }
       const community = req?.query?.community;
       if (!community) next();
+
       let member = await CommunityMember.findOne({ user: user._id, community });
 
       // add member to default community
@@ -138,11 +139,10 @@ function communityMember(role) {
           member.community = com.slug;
           member = await member.save();
         }
-        // }
       }
 
       if (role === 'superAdmin' && !globalAdmin && !member.superAdmin) {
-        throw new Error("You don't have the priveleges required to do this");
+        throw new Error("You don't have the privileges required to do this");
       }
 
       if (!member && !globalAdmin)

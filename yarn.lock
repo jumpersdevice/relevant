@@ -24241,6 +24241,14 @@ react-native-tab-view@^2.11.0, react-native-tab-view@^2.4.0:
   version "1.0.2"
   resolved "git+https://github.com/balasan/react-native-twitter-signin.git#563dc62320645a09214e9857c6f67dab293d965f"
 
+react-native-url-polyfill@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-url-polyfill/-/react-native-url-polyfill-1.1.2.tgz#6ab6a5dbbb7fce964d9ee7445a63ac0983778a42"
+  integrity sha512-RPYwjW+4udnAf26xUCQP2dn4t2tnRFo3Ii4s/hy7Ivpe7xYtXp7CMVX505CR8X3p0f8NKmOJ4MQEFMMnbd/Y/Q==
+  dependencies:
+    buffer "^5.4.3"
+    whatwg-url-without-unicode "8.0.0-1"
+
 react-native-user-defaults@^0.1.4:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/react-native-user-defaults/-/react-native-user-defaults-0.1.5.tgz#138aaeced5bf7518c88ccb08dd8d878e1c6344ae"
@@ -29488,6 +29496,13 @@ whatwg-url-compat@~0.6.5:
   integrity sha1-AImBEa9om7CXVBzVpFymyHmERb8=
   dependencies:
     tr46 "~0.0.1"
+
+whatwg-url-without-unicode@8.0.0-1:
+  version "8.0.0-1"
+  resolved "https://registry.yarnpkg.com/whatwg-url-without-unicode/-/whatwg-url-without-unicode-8.0.0-1.tgz#86d2916bc654fd6f7949432cd24fa43e5b3ad279"
+  integrity sha512-0Uy8mjsG5O8Y53327XL+ZqsrMdxO1CL/6m840SmW5iyRWFvU2zlxS2RzpD3pFFVKYOKCmsKn5JKzWxQ+bImnWA==
+  dependencies:
+    webidl-conversions "^5.0.0"
 
 whatwg-url@^4.3.0:
   version "4.8.0"

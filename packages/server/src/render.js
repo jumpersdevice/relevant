@@ -14,7 +14,9 @@ import { getScreenSize } from 'app/utils/nav';
 import { client } from 'server/apollo.client.server';
 import { ApolloProvider } from '@apollo/react-common';
 import { initialState as navState } from 'app/modules/navigation/navigation.reducer';
+import { initialState as communityInitialState } from 'app/modules/community/community.reducer';
 import serialize from 'serialize-javascript';
+import { BANNED_COMMUNITY_SLUGS } from '@r3l/common';
 
 import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 
@@ -36,7 +38,9 @@ export const initStore = compose(configureStore, createInitialState);
 
 export default async function handleRender(req, res) {
   const store = initStore(req);
-  const { community } = store.getState().auth;
+  let { community } = store.getState().auth;
+  if (BANNED_COMMUNITY_SLUGS.includes(community)) community = null;
+
   if (community && req.url === '/') return res.redirect(`/${community}/new`);
 
   // and populate user store with req.user
@@ -86,7 +90,8 @@ export function createInitialState(req) {
       // TODO - get this from req.user
       community: req.params.community || cachedCommunity
     },
-    communities: {
+    community: {
+      ...communityInitialState,
       active: req.params.community || cachedCommunity
     },
     navigation: {
