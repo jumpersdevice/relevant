@@ -539,19 +539,21 @@ export function sendConfirmation() {
 }
 
 export function forgotPassword(user, query) {
-  return async () =>
-    fetch(API_URL + '/api/user/forgot' + (query || ''), {
-      method: 'PUT',
-      ...(await reqOptions()),
-      body: JSON.stringify({ user })
-    })
-      .then(api.handleErrors)
-      .then(response => response.json())
-      .then(responseJSON => responseJSON)
-      .catch(err => {
-        Alert.alert(err.message);
-        return false;
+  return async () => {
+    try {
+      const res = await fetch(API_URL + '/api/user/forgot' + (query || ''), {
+        method: 'PUT',
+        ...(await reqOptions()),
+        body: JSON.stringify({ user })
       });
+      await api.handleErrors(res);
+      const responseJSON = await res.json();
+      return responseJSON;
+    } catch (err) {
+      Alert.alert(err.message);
+      return false;
+    }
+  };
 }
 
 export function resetPassword(password, token) {

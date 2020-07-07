@@ -56,11 +56,11 @@ class Forgot extends Component {
       this.setState({ sendingEmail: true });
 
       const res = await this.props.actions.forgotPassword(this.state.username);
-      if (res && res.email) {
+      if (res) {
         this.props.navigation.navigate('mainAuth');
         this.setState({ sendingEmail: false });
         Alert.alert(
-          `We have set an email to ${res.email}
+          `We have sent you an email ${res.email ? `to ${res.email}` : ''}
       with a link to reset the password for ${res.username}.`,
           "If you don't see a password reset email in your inbox, please check your spam folder."
         );

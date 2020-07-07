@@ -24,7 +24,7 @@ class Forgot extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sentEmailTo: null
+      res: {}
     };
 
     this.FORM_FIELDS = [
@@ -44,20 +44,19 @@ class Forgot extends Component {
     delete params.modal;
     const queryParams = '?' + queryString.stringify(params);
     const res = await actions.forgotPassword(data.username, queryParams);
-    if (res && res.email) {
-      this.setState({ sentEmailTo: res.email });
-    }
+    // console.log(res);
+    if (res) this.setState({ res });
   };
 
   render() {
     const { handleSubmit } = this.props;
-    if (this.state.sentEmailTo) {
+    const { res } = this.state;
+    if (res.username) {
       return (
         <BodyText c={colors.black}>
-          We have set an email to {this.state.sentEmailTo} with a link to reset your
-          password.{'\n'}
-          If you don't see a password reset email in your inbox, please check your spam
-          folder.
+          We have sent you an email with a link to reset the password for {res.username}.
+          {'\n'} If you don't see a password reset email in your inbox, please check your
+          spam folder.
         </BodyText>
       );
     }

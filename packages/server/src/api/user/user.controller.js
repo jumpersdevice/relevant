@@ -90,7 +90,9 @@ exports.forgot = async (req, res, next) => {
     user.resetPasswordExpires = Date.now() + 3600000;
     user = await user.save();
     await sendResetEmail(user, queryString);
-    return res.status(200).json({ email: user.email, username: user.handle });
+    return res
+      .status(200)
+      .json({ email: email ? user.email : null, username: user.handle });
   } catch (err) {
     return next(err);
   }
