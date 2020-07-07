@@ -1,6 +1,5 @@
 import crypto from 'crypto-promise';
 import uuid from 'uuid/v4';
-// import sigUtil from 'eth-sig-util';
 import merge from 'lodash/merge';
 import url from 'url';
 // eslint-disable-next-line import/named
@@ -8,7 +7,6 @@ import { signToken } from 'server/auth/auth.service';
 import Invite from 'server/api/invites/invite.model';
 import { sendEmail, addUserToEmailList, removeFromEmailList } from 'server/utils/mail';
 import { BANNED_USER_HANDLES, CASHOUT_MAX } from '@r3l/common';
-// import { idUtils } from '3box';
 import { verifyEthSignature } from 'server/auth/web3/passport';
 import Earnings from 'server/api/earnings/earnings.model';
 import User from './user.model';
