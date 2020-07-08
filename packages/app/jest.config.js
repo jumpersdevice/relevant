@@ -14,7 +14,7 @@ module.exports = {
   displayName: pack.name,
   name: pack.name,
   rootDir: '../..',
-  roots: [`<rootDir>/packages/${pack.name.replace('@r3l/', '')}`],
+  roots: [`<rootDir>/packages/${pack.name.replace('@r3l/', '')}/src`],
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>packages/server/'],
   preset: 'react-native-web',
   testEnvironment: 'jsdom',

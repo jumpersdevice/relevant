@@ -1,6 +1,7 @@
 import apn from 'apn';
 import Notification from 'server/api/notification/notification.model';
 import User from 'server/api/user/user.model';
+import * as Sentry from '@sentry/node';
 
 /* eslint no-console: 0 */
 
@@ -31,6 +32,7 @@ function initNotificationService() {
   try {
     return new apn.Provider(options);
   } catch (err) {
+    Sentry.captureException(err);
     return { on: () => null };
   }
 }
@@ -110,7 +112,7 @@ async function handleMobileNotifications(user, alert, payload) {
       result.message.forEach(message => {
         if (message.error) {
           updatedTokens = updatedTokens.filter(token => token !== message.regId);
-          console.log('push notification error ', message.error);
+          Sentry.captureException(new Error(message.error));
         }
       });
     });
@@ -120,7 +122,7 @@ async function handleMobileNotifications(user, alert, payload) {
       user.save();
     }
   } catch (err) {
-    console.log('push notifications error', err);
+    Sentry.captureException(err);
   }
   return null;
 }

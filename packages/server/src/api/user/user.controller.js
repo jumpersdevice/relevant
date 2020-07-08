@@ -739,15 +739,10 @@ exports.updateUserTokenBalance = async (req, res, next) => {
 
 exports.updateUserNotifications = async (req, res, next) => {
   try {
-    let { user } = req;
-    const { body } = req;
+    const { user, body } = req;
     const { notificationSettings, subscription, deviceTokens } = body;
     const newSettings = merge(user.notificationSettings.toObject(), notificationSettings);
-
-    if (user.notificationSettings.email.digest !== newSettings.email.digest) {
-      if (!newSettings.email.digest) user = await addUserToEmailList(user, 'nodigest');
-      else user = await removeFromEmailList(user, 'nodigest');
-    }
+    const oldSettings = { ...user.notificationSettings };
     user.notificationSettings = newSettings;
 
     if (subscription) {
@@ -766,6 +761,12 @@ exports.updateUserNotifications = async (req, res, next) => {
       user.deviceTokens = deviceTokens;
     }
     await user.save();
+
+    if (oldSettings.email.digest !== newSettings.email.digest) {
+      if (!newSettings.email.digest) addUserToEmailList(user, 'nodigest');
+      else removeFromEmailList(user, 'nodigest');
+    }
+
     res.status(200).json(user);
   } catch (err) {
     next(err);
