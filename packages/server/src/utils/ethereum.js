@@ -145,7 +145,9 @@ export async function getNonce(_account) {
 
 export async function sign(_account, _amount) {
   const nonce = await getNonce(_account);
-  const amount = ethers.utils.parseUnits(_amount.toString(), decimals).toString();
+  const amount = ethers.utils
+    .parseUnits((Math.floor(_amount * 1e18) / 1e18).toString(), decimals)
+    .toString();
   const hash = ethers.utils.solidityKeccak256(
     ['uint256', 'address', 'uint256'],
     [amount, _account, nonce]

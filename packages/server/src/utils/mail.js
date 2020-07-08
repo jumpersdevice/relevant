@@ -2,6 +2,7 @@ import htmlToText from 'html-to-text';
 import MailGun from 'mailgun-js';
 import MailerLite from 'mailerlite-mailerlite';
 import { shouldSkip } from 'server/utils/skipErrors';
+import * as Sentry from '@sentry/node';
 
 const { SYS_ADMIN_EMAIL, RELEVANT_ENV, NODE_ENV } = process.env;
 const IS_PRODUCTION = RELEVANT_ENV === 'production';
@@ -118,9 +119,11 @@ export async function updateUserEmail(user, previousAddress, _list) {
     const u = mailgunUser(user);
     if (!u) return null;
 
-    return await handleRes(params => list.members(previousAddress).update(u, params));
+    await handleRes(params => list.members(previousAddress).update(u, params));
+    return user;
   } catch (err) {
-    return handleErr(err);
+    handleErr(err);
+    return user;
   }
 }
 
@@ -135,9 +138,11 @@ export async function removeFromEmailList(user, _list) {
 
   try {
     const list = mailgun.lists(listParams.mailgun + '@mail.relevant.community');
-    return await handleRes(params => list.members(user.email).delete(params));
+    await handleRes(params => list.members(user.email).delete(params));
+    return user;
   } catch (err) {
-    return handleErr(err);
+    handleErr(err);
+    return user;
   }
 }
 
@@ -157,8 +162,7 @@ function mailgunUser(user) {
 }
 
 function handleErr(err) {
-  console.log(err); // eslint-disable-line
-  sendAdminAlert(err);
+  Sentry.captureException(err);
   return null;
 }
 

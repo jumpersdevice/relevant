@@ -11,8 +11,8 @@
     "dev": "nodemon ./lib/index.js",
     "build": "npm run-script build:lib",
     "native": "NODE_ENV='native' nodemon server/index.js",
-    "build:lib:watch": "babel --watch --source-maps --extensions '.ts,.tsx,.js,.jsx' --copy-files --no-copy-ignored src -d lib --ignore **/*.stories.js,**/*.test.js,**/*.mock.js",
-    "build:lib": "babel --source-maps --extensions '.ts,.tsx,.js,.jsx' --copy-files --no-copy-ignored --delete-dir-on-start src -d lib --ignore **/*.stories.js,**/*.test.js,**/*.mock.js",
+    "build:lib:watch": "babel --watch --source-maps --extensions '.ts,.tsx,.js,.jsx' --copy-files --no-copy-ignored src -d lib --ignore **/*.stories.js,**/*.test.js,**/*/.snap,**/*.mock.js",
+    "build:lib": "babel --source-maps --extensions '.ts,.tsx,.js,.jsx' --copy-files --no-copy-ignored --delete-dir-on-start src -d lib --ignore **/*.stories.js,**/*.test.js,**/*/.snap,**/*.mock.js",
     "test": "NODE_ENV=test  jest"
   },
   "dependencies": {
