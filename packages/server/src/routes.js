@@ -1,5 +1,4 @@
 import { BANNED_COMMUNITY_SLUGS } from '@r3l/common';
-// import { sendAdminAlert } from 'server/utils/mail';
 import rateLimit from 'express-rate-limit';
 import * as Sentry from '@sentry/node';
 import handleRender from './render';

@@ -52,7 +52,6 @@ exports.handleWebNotifications = async params => {
     );
     await Promise.all(processed);
   } catch (err) {
-    // TODO remove failed or expired notifications
-    console.log(err); // eslint-disable-line
+    // console.log(err); // eslint-disable-line
   }
 };

@@ -27,8 +27,8 @@
     "url": "git+https://github.com/relevant-community/relevant.git"
   },
   "scripts": {
-    "build:lib": "babel --source-maps --extensions '.ts,.tsx,.js,.jsx' --copy-files --no-copy-ignored --delete-dir-on-start --root-mode upward src -d lib --ignore **/*.stories.js,**/*.test.js,**/*.mock.js",
-    "build:lib:watch": "babel --watch --source-maps --extensions '.ts,.tsx,.js,.jsx' --copy-files --no-copy-ignored --root-mode upward src -d lib --ignore **/*.stories.js,**/*.test.js,**/*.mock.js",
+    "build:lib": "babel --source-maps --extensions '.ts,.tsx,.js,.jsx' --copy-files --no-copy-ignored --delete-dir-on-start --root-mode upward src -d lib --ignore **/*.stories.js,**/*.test.js,**/*/.snap,**/*.mock.js",
+    "build:lib:watch": "babel --watch --source-maps --extensions '.ts,.tsx,.js,.jsx' --copy-files --no-copy-ignored --root-mode upward src -d lib --ignore **/*.stories.js,**/*.test.js,**/*/.snap,**/*.mock.js",
     "build": "BABEL_ENV='development_web' webpack --config ./webpack.production.config.js --progress --colors -p",
     "webpack": "webpack-dev-server",
     "test": "jest"

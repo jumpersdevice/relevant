@@ -20,7 +20,7 @@ export async function handleEmailNotifications(params) {
     };
     return sendEmail(data);
   } catch (err) {
-    return console.log(err); // eslint-disable-line
+    return null;
   }
 }
 

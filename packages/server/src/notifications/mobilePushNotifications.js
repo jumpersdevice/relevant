@@ -31,45 +31,19 @@ function initNotificationService() {
   try {
     return new apn.Provider(options);
   } catch (err) {
-    // console.log(err)
     return { on: () => null };
   }
 }
 const service = initNotificationService();
 
-service.on('connected', () => {
-  console.log('Connected');
-});
-
-service.on('transmitted', (notification, device) => {
-  console.log('Notification transmitted to:' + device.token.toString('hex'));
-});
-
 service.on('transmissionError', (errCode, notification, device) => {
-  console.error(
-    'Notification caused error: ' + errCode + ' for device ',
-    device,
-    notification
-  );
   if (errCode === 8) {
     const deviceToken = device.toString('utf8');
-    console.log('device id', deviceToken);
     User.findOneAndUpdate(
       { _id: notification.payload.toUser },
       { $pull: { deviceTokens: deviceToken } }
     ).exec();
-    console.log(
-      'A error code of 8 indicates that the device token is invalid. This could be for a number of reasons - are you using the correct environment? i.e. Production vs. Sandbox'
-    );
   }
-});
-
-service.on('timeout', () => {
-  console.log('Connection Timeout');
-});
-
-service.on('disconnected', () => {
-  console.log('Disconnected from APNS');
 });
 
 service.on('socketError', console.error);
@@ -100,7 +74,6 @@ async function handleMobileNotifications(user, alert, payload) {
     const registrationIds = [];
     user.deviceTokens.forEach(deviceToken => {
       registrationIds.push(deviceToken);
-      console.log('pushing to device tokens ', deviceToken);
     });
 
     const postId = post?.parentPost?._id || post.parentPost || post._id;
@@ -131,14 +104,13 @@ async function handleMobileNotifications(user, alert, payload) {
 
     const results = await push.send(registrationIds, data);
 
-    if (!results) return console.log('notification error');
+    if (!results) return null;
     let updatedTokens = user.deviceTokens;
     results.forEach(result => {
       result.message.forEach(message => {
         if (message.error) {
           updatedTokens = updatedTokens.filter(token => token !== message.regId);
           console.log('push notification error ', message.error);
-          console.log('removing device token', message.regId);
         }
       });
     });
