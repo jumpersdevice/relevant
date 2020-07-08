@@ -112,6 +112,7 @@ export default async function computeApproxPageRank({
       );
 
       post.data.pagerank = normRank - normRankNeg;
+      if (post.type !== 'link') post.pagerank = normRank - normRankNeg;
       await post.updateRank({ communityId });
     }
 
