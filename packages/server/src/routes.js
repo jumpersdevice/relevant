@@ -67,8 +67,6 @@ module.exports = app => {
   // (need next for this to work)
   // eslint-disable-next-line
   app.use(async (err, req, res, next) => {
-    console.error(err); // eslint-disable-line
-    // await sendAdminAlert(err);
     Sentry.captureException(err);
     return res.status(500).json({ message: err.message });
   });
