@@ -589,11 +589,11 @@ async function processSubscriptions(newPost, communityId) {
           follower.save();
         }
 
-        const newFeedPost = {
-          _id: subscription.follower._id,
-          type: 'INC_FEED_COUNT'
-        };
-        socketEvent.emit('socketEvent', newFeedPost);
+        // const newFeedPost = {
+        //   _id: subscription.follower._id,
+        //   type: 'INC_FEED_COUNT'
+        // };
+        // socketEvent.emit('socketEvent', newFeedPost);
         return null;
       } catch (err) {
         // eslint-disable-next-line
@@ -766,6 +766,7 @@ exports.remove = async (req, res, next) => {
     await post.remove();
 
     const newPostEvent = {
+      _id: userId,
       type: 'REMOVE_POST',
       notMe: true,
       payload: post

@@ -212,7 +212,7 @@ PostSchema.methods.updateClient = function updateClient(user) {
     post.parentPost = post.parentPost._id;
   }
   const postNote = {
-    _id: user ? user._id : null,
+    _id: user?._id,
     type: 'UPDATE_POST',
     payload: post
   };
@@ -542,7 +542,7 @@ PostSchema.statics.sendOutMentions = async function sendOutMentions(
 
     await Promise.all(promises);
     textParent = await textParent.save();
-    textParent.updateClient();
+    // textParent.updateClient();
     return textParent;
   } catch (err) {
     return console.log('sendOutMentions error', err); // eslint-disable-line

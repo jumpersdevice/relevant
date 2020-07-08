@@ -113,7 +113,7 @@ exports.create = async (req, res, next) => {
     }
 
     parentPost = await parentPost.save();
-    parentPost.updateClient();
+    parentPost.updateClient(user);
 
     const postAuthor = await User.findOne(
       { _id: parentPost.user },
@@ -280,7 +280,7 @@ exports.delete = async (req, res, next) => {
 
     await comment.remove();
 
-    if (post) post.updateClient();
+    if (post) post.updateClient(req.user);
     return res.json(200, true);
   } catch (err) {
     return next(err);
