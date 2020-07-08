@@ -123,8 +123,7 @@ export const create = async (req, res, next) => {
 
     // TODO - put the rest into queue on worker?
     post.updateClient(user);
-
-    Earnings.updateEarnings({ post, communityId });
+    Earnings.updateEarnings({ user, post, communityId });
 
     // updates user votes
     user.voteCount = await Invest.countDocuments({

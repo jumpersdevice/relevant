@@ -76,11 +76,11 @@ EarningsSchema.statics.updateUserBalance = async function updateBalance(earning)
 
 EarningsSchema.statics.updateEarnings = async function updateEarnings({
   post,
-  communityId
+  communityId,
+  user
 }) {
-  if (!post.data) {
+  if (!post.data)
     post.data = await this.model('PostData').find({ post: post._id, communityId });
-  }
   await this.model('Earnings').updateMany(
     { post: post._id, communityId },
     {
@@ -89,9 +89,9 @@ EarningsSchema.statics.updateEarnings = async function updateEarnings({
     },
     { multi: true }
   );
-  const earnings = await this.find({ post: post._id, communityId });
-  earnings.forEach(e => e.updateClient({ actionType: 'UPDATE_EARNING' }));
-  return earnings;
+  const earning = await this.find({ user: user._id, post: post._id, communityId });
+  earning?.updateClient({ actionType: 'UPDATE_EARNING' });
+  return earning;
 };
 
 EarningsSchema.statics.stakedTokens = async function stakedTokens() {
