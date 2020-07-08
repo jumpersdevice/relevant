@@ -5,7 +5,7 @@ import socketEvent from 'server/socket/socketEvent';
 import Post from 'server/api/post/post.model';
 import User from 'server/api/user/user.model';
 import Notification from 'server/api/notification/notification.model';
-import Invest from 'server/api/invest/invest.model';
+// import Invest from 'server/api/invest/invest.model';
 import { checkCommunityAuth } from 'server/api/community/community.auth';
 import sanitizeHtml from 'sanitize-html';
 
@@ -135,21 +135,22 @@ exports.create = async (req, res, next) => {
     if (postAuthor) otherCommentors.push(postAuthor);
     if (commentAuthor) otherCommentors.push(commentAuthor);
 
-    let voters = await Invest.find({ post: parentPost._id }).populate(
-      'investor',
-      'name _id deviceTokens handle email notificationSettings'
-    );
+    // let voters = await Invest.find({ post: parentPost._id }).populate(
+    //   'investor',
+    //   'name _id deviceTokens handle email notificationSettings'
+    // );
 
-    let commentVoters =
-      parentComment &&
-      (await Invest.find({ post: parentComment._id }).populate(
-        'investor',
-        'name _id deviceTokens handle email notificationSettings'
-      ));
+    // let commentVoters =
+    //   parentComment &&
+    //   (await Invest.find({ post: parentComment._id }).populate(
+    //     'investor',
+    //     'name _id deviceTokens handle email notificationSettings'
+    //   ));
 
-    commentVoters = commentVoters ? commentVoters.map(v => v.investor) : [];
-    voters = voters.map(v => v.investor);
-    otherCommentors = [...otherCommentors, ...voters, ...commentVoters];
+    // commentVoters = commentVoters ? commentVoters.map(v => v.investor) : [];
+    // voters = voters.map(v => v.investor);
+    // otherCommentors = [...otherCommentors, ...voters, ...commentVoters];
+
     otherCommentors = otherCommentors.filter(u => u);
 
     // filter out duplicates

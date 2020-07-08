@@ -588,7 +588,7 @@ PostSchema.methods.pruneFeed = async function pruneFeed({ communityId }) {
   if (!post.data) {
     post.data = await this.model('PostData').findOne({ post: post._id, communityId });
   }
-  const { shares } = post.data;
+  const shares = post?.data?.shares;
 
   if (post.type !== 'link') throw new Error('Should not prune anything but links');
   if (!communityId) throw new Error('missing community');
