@@ -120,7 +120,7 @@ InvestSchema.methods.placeBet = async function placeBet({
   post.myVote = vote;
   await post.save();
   user.updateClient();
-  post.updateClient();
+  post.updateClient(user);
 
   await updateUserEarnings({
     user,
