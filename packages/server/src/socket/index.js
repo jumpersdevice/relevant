@@ -86,11 +86,9 @@ function removeClient(io, socket, currentUser) {
       .exec()
       .catch(err => console.log(err));
   }
-  console.log('socket disconnected');
 }
 
 function addClient(io, socket, currentUser) {
-  console.log('user connected ', currentUser);
   clients[currentUser] = clients[currentUser] || {};
   clients[currentUser][socket.id] = socket;
 
@@ -112,7 +110,6 @@ function createListener(io) {
         if (err) console.log(err);
       });
     } else {
-      console.log('emit to all ', data.type);
       io.emit('action', data);
     }
   };
@@ -123,7 +120,6 @@ function emitToUser(data) {
   if (!sockets) return;
   Object.keys(sockets).forEach(id => {
     const socket = sockets[id];
-    console.log('emit to ', data._id, ' ', data.type);
     socket.emit('action', data);
   });
 }

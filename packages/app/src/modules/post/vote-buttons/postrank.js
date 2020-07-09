@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { getPostType } from 'app/utils/post';
 import { colors } from 'app/styles';
@@ -14,7 +14,9 @@ PostRank.propTypes = {
   post: PropTypes.object
 };
 
-export default function PostRank({ horizontal, color, post }) {
+export default memo(PostRank);
+
+function PostRank({ horizontal, color, post }) {
   const type = getPostType({ post });
   const tipText =
     type === 'link'

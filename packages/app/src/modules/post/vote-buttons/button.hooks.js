@@ -18,7 +18,7 @@ if (process.env.WEB !== 'true') {
 
 export function useCastVote({
   post,
-  user,
+  userId,
   canBet
   // community
 }) {
@@ -46,7 +46,7 @@ export function useCastVote({
 
         setProcessingVote(true);
         const res = await dispatch(
-          voteAction({ amount, post, user, vote, displayBetPrompt })
+          voteAction({ amount, post, userId, vote, displayBetPrompt })
         );
         setProcessingVote(false);
         if (!res || res.undoInvest) return;
@@ -58,7 +58,7 @@ export function useCastVote({
         alert(err.message);
       }
     },
-    [processingVote, hasAuth, dispatch, post, user, displayBetPrompt, canBet]
+    [processingVote, hasAuth, dispatch, post, userId, displayBetPrompt, canBet]
   );
 }
 

@@ -86,7 +86,7 @@ export function setUsers(users) {
 }
 
 // optimistic ui
-export function vote({ amount, post, user, vote: undo, displayBetPrompt }) {
+export function vote({ amount, post, userId, vote: undo, displayBetPrompt }) {
   return async dispatch => {
     try {
       if (undo) dispatch(undoPostVote(post._id));
@@ -97,7 +97,7 @@ export function vote({ amount, post, user, vote: undo, displayBetPrompt }) {
           endpoint: 'invest',
           path: '/',
           body: JSON.stringify({
-            investor: user._id,
+            investor: userId,
             amount,
             post
           })

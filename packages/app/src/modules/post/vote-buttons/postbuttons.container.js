@@ -1,4 +1,4 @@
-import React, { useRef, memo } from 'react';
+import React, { useRef, memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getPostType } from 'app/utils/post';
@@ -31,14 +31,22 @@ export default memo(PostButtons);
 function PostButtons({ post, color, horizontal }) {
   const investButton = useRef();
   const community = useCommunity();
-  const user = useSelector(state => state.auth.user);
-  const canBet = getCanBet({ post, community, user });
+  const userId = useSelector(state => state.auth?.user?.userId);
+  const betEnabled = useSelector(
+    state => state.auth.user?.notificationSettings?.bet?.manual
+  );
+
+  const canBet = useMemo(() => getCanBet({ post, community, betEnabled }), [
+    betEnabled,
+    community,
+    post
+  ]);
 
   useVoteAnimation({ post, investButton, horizontal });
-  const castVote = useCastVote({ post, user, community, canBet });
+  const castVote = useCastVote({ post, userId, community, canBet });
 
-  const tooltipData = getTooltipData(post);
-  const voteStatus = getVoteStatus(user, post);
+  const tooltipData = useMemo(() => getTooltipData(post), [post]);
+  const voteStatus = useMemo(() => getVoteStatus(userId, post), [userId, post]);
   if (!post || post === 'notFound') return null;
 
   return (
@@ -84,8 +92,8 @@ function PostButtons({ post, color, horizontal }) {
   );
 }
 
-function getVoteStatus(user, post) {
-  const ownPost = user && user._id === post.user;
+function getVoteStatus(userId, post) {
+  const ownPost = userId != null && userId === post?.user;
   const vote = ownPost ? true : post.myVote;
   return {
     vote,
@@ -108,14 +116,13 @@ function getTooltipData(post) {
   };
 }
 
-function getCanBet({ post, community, user }) {
+function getCanBet({ post, community, betEnabled }) {
   if (!post) return false;
   const now = new Date();
-  const bettingEnabled = community && community.betEnabled;
-  const manualBet = user && user.notificationSettings.bet.manual;
+  const communityBetIsEnabled = community && community.betEnabled;
   return (
-    manualBet &&
-    bettingEnabled &&
+    betEnabled &&
+    communityBetIsEnabled &&
     post.data &&
     post.data.eligibleForReward &&
     now.getTime() < new Date(post.data.payoutTime).getTime()

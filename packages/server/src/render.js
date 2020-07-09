@@ -61,11 +61,6 @@ export default async function handleRender(req, res) {
       req
     });
 
-    // global.gc();
-    // const { heapUsed } = process.memoryUsage();
-    // const mb = Math.round((100 * heapUsed) / 1048576) / 100;
-    // console.log('Program is using', mb, 'MB of Heap.');
-
     return res.send(html);
   } catch (err) {
     console.log('RENDER ERROR', err); // eslint-disable-line
@@ -218,7 +213,7 @@ function getCommunityMeta({ initialState }) {
 }
 
 export async function handleRouteData({ req, store }) {
-  const branch = matchRoutes(routes, req.url);
+  const branch = matchRoutes(routes, req.path);
   const promises = branch.map(async ({ route, match }) => {
     const { params } = match;
     const { fetchData } = route.component;
