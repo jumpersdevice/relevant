@@ -6,8 +6,6 @@ import Tooltip from 'modules/tooltip/tooltip.component';
 import { View, Image, SmallText } from 'modules/styled/uni';
 import { Platform } from 'react-native';
 
-// const Platform = process.env.WEB !== 'true' ? require('react-native').Platform : null;
-
 PostRank.propTypes = {
   horizontal: PropTypes.bool,
   color: PropTypes.string,

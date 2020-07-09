@@ -64,12 +64,14 @@ export function useCastVote({
 
 export function useVoteAnimation({ post, investButton, horizontal }) {
   const dispatch = useDispatch();
-  const newVote = useSelector(state => state.investments.voteSuccess);
+  const newVote = useSelector(state => {
+    const vote = state.investments.voteSuccess;
+    const postId = vote?.post?._id || vote?.post;
+    return postId === post._id && vote;
+  });
 
   useEffect(() => {
-    if (!newVote || !newVote._id) return;
-    const postId = newVote.post._id || newVote.post;
-    if (postId !== post._id) return;
+    if (!newVote?._id) return;
 
     const rankChange = computeRankChange({ post, rankChange: newVote.rankChange });
     const type = newVote.amount >= 0 ? 'upvote' : 'downvote';

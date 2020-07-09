@@ -11,7 +11,6 @@ import Comment from 'modules/comment/web/comment.component';
 class SingleComment extends Component {
   static propTypes = {
     actions: PropTypes.object,
-    user: PropTypes.object,
     comment: PropTypes.object,
     hidePostButtons: PropTypes.bool,
     screenSize: PropTypes.number,
@@ -53,7 +52,6 @@ class SingleComment extends Component {
       avatarText,
       noLink,
       hideBorder,
-      user,
       hideAvatar,
       actions,
       additionalNesting
@@ -75,8 +73,6 @@ class SingleComment extends Component {
         parentPost={parentPost}
         hidePostButtons={hidePostButtons}
         comment={comment}
-        user={user}
-        auth={actions}
         actions={actions}
         additionalNesting={additionalNesting}
       />
@@ -86,8 +82,6 @@ class SingleComment extends Component {
 
 export default connect(
   state => ({
-    auth: state.auth,
-    user: state.user,
     screenSize: state.navigation.screenSize
   }),
   dispatch => ({

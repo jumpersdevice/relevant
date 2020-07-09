@@ -2,7 +2,7 @@ require('./utils/env');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-// if (isProduction) require('newrelic');
+if (isProduction) require('newrelic');
 
 delete process.env.BROWSER;
 process.env.WEB = 'true';

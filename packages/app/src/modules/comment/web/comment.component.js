@@ -14,7 +14,6 @@ import CommentAuthor from 'modules/comment/comment.author';
 
 Comment.propTypes = {
   comment: PropTypes.object,
-  user: PropTypes.object,
   activeComment: PropTypes.string,
   setActiveComment: PropTypes.func,
   parentPost: PropTypes.object,
@@ -63,14 +62,16 @@ function Comment(props) {
   } = props;
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
+  const embeddedUser = comment?.embeddedUser;
 
-  const users = useSelector(state => state.user);
+  const user =
+    useSelector(state => {
+      const userId = state.user.handleToId[embeddedUser.handle];
+      return state.user.users[userId];
+    }) || embeddedUser;
+
   const screenSize = useSelector(state => state.navigation.screenSize);
-  const auth = useSelector(state => state.auth);
-
-  const embeddedUser = get(comment, 'embeddedUser', {});
-  const userId = users.handleToId[embeddedUser.handle];
-  const user = users.users[userId] || embeddedUser;
+  const userId = useSelector(state => state.auth?.user?._id);
 
   const el = createRef();
 
@@ -117,7 +118,7 @@ function Comment(props) {
       ? (nestingLevel && -3) || 0
       : layout.POST_BUTTONS_WIDTH / 3;
 
-  const popup = auth.user && auth.user._id === comment.user && (
+  const popup = userId && userId === comment.user && (
     <Popup
       options={[
         { text: 'Edit Post', action: () => setEditing(true) },
