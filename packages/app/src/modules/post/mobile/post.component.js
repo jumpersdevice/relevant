@@ -15,11 +15,21 @@ Post.propTypes = {
   singlePost: PropTypes.bool,
   hideDivider: PropTypes.bool,
   preview: PropTypes.bool,
-  noLink: PropTypes.bool
+  noLink: PropTypes.bool,
+  focusInput: PropTypes.func
 };
 
 function Post(props) {
-  const { link, commentary, singlePost, hideDivider, preview, noLink, post } = props;
+  const {
+    link,
+    commentary,
+    singlePost,
+    hideDivider,
+    preview,
+    noLink,
+    post,
+    focusInput
+  } = props;
   const separator = <Box style={[{ height: 30, backgroundColor: 'rgba(0,0,0,.03)' }]} />;
 
   // const [showPost, setShowPost] = useState(false);
@@ -70,7 +80,13 @@ function Post(props) {
       />
       {!preview && (
         <Box m={2}>
-          <ButtonContainer horizontal post={post} singlePost={singlePost} link={link} />
+          <ButtonContainer
+            focusInput={focusInput}
+            horizontal
+            post={post}
+            singlePost={singlePost}
+            link={link}
+          />
         </Box>
       )}
     </Box>
@@ -81,6 +97,7 @@ function Post(props) {
       link={link}
       singlePost={singlePost}
       commentary={[post]}
+      focusInput={focusInput}
     />
   );
 

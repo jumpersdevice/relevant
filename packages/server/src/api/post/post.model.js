@@ -17,8 +17,7 @@ const PostSchema = new Schema(
     channel: { type: Boolean, default: false },
     community: String,
     communityId: { type: Schema.Types.ObjectId, ref: 'Community' },
-    tags: [{ type: String, ref: 'Tag' }],
-    category: { type: String, ref: 'Tag' },
+    tags: [{ type: String }],
     repost: {
       post: { type: Schema.Types.ObjectId, ref: 'Post' },
       comment: { type: Schema.Types.ObjectId, ref: 'Post' },

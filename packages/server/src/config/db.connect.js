@@ -3,6 +3,10 @@ import computePageRank from 'server/pagerank/pagerankCompute';
 import Community from 'server/api/community/community.model';
 
 const SEED_DB = process.env.SEED_DB === 'true' && process.env.NODE_ENV !== 'production';
+
+const isLocalDB = process.env.MONGO_URI.match('localhost');
+const autoIndex = process.env.NODE_ENV !== 'production' && isLocalDB;
+
 /* eslint no-console: 0 */
 const mongoose = require('mongoose');
 
@@ -13,10 +17,10 @@ const db = mongoose.connection;
 const config = {
   socketTimeoutMS: 30000,
   keepAlive: 1,
-  reconnectTries: 30,
   useNewUrlParser: true,
   useFindAndModify: false,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  autoIndex
 };
 
 function connectWithRetry() {

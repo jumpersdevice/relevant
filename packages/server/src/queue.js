@@ -88,8 +88,8 @@ async function updateRewards() {
   }
 
   try {
-    await updateUserStats();
-    console.log('done updating stats');
+    // await updateUserStats();
+    // console.log('done updating stats');
 
     const now = new Date();
     if (now.getUTCHours() === 14) {

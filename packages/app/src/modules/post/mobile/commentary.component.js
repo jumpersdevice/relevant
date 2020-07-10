@@ -1,20 +1,18 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, memo } from 'react';
 import { StyleSheet, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { globalStyles, fullWidth, mainPadding } from 'app/styles/global';
+import { globalStyles } from 'app/styles/global';
 import Pills from 'modules/ui/mobile/pills.component';
-import { Image, Divider, View, Box } from 'modules/styled/uni';
+import { Divider, Box } from 'modules/styled/uni';
 import {
   PanGestureHandler,
   NativeViewGestureHandler
 } from 'react-native-gesture-handler';
 import { registerGesture } from 'modules/navigation/navigation.actions';
-import ButtonContainer from 'modules/post/mobile/postButtons.container';
 import { DrawerGestureContext } from 'react-navigation-drawer';
 import { TabViewContext } from 'modules/discover/mobile/discoverTabContext';
-import CommentBody from 'modules/comment/commentBody';
-import PostInfo from './postInfo.component';
+import Comment from './comment';
 
 let styles;
 
@@ -28,9 +26,7 @@ Commentary.propTypes = {
   isReply: PropTypes.bool
 };
 
-export default function Commentary(props) {
-  const auth = useSelector(state => state.auth);
-  const users = useSelector(state => state.user.users);
+function Commentary(props) {
   const {
     commentary,
     preview,
@@ -42,85 +38,6 @@ export default function Commentary(props) {
   } = props;
 
   const scrollToPage = p => scrollView.current.scrollToIndex({ index: p });
-
-  // eslint-disable-next-line
-  const renderItem = ({ item, index }) => {
-    const i = index;
-
-    const post = { ...item };
-    if (!post) return null;
-
-    const user = users[post.user] || post.embeddedUser;
-    const hideButtons = preview;
-
-    return (
-      <Box
-        key={post._id + i}
-        style={[
-          styles.commentaryContainer,
-          preview ? { width: 'auto', flex: 1 } : null,
-          preview ? { marginHorizontal: 0, marginTop: 16 } : null
-        ]}
-      >
-        {isReply && !preview ? <Divider /> : null}
-        <Box style={[styles.commentary]}>
-          <View flex={1} fdirection={'row'} m={`2 0 ${preview ? 0 : 2} 0`}>
-            {isReply && !preview ? (
-              <Image
-                h={2}
-                w={2}
-                mt={1}
-                mr={1}
-                resizeMode={'contain'}
-                source={require('public/img/reply.png')}
-              />
-            ) : null}
-            <Box style={{ flex: 1 }}>
-              <PostInfo
-                big
-                post={post}
-                auth={auth}
-                singlePost={singlePost}
-                user={user}
-                avatarText={avatarText}
-                preview={preview}
-              />
-              <Box
-                style={[
-                  {
-                    marginTop: preview && !post.link && !post.parentPost ? 0 : 8,
-                    flex: 1,
-                    justifyContent: 'center',
-                    marginLeft: avatarText ? 6 * 8 : 0
-                  }
-                ]}
-              >
-                <CommentBody
-                  community={'relevant'}
-                  comment={post}
-                  preview={preview}
-                  inMainFeed={!singlePost && !preview}
-                />
-              </Box>
-              {!hideButtons && (
-                <Box m={'2 0'}>
-                  <ButtonContainer
-                    horizontal
-                    post={post}
-                    parentPost={post.parentPost ? post.parentPost : post}
-                    comment={post}
-                    link={link}
-                    focusInput={focusInput}
-                    singlePost={singlePost}
-                  />
-                </Box>
-              )}
-            </Box>
-          </View>
-        </Box>
-      </Box>
-    );
-  };
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [scrollEnabled, setScrollEnabled] = useState(true);
@@ -165,7 +82,6 @@ export default function Commentary(props) {
   const pills = (
     <Box style={{ marginVertical: 16 }}>
       <Pills
-        // changed={changed}
         currentIndex={currentIndex}
         slides={commentary.map((c, i) => i + 1)}
         scrollToPage={scrollToPage}
@@ -213,7 +129,17 @@ export default function Commentary(props) {
                       keyExtractor={(item, index) => index.toString()}
                       horizontal={!preview}
                       data={commentary}
-                      renderItem={renderItem}
+                      renderItem={({ item: post, index }) => (
+                        <Comment
+                          post={post}
+                          index={index}
+                          preview={preview}
+                          singlePost={singlePost}
+                          focusInput={focusInput}
+                          link={link}
+                          avatarText={avatarText}
+                        />
+                      )}
                       pagingEnabled
                       contentContainerStyle={[!preview ? styles.postScroll : null]}
                       showsHorizontalScrollIndicator={false}
@@ -232,13 +158,6 @@ export default function Commentary(props) {
 }
 
 const localStyles = StyleSheet.create({
-  commentaryContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'center',
-    width: fullWidth - mainPadding * 2,
-    marginHorizontal: mainPadding
-  },
   postScroll: {
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -246,11 +165,9 @@ const localStyles = StyleSheet.create({
     justifyContent: 'flex-start',
     marginLeft: 0,
     marginRight: 0
-  },
-  commentary: {
-    flexGrow: 1,
-    flexDirection: 'column'
   }
 });
 
 styles = { ...localStyles, ...globalStyles };
+
+export default memo(Commentary);

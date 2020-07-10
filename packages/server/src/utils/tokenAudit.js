@@ -6,6 +6,7 @@ import Earnings from 'server/api/earnings/earnings.model';
 import Invest from 'server/api/invest/invest.model';
 import PostData from 'server/api/post/postData.model';
 import Community from 'server/api/community/community.model';
+import Notification from 'server/api/notification/notification.model';
 import { sendEmail } from 'server/utils/mail';
 import * as Sentry from '@sentry/node';
 
@@ -76,7 +77,7 @@ async function userEarnings(user) {
   const totalStaked = pendingEarnings.reduce((a, e) => e.stakedTokens + a, 0);
 
   if (Math.abs(totalStaked - user.lockedTokens) > 0.000001) {
-    // console.log('locked token mismatch', user.handle, totalStaked, user.lockedTokens);
+    console.log('locked token mismatch', user.handle, totalStaked, user.lockedTokens);
     // user.lockedTokens = totalStaked;
     // await user.save();
   }
@@ -100,29 +101,23 @@ async function userEarnings(user) {
   const diff = difference(user, totalRewards);
 
   if (Math.abs(diff) > 0.000001) {
+    console.log(user.handle);
     console.log('error! earnings mismatch for', user._id);
-
-    const userCashoutLog = await Earnings.find({ user: user._id, cashOutAttempt: true });
-    const cashedOut = userCashoutLog
-      .filter(e => e.status === 'completed')
-      .reduce((a, e) => a + e.cashOutAmt, 0);
 
     const allEarnings = await Earnings.find({
       user: user._id,
-      earned: { $gt: 0 },
-      status: 'expired'
+      earned: { $gt: 0 }
+      // status: 'paidout',
     });
-    console.log(allEarnings);
-    // const postData =
-    //   messedUp &&
-    //   (await PostData.findOne({
-    //     post: messedUp.post,
-    //     communityId: messedUp.communityId,
-    //   }));
-    // console.log(postData);
-    // console.log(messedUp);
-    // messedUp.status = 'paidout';
-    // await messedUp.save();
+
+    const notes = await Notification.find({ forUser: user._id, coin: { $gt: 0 } });
+    const sum = await notes.reduce((a, n) => (n.coin || 0) + a, 0);
+    console.log(sum);
+
+    // allEarnings.forEach(async (e) => {
+    //   e.status = 'paidout';
+    //   await e.save();
+    // });
 
     logUser(user, totalRewards);
     console.log(user.handle, 'discrepancy', diff);
@@ -157,9 +152,9 @@ function logUser(user, totalRewards) {
     user.tokenBalance,
     'newRewards:',
     totalRewards,
-    'airdrop / referral',
+    'airdrop | referral',
     user.airdropTokens,
-    '/',
+    '|',
     user.referralTokens,
     'legacyRewards:',
     user.legacyTokens,

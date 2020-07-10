@@ -21,6 +21,9 @@ const queue = require('queue');
 const IS_TEST = process.env.NODE_ENV === 'test';
 
 const q = queue({ concurrency: 1 });
+
+// const q5 = queue({ concurrency: 5 });
+
 // const debug = process.env.NODE_ENV === 'test';
 const debug = false;
 
@@ -87,11 +90,11 @@ exports.rewards = async () => {
       0
     );
 
-    await Earnings.updateMany(
-      { payoutTime: { $lte: startRewards }, status: 'pending' },
-      { status: 'expired' },
-      { multi: true }
-    );
+    // await Earnings.updateMany(
+    //   { payoutTime: { $lte: startRewards }, status: 'pending' },
+    //   { status: 'expired' },
+    //   { multi: true }
+    // );
 
     computingRewards = false;
     await runAudit();
@@ -163,20 +166,39 @@ function communityRewardShare({ community, stakedTokens, rewardPool }) {
 }
 
 async function postRewards(community) {
-  // use postData as post
-  const posts = await PostData.find({
-    eligibleForReward: true,
-    paidOut: false,
-    payoutTime: { $lte: startRewards },
-    communityId: community._id
-  });
+  // TODO paginate this
+  const postDataSelect = `
+    post
+    shares
+    paidOut
+    eligibleForReward
+    payoutTime
+    communityId
+    pagerank
+    paidOut
+    payout
+    payoutShare
+  `;
 
-  const pendingPayouts = await PostData.find({
-    eligibleForReward: true,
-    paidOut: false,
-    payoutTime: { $gt: startRewards },
-    communityId: community._id
-  });
+  const posts = await PostData.find(
+    {
+      eligibleForReward: true,
+      paidOut: false,
+      payoutTime: { $lte: startRewards },
+      communityId: community._id
+    },
+    postDataSelect
+  );
+
+  const pendingPayouts = await PostData.find(
+    {
+      eligibleForReward: true,
+      paidOut: false,
+      payoutTime: { $gt: startRewards },
+      communityId: community._id
+    },
+    postDataSelect
+  );
 
   // decay current reward shares
   const decay = IS_TEST
@@ -321,7 +343,7 @@ async function distributeUserRewards(posts, _community) {
         user: user._id,
         post: post.post,
         earned: reward,
-        status: curationPayout ? 'paidout' : 'expired',
+        status: reward ? 'paidout' : 'expired',
         prevBalance: user.balance,
         endBalance: user.balance + reward,
         legacyAirdrop: user.legacyAirdrop,

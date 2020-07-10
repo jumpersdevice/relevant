@@ -37,7 +37,6 @@ module.exports = app => {
   app.use('/api/post', require('./api/post'));
   app.use('/api/subscription', require('./api/subscription'));
   app.use('/api/invest', require('./api/invest'));
-  app.use('/api/tag', require('./api/tag'));
   app.use('/api/notification', require('./api/notification'));
   app.use('/api/comment', require('./api/comment'));
   app.use('/api/statistics', require('./api/statistics'));
@@ -66,6 +65,7 @@ module.exports = app => {
   // (need next for this to work)
   // eslint-disable-next-line
   app.use(async (err, req, res, next) => {
+    // console.log(err);
     Sentry.captureException(err);
     return res.status(500).json({ message: err.message });
   });

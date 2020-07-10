@@ -7,8 +7,8 @@ const plugins = [
   '@babel/transform-exponentiation-operator',
   '@babel/plugin-syntax-dynamic-import',
   'styled-components',
-  '@babel/plugin-proposal-class-properties',
-  'inline-react-svg'
+  '@babel/plugin-proposal-class-properties'
+  // 'inline-react-svg'
 ];
 
 const prodPlugins = ['transform-remove-console'];

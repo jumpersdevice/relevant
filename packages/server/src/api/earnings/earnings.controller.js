@@ -27,7 +27,7 @@ exports.updateCashoutLog = async (req, res, next) => {
     const { user } = req;
     const _id = req.params.id;
     const earning = await Earnings.findOneAndUpdate(
-      { _id, cashOutAttempt: true },
+      { _id, user: user._id, cashOutAttempt: true },
       { status: 'completed' },
       { new: true }
     );
