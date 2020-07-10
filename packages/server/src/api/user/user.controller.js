@@ -13,7 +13,7 @@ import User from './user.model';
 import Post from '../post/post.model';
 import CommunityMember from '../community/community.member.model';
 import Subscription from '../subscription/subscription.model';
-import Feed from '../feed/feed.model';
+// import Feed from '../feed/feed.model';
 import * as ethUtils from '../../utils/ethereum';
 import { logCashOut } from '../../utils/cashOut';
 
@@ -581,7 +581,7 @@ exports.updateHandle = async (req, res, next) => {
 
     await CommunityMember.updateMany(
       { user: user._id },
-      { embeddedUser: newUser },
+      { $set: { embeddedUser: newUser } },
       { multi: true }
     );
 
@@ -638,13 +638,13 @@ exports.update = async (req, res, next) => {
       // Do this on a separate thread?
       await Post.updateMany(
         { user: user._id },
-        { embeddedUser: newUser },
+        { $set: { embeddedUser: newUser } },
         { multi: true }
       );
 
       await CommunityMember.updateMany(
         { user: user._id },
-        { embeddedUser: newUser },
+        { $set: { embeddedUser: newUser } },
         { multi: true }
       );
     }
@@ -675,17 +675,10 @@ exports.block = async (req, res, next) => {
     // clear any existing subscriptions
     const sub1 = Subscription.deleteMany({ following: user._id, follower: block }).exec();
     const sub2 = Subscription.deleteMany({ following: block, follower: user._id }).exec();
-    const feed1 = Feed.deleteMany({ userId: user._id, from: block }).exec();
-    const feed2 = Feed.deleteMany({ userId: block, from: user._id }).exec();
+    // const feed1 = Feed.deleteMany({ userId: user._id, from: block }).exec();
+    // const feed2 = Feed.deleteMany({ userId: block, from: user._id }).exec();
 
-    const results = await Promise.all([
-      userPromise,
-      blockPromise,
-      sub1,
-      sub2,
-      feed1,
-      feed2
-    ]);
+    const results = await Promise.all([userPromise, blockPromise, sub1, sub2]);
     user = results[0];
     return res.status(200).json(user);
   } catch (err) {

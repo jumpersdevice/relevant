@@ -188,24 +188,26 @@ InvestSchema.statics.createVote = async function createVote({
 
 async function updateUserEarnings({ user, post, vote }) {
   const lookup = { user: user._id, post: post._id, communityId: vote.communityId };
-  const earningExists = await Earnings.countDocuments(lookup);
+  const existingEarning = await Earnings.find(lookup);
 
   const earning = await Earnings.findOneAndUpdate(
     lookup,
     {
-      shares: vote.shares,
-      stakedTokens: vote.stakedTokens,
-      community: vote.community,
-      communityId: vote.communityId,
-      payoutTime: post.data.payoutTime,
-      estimatedPostPayout: post.data.expectedPayout,
-      totalPostShares: post.data.shares,
-      status: 'pending'
+      $set: {
+        shares: vote.shares,
+        stakedTokens: vote.stakedTokens,
+        community: vote.community,
+        communityId: vote.communityId,
+        payoutTime: post.data.payoutTime,
+        estimatedPostPayout: post.data.expectedPayout,
+        totalPostShares: post.data.shares,
+        status: existingEarning?.status || 'pending'
+      }
     },
     { new: true, upsert: true }
   );
 
-  if (earningExists) return earning.updateClient({ actionType: 'UPDATE_EARNING' });
+  if (existingEarning) return earning.updateClient({ actionType: 'UPDATE_EARNING' });
   return earning.updateClient({ actionType: 'ADD_EARNING' });
 }
 

@@ -280,7 +280,10 @@ export async function update(req, res, next) {
 async function updateReputationScores(community) {
   // Only do this for small communities;
   if (community.memberCount > 100) return;
-  await PostData.updateMany({ communityId: community._id }, { needsRankUpdate: true });
+  await PostData.updateMany(
+    { communityId: community._id },
+    { $set: { needsRankUpdate: true } }
+  );
   await computePageRank({
     communityId: community._id,
     community: community.slug,
@@ -308,7 +311,7 @@ async function updateAdmins(admins, type, community) {
   };
   await CommunityMember.updateMany(
     { user: { $nin: newAdmins }, communityId: community._id, ...query[type] },
-    updateFields[type]
+    { $set: updateFields[type] }
   );
 
   const dontUpdateCount = true;

@@ -90,8 +90,10 @@ EarningsSchema.statics.updateEarnings = async function updateEarnings({
   await this.model('Earnings').updateMany(
     { post: post._id, communityId },
     {
-      estimatedPostPayout: post.data.expectedPayout,
-      totalPostShares: post.data.shares
+      $set: {
+        estimatedPostPayout: post.data.expectedPayout,
+        totalPostShares: post.data.shares
+      }
     },
     { multi: true }
   );

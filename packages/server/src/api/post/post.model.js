@@ -660,9 +660,6 @@ PostSchema.post('remove', async function postRemove(post, next) {
   const note = this.model('Notification')
     .deleteMany({ post: post._id })
     .exec();
-  const feed = this.model('Feed')
-    .deleteMany({ post: post._id })
-    .exec();
   const data = this.model('PostData')
     .deleteMany({ post: post._id })
     .exec();
@@ -682,7 +679,7 @@ PostSchema.post('remove', async function postRemove(post, next) {
       .exec();
   }
 
-  await Promise.all([note, feed, data, metaPost, commentNote]);
+  await Promise.all([note, data, metaPost, commentNote]);
   return next();
 });
 

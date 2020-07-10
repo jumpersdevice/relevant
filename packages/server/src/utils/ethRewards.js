@@ -90,11 +90,11 @@ exports.rewards = async () => {
       0
     );
 
-    // await Earnings.updateMany(
-    //   { payoutTime: { $lte: startRewards }, status: 'pending' },
-    //   { status: 'expired' },
-    //   { multi: true }
-    // );
+    await Earnings.updateMany(
+      { payoutTime: { $lte: startRewards }, status: 'pending' },
+      { $set: { status: 'expired' } },
+      { multi: true }
+    );
 
     computingRewards = false;
     await runAudit();
@@ -303,12 +303,11 @@ async function distributeUserRewards(posts, _community) {
     const totalShares = votes.reduce((a, v) => a + v.shares, 0);
 
     if (totalShares !== post.shares) {
-      console.log('post:', post.post);
-      console.log(
-        'ERROR: shares mismatch, investShares:',
-        totalShares,
-        'postShares:',
-        post.shares
+      Sentry.captureException(
+        new Error(`
+        ERROR: shares mismatch, investShares: ${post.post}
+        totalShares: ${totalShares} post shares: ${post.shares}
+        `)
       );
     }
 
@@ -363,7 +362,7 @@ async function distributeUserRewards(posts, _community) {
 
       user = await User.findOneAndUpdate(
         { _id: user._id },
-        { $inc: { balance: reward }, lockedTokens },
+        { $inc: { balance: reward }, $set: { lockedTokens } },
         { new: true }
       );
 
@@ -430,7 +429,7 @@ async function updatePendingEarnings(posts) {
   posts = await posts.map(post =>
     Earnings.updateMany(
       { post: post.post },
-      { estimatedPostPayout: post.payout / TOKEN_DECIMALS },
+      { $set: { estimatedPostPayout: post.payout / TOKEN_DECIMALS } },
       { multi: true }
     )
   );
