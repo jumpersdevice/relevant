@@ -30,7 +30,7 @@ export async function runAudit() {
     console.log(err);
   }
 }
-runAudit();
+// runAudit();
 
 async function sendAdminAlert(user, diff) {
   if (RELEVANT_ENV !== 'production') return null;
