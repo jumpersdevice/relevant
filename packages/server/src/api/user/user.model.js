@@ -154,6 +154,8 @@ UserSchema.index(
 );
 
 UserSchema.index({ handle: 1 });
+UserSchema.index({ email: 1 });
+UserSchema.index({ name: 1 });
 
 /**
  * Virtuals

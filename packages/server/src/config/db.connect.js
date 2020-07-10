@@ -13,7 +13,7 @@ const db = mongoose.connection;
 const config = {
   socketTimeoutMS: 30000,
   keepAlive: 1,
-  reconnectTries: 30,
+  // reconnectTries: 30,
   useNewUrlParser: true,
   useFindAndModify: false,
   useUnifiedTopology: true

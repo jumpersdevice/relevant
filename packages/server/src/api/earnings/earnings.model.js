@@ -81,6 +81,10 @@ EarningsSchema.statics.updateEarnings = async function updateEarnings({
 }) {
   if (!post.data)
     post.data = await this.model('PostData').find({ post: post._id, communityId });
+
+  // Don't update expired post payouts! Especially if they might be pending compute
+  if (post?.data?.payoutTime <= Date.new()) return null;
+
   await this.model('Earnings').updateMany(
     { post: post._id, communityId },
     {
