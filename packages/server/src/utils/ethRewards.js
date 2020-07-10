@@ -167,6 +167,19 @@ function communityRewardShare({ community, stakedTokens, rewardPool }) {
 
 async function postRewards(community) {
   // TODO paginate this
+  const postDataSelect = `
+    post
+    shares
+    paidOut
+    eligibleForReward
+    payoutTime
+    communityId
+    pagerank
+    paidOut
+    payout
+    payoutShare
+  `;
+
   const posts = await PostData.find(
     {
       eligibleForReward: true,
@@ -174,7 +187,7 @@ async function postRewards(community) {
       payoutTime: { $lte: startRewards },
       communityId: community._id
     },
-    'paidOut eligibleForReward payoutTime communityId'
+    postDataSelect
   );
 
   const pendingPayouts = await PostData.find(
@@ -184,7 +197,7 @@ async function postRewards(community) {
       payoutTime: { $gt: startRewards },
       communityId: community._id
     },
-    'paidOut eligibleForReward payoutTime communityId'
+    postDataSelect
   );
 
   // decay current reward shares

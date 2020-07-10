@@ -18,7 +18,7 @@ module.exports = {
     '@babel/plugin-transform-runtime',
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-proposal-class-properties',
-    'inline-react-svg',
+    // 'inline-react-svg',
     ['styled-components'],
     [
       'module-resolver',

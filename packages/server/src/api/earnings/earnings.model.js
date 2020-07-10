@@ -3,15 +3,15 @@ import socketEvent from 'server/socket/socketEvent';
 
 const { Schema } = mongoose;
 
+const TEST_ENV = process.env.NODE_ENV === 'test';
+
 const EarningsSchema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     source: { type: String, default: 'post' },
     post: { type: Schema.Types.ObjectId, ref: 'Post' },
-    // amount: { type: Number, default: 0 },
     // spent is legacy code keep in case we need to recompute legacy tokens
     spent: { type: Number, default: 0 },
-    // pending: { type: Number, default: 0 },
     stakedTokens: { type: Number, default: 0 },
     totalPostShares: { type: Number, default: 0 },
     estimatedPostPayout: { type: Number, default: 0 },
@@ -79,11 +79,13 @@ EarningsSchema.statics.updateEarnings = async function updateEarnings({
   communityId,
   user
 }) {
+  const leeway = TEST_ENV ? 1000 * 60 : 0;
+
   if (!post.data)
     post.data = await this.model('PostData').find({ post: post._id, communityId });
 
   // Don't update expired post payouts! Especially if they might be pending compute
-  if (post?.data?.payoutTime <= Date.new()) return null;
+  if (new Date(post?.data?.payoutTime).getTime() + leeway <= Date.now()) return null;
 
   await this.model('Earnings').updateMany(
     { post: post._id, communityId },
