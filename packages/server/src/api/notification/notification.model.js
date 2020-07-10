@@ -29,9 +29,9 @@ const NotificationSchema = new Schema(
   }
 );
 
+NotificationSchema.index({ read: 1 });
 NotificationSchema.index({ forUser: 1 });
-NotificationSchema.index({ forUser: 1, _id: 1 });
-NotificationSchema.index({ forUser: 1, _id: 1, createdAt: 1 });
+NotificationSchema.index({ group: 1 });
 
 NotificationSchema.statics.createNotification = async function createNotification(
   notificationObject

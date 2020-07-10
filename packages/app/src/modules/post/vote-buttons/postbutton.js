@@ -50,7 +50,7 @@ function PostButton({ alt, isActive, imageSet, onPress, color, tooltipData }) {
   const source = (isActive && images.active) || (hover && images.hover) || defaultState;
   return (
     <Tooltip data={tooltipData} name="voteDesk">
-      <Touchable onPress={onPress} bradius={2}>
+      <Touchable onPress={onPress} hitSlop={{ top: 6, left: 6, right: 6, bottom: 6 }}>
         <ButtonImage
           w={VOTE_BUTTON_SIZE}
           h={VOTE_BUTTON_SIZE}

@@ -119,22 +119,19 @@ function ButtonRow({
     dispatch(push({ key: 'createPost', title: 'Add Commentary' }));
   }
 
-  function NavigateToPost(openComment) {
+  function NavigateToPost(openComment, _comment) {
     if (openComment && !hasAuth()) return;
 
     const _parentPost = parentPost || post;
     const parentPostId = _parentPost._id || _parentPost;
 
-    // console.log('click NAVIGATE TO POST', parentPostId);
     if (singlePost) {
-      // console.log('setup reply');
-      // console.log('post id', get(navigation, 'state.params.id'));
       if (setupReply) setupReply(post);
       if (focusInput) focusInput();
       return;
     }
 
-    dispatch(goToPost({ _id: parentPostId, comment }, openComment));
+    dispatch(goToPost({ _id: parentPostId, comment: _comment }, openComment));
   }
 
   const isLink = !post.parentPost && post.url;
@@ -142,7 +139,7 @@ function ButtonRow({
   return (
     <View fdirection={'row'}>
       <TouchableOpacity
-        onPress={() => (isLink ? repostUrl() : NavigateToPost(true))}
+        onPress={() => (isLink ? NavigateToPost(true) : NavigateToPost(true, comment))}
         style={{ paddingHorizontal: 12 }}
       >
         <View style={[{ flexDirection: 'row', alignItems: 'center' }]}>

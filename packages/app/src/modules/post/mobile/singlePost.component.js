@@ -86,10 +86,11 @@ class SinglePostComponent extends Component {
     setTimeout(() => {
       const { params } = this.props.navigation.state;
       if (params.comment && this.comments.length) {
-        const id = params.comment._id || params.comment;
+        const id = params?.comment?._id || params.comment;
         const index = this.comments.findIndex(c => c && id === c._id);
         this.scrollToComment(index);
       }
+
       if (params && params.openComment) {
         this.input.textInput.focus();
       }
@@ -199,8 +200,12 @@ class SinglePostComponent extends Component {
           post={post}
           link={link}
           actions={actions}
-          focusInput={() => {
+          setupReply={() => {
             this.setState({ activeComment: post });
+            this.input.textInput.focus();
+          }}
+          focusInput={() => {
+            this.setState({ activeComment: link ? null : post });
             this.input.textInput.focus();
           }}
         />
@@ -310,7 +315,7 @@ class SinglePostComponent extends Component {
     const { post } = this.props;
     if (!post) return null;
     const { editing } = this.state;
-    let { activeComment } = this.state;
+    const { activeComment } = this.state;
 
     // TODO this is hacky;
     this.getChildren();
@@ -320,9 +325,6 @@ class SinglePostComponent extends Component {
 
     if (activeComment && activeComment._id === post._id) {
       commentIndex = -1;
-    } else {
-      commentIndex = commentIndex > -1 ? commentIndex : this.comments.length - 1;
-      activeComment = this.comments[commentIndex];
     }
 
     return (
@@ -375,7 +377,9 @@ class SinglePostComponent extends Component {
           ref={c => (this.input = c)}
           postId={this.id}
           placeholder={
-            activeComment ? `Reply to @${activeComment.embeddedUser.handle}` : null
+            activeComment
+              ? `Reply to @${activeComment.embeddedUser.handle}`
+              : 'Add your comment'
           }
           editing={editing}
           {...this.props}

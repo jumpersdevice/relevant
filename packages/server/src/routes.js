@@ -37,7 +37,6 @@ module.exports = app => {
   app.use('/api/post', require('./api/post'));
   app.use('/api/subscription', require('./api/subscription'));
   app.use('/api/invest', require('./api/invest'));
-  app.use('/api/tag', require('./api/tag'));
   app.use('/api/notification', require('./api/notification'));
   app.use('/api/comment', require('./api/comment'));
   app.use('/api/statistics', require('./api/statistics'));

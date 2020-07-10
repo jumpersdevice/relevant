@@ -12,6 +12,7 @@ import {
 import { registerGesture } from 'modules/navigation/navigation.actions';
 import { DrawerGestureContext } from 'react-navigation-drawer';
 import { TabViewContext } from 'modules/discover/mobile/discoverTabContext';
+import Comment from './comment';
 
 let styles;
 
@@ -128,7 +129,7 @@ function Commentary(props) {
                       keyExtractor={(item, index) => index.toString()}
                       horizontal={!preview}
                       data={commentary}
-                      renderItem={({ item: post, index }) => {
+                      renderItem={({ item: post, index }) => (
                         <Comment
                           post={post}
                           index={index}
@@ -137,8 +138,8 @@ function Commentary(props) {
                           focusInput={focusInput}
                           link={link}
                           avatarText={avatarText}
-                        />;
-                      }}
+                        />
+                      )}
                       pagingEnabled
                       contentContainerStyle={[!preview ? styles.postScroll : null]}
                       showsHorizontalScrollIndicator={false}

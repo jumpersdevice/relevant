@@ -13,7 +13,6 @@ import Post from './post.model';
 import User from '../user/user.model';
 import Subscriptiton from '../subscription/subscription.model';
 import Feed from '../feed/feed.model';
-import Tag from '../tag/tag.model';
 import Notification from '../notification/notification.model';
 import PostData from './postData.model';
 import { PAYOUT_TIME } from '../../config/globalConstants';
@@ -26,7 +25,7 @@ request.defaults({ maxRedirects: 22, jar: true });
 async function findRelatedPosts(metaId) {
   try {
     const post = await MetaPost.findOne({ _id: metaId }).populate('tags');
-    const tagsArr = post.tags.filter(t => !t.category).map(t => t._id);
+    const tagsArr = post?.tags?.filter(t => !t.category).map(t => t._id);
     const tags = tagsArr.join(' ');
     const keywords = post.keywords.join(' ');
     const search = `${tags} ${keywords} ${post.title}`.replace(/"|'/g, '');
@@ -424,31 +423,21 @@ exports.related = async req => {
 exports.update = async (req, res, next) => {
   try {
     const { communityId } = req.communityMember;
-    let tags = req.body.tags.filter(tag => tag);
-
-    // DEPRECATED old mobile
-    tags = tags.map(tag => tag.replace('_category_tag', '').trim());
+    const tags = req.body?.tags?.filter(tag => tag);
 
     const mentions = req.body.mentions || [];
-    let newMentions;
-    let newTags;
     const { category } = req.body;
-    let newPost;
-    let linkObject;
 
-    newPost = await Post.findOne({ _id: req.body._id }).populate('parentPost');
+    let linkObject;
+    let newPost = await Post.findOne({ _id: req.body._id }).populate('parentPost');
 
     if (!communityId.equals(newPost.communityId)) {
       throw new Error("Community doesn't match");
     }
 
     const prevMentions = [...newPost.mentions];
-    const prevTags = [...newPost.mentions];
 
-    newMentions = mentions.filter(m => prevMentions.indexOf(m) < 0);
-    newTags = tags.filter(t => prevTags.indexOf(t) < 0);
-
-    newPost.tags = tags;
+    newPost.tags = tags || [];
     newPost.mentions = mentions;
     newPost.body = req.body.body;
 
@@ -483,27 +472,13 @@ exports.update = async (req, res, next) => {
     res.status(200).json(newPost);
 
     // some post processing
-    newTags = newTags || [];
-    newMentions = newMentions || [];
-
-    // TODO redo tag processing stuff
-    const pTags = newTags.map(tag =>
-      Tag.updateOne(
-        { _id: tag },
-        {
-          $addToSet: { parents: category },
-          $inc: { count: 1 } // eslint-disable-line
-        },
-        { upsert: true }
-      ).exec()
-    );
+    const newMentions = mentions.filter(m => prevMentions.indexOf(m) < 0);
 
     await Post.sendOutMentions(newMentions, newPost, {
       _id: newPost.user,
       name: newPost.embeddedUser.name
     });
-
-    return await Promise.all([...pTags]);
+    return null;
   } catch (err) {
     return next(err);
   }
@@ -630,7 +605,6 @@ exports.create = async (req, res, next) => {
     // current rate limiting is 5s via invest
     const hasChildComment = body && body.length;
     const mentions = req.body.mentions || [];
-    let tags = [];
     const keywords = req.body.keywords || [];
     const category = req.body.category ? req.body.category._id : null;
 
@@ -642,15 +616,7 @@ exports.create = async (req, res, next) => {
       payoutTime = req.body.payoutTime;
     }
 
-    // TODO clean up tag stuff
-    if (category) tags.push(category);
-    // Deprecate this (old category tag stuff from mobile)
-    req.body.tags.forEach(tag => {
-      if (tag) {
-        tags.push(tag.replace('_category_tag', '').trim());
-      }
-    });
-    tags = [...new Set(tags)].map(tag => sanitizeHtml(tag));
+    const tags = [...new Set(req.body?.tags || [])].map(tag => sanitizeHtml(tag));
     const title = sanitizeHtml(req?.body?.title || '');
 
     const linkObject = {

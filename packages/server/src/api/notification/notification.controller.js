@@ -1,6 +1,5 @@
 import socketEvent from 'server/socket/socketEvent';
-
-const Notification = require('./notification.model');
+import Notification from './notification.model';
 
 exports.create = (req, res, next) => {
   const dbNotificationObj = {

@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Image, Divider, View, Box } from 'modules/styled/uni';
@@ -31,7 +32,7 @@ function Comment({
   link
 }) {
   const userId = useSelector(state => state.auth?.user?._id);
-  const user = useSelector(state => state.user.users?.[post?.user]);
+  const user = useSelector(state => state.user.users?.[post?.user]) || post?.embeddedUser;
 
   if (!post) return null;
 
