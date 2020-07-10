@@ -387,8 +387,6 @@ PostSchema.methods.insertIntoFeed = async function insertIntoFeed(
       { new: true }
     );
 
-    // this.model('CommunityFeed').addToFeed(post, post.data.community);
-
     const newPostEvent = {
       type: 'SET_NEW_POSTS_STATUS',
       payload: { communityId, community }
@@ -656,7 +654,6 @@ PostSchema.post('remove', async function postRemove(post, next) {
     await updateParentPostOnRemovingChild(post);
   }
 
-  // await this.model('CommunityFeed').removeFromAllFeeds(doc);
   const note = this.model('Notification')
     .deleteMany({ post: post._id })
     .exec();

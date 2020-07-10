@@ -30,7 +30,7 @@ export async function runAudit() {
     console.log(err);
   }
 }
-// runAudit();
+runAudit();
 
 async function sendAdminAlert(user, diff) {
   if (RELEVANT_ENV !== 'production') return null;
@@ -76,11 +76,11 @@ async function userEarnings(user) {
   }).sort('updatedAt');
   const totalStaked = pendingEarnings.reduce((a, e) => e.stakedTokens + a, 0);
 
-  // if (Math.abs(totalStaked - user.lockedTokens) > 0.000001) {
-  //   console.log('locked token mismatch', user.handle, totalStaked, user.lockedTokens);
-  //   // user.lockedTokens = totalStaked;
-  //   // await user.save();
-  // }
+  if (Math.abs(totalStaked - user.lockedTokens) > 0.000001) {
+    console.log('locked token mismatch', user.handle, totalStaked, user.lockedTokens);
+    // user.lockedTokens = totalStaked;
+    // await user.save();
+  }
 
   const earnings = await Earnings.find({
     user: user._id,
