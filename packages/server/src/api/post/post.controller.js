@@ -12,7 +12,6 @@ import MetaPost from './link.model';
 import Post from './post.model';
 import User from '../user/user.model';
 import Subscriptiton from '../subscription/subscription.model';
-// import Feed from '../feed/feed.model';
 import Notification from '../notification/notification.model';
 import PostData from './postData.model';
 import { PAYOUT_TIME } from '../../config/globalConstants';
@@ -498,50 +497,16 @@ async function processSubscriptions(newPost, communityId) {
     const promises = subscribers.map(async subscription => {
       if (!subscription.follower) return null;
       try {
-        /**
-         * In case subscription has expired, but user hasn't seen the articles
-         * remove oldest unread in feed and push new one
-         */
-        // console.log(subscription);
-        // // NO SUBSCRIPTIONS RN
-        // if (subscription.amount < 1) {
-        // check unread here
-        // updateFeed = await Feed.processExpired(subscription.follower._id);
-        // }
         if (subscription.amount < 1) return subscription.remove();
-
         subscription.amount -= 1;
         subscription.amount = Math.max(subscription.amount, 0);
         subscription = await subscription.save();
 
-        // const feed = new Feed({
-        //   userId: subscription.follower,
-        //   from: newPost.user,
-        //   post: newPost._id,
-        //   tags: newPost.tags,
-        //   createdAt: new Date()
-        // });
-
-        // await feed.save();
-
         const now = new Date();
-
         const { follower } = subscription;
 
         // TODO put it on a queue, only certain hours of the day
         if (now - 12 * 60 * 60 * 1000 > new Date(follower.lastFeedNotification)) {
-          // if (true) {
-          // const unread = await Feed.find({
-          //   userId: follower._id,
-          //   read: false,
-          //   createdAt: { $gte: now - 24 * 60 * 60 * 1000 },
-          // });
-          // const n = unread.length;
-          // await Feed.updateMany(
-          //   { userId: follower._id, read: false },
-          //   { read: true },
-          //   { multi: true }
-          // );
           const alert = `There is a new post from ${author.name} in the ${cObj.name} community`;
 
           const payload = {
@@ -553,18 +518,11 @@ async function processSubscriptions(newPost, communityId) {
             number: 1,
             community: cObj.name
           };
-
-          // console.log('New post in feed alert', alert);
           sendNotification(follower, alert, payload);
           follower.lastFeedNotification = now;
           follower.save();
         }
 
-        // const newFeedPost = {
-        //   _id: subscription.follower._id,
-        //   type: 'INC_FEED_COUNT'
-        // };
-        // socketEvent.emit('socketEvent', newFeedPost);
         return null;
       } catch (err) {
         // eslint-disable-next-line

@@ -130,6 +130,7 @@ exports.index = async req => {
           match: {
             // TODO implement intra-community commentary
             communityId,
+            pagerank: { $gte: 0 },
             type: 'post',
             // TODO - we should probably sort the non-community commentary
             // with some randomness on client side
@@ -147,6 +148,7 @@ exports.index = async req => {
             linkParent
             myVote
             createdAt
+            pagerank
           `,
           populate: [
             ...myVote,
