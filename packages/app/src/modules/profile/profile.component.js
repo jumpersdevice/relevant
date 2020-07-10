@@ -10,7 +10,7 @@ import { css } from 'styled-components/primitives';
 import ProfileStats from './profile.stats';
 
 const SettingsImage = require('public/img/settings.svg');
-const InviteImage = require('public/img/invite.svg');
+// const InviteImage = require('public/img/invite.svg');
 
 const linkStyle = css`
   ${fonts.altLink}
@@ -117,7 +117,7 @@ class Profile extends Component {
                   </Text>
                 </ULink>
               </AltLink>
-
+              {/*
               <AltLink ml={1}>
                 <ULink
                   c={colors.black}
@@ -140,7 +140,7 @@ class Profile extends Component {
                     Invite Friend
                   </Text>
                 </ULink>
-              </AltLink>
+              </AltLink> */}
 
               <AltLink ml={1}>
                 <ULink

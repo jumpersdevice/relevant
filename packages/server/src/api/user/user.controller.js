@@ -4,7 +4,7 @@ import merge from 'lodash/merge';
 import url from 'url';
 // eslint-disable-next-line import/named
 import { signToken } from 'server/auth/auth.service';
-import Invite from 'server/api/invites/invite.model';
+// import Invite from 'server/api/invites/invite.model';
 import { sendEmail, addUserToEmailList, removeFromEmailList } from 'server/utils/mail';
 import { BANNED_USER_HANDLES, CASHOUT_MAX } from '@r3l/common';
 import { verifyEthSignature } from 'server/auth/web3/passport';
@@ -362,7 +362,7 @@ exports.create = async (req, res, next) => {
   try {
     const confirmCode = uuid();
     let { user } = req.body;
-    const { invitecode } = req.body;
+    // const { invitecode } = req.body;
 
     if (BANNED_USER_HANDLES.includes(user.name)) {
       throw new Error('this username is taken');
@@ -396,7 +396,7 @@ exports.create = async (req, res, next) => {
     user = new User(userObj);
     user = await user.save();
 
-    if (invitecode) user = await Invite.processInvite({ invitecode, user });
+    // if (invitecode) user = await Invite.processInvite({ invitecode, user });
     user = await user.initialCoins();
 
     const token = signToken(user._id, 'user');

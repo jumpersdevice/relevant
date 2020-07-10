@@ -53,8 +53,8 @@ exports.text.relevance = function relevance(props) {
   if (!props.auth.user) return null;
 
   const data = [
-    'Earn Reputation by posting comments.',
-    'The higher your score, the more weight your votes have.'
+    'Your reputation score reflects your contributions to the community.',
+    'Your reputation goes down when you post spam.'
   ];
 
   const dataEl = data.map(txt => renderRow(props, txt));

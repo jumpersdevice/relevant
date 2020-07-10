@@ -52,6 +52,9 @@ exports.createInvites = async invites => {
 exports.create = async (req, res, next) => {
   try {
     const { user, communityMember } = req;
+    if (user.role !== 'admin') {
+      throw new Error('Invite rewards have been disabled');
+    }
     if (!communityMember)
       throw new Error('Please join a community before creating invites.');
     const { communityId, community } = communityMember;

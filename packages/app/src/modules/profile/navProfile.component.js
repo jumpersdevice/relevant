@@ -12,7 +12,7 @@ import ReactTooltip from 'react-tooltip';
 
 import { sizing, colors } from 'app/styles';
 import styled from 'styled-components/primitives';
-import { Header, View, SecondaryText, CTALink, Text } from 'modules/styled/uni';
+import { Header, View, SecondaryText, CTALink } from 'modules/styled/uni';
 import { computeUserPayout } from 'app/utils/rewards';
 import { SIDE_NAV_PADDING } from 'styles/layout';
 
@@ -51,8 +51,7 @@ export class NavProfile extends Component {
   }
 
   render() {
-    const { user, earnings, actions, auth } = this.props;
-    const { community } = auth;
+    const { user, earnings, actions } = this.props;
     if (!user) return null;
 
     // TODO optimize this so its not on every render?
@@ -61,8 +60,6 @@ export class NavProfile extends Component {
       const earning = earnings.entities[id];
       pendingPayouts += computeUserPayout(earning);
     });
-
-    const hideGetTokens = (user.twitterId && user.confirmed) || !community;
 
     return (
       <View bb flex={1}>
@@ -88,24 +85,18 @@ export class NavProfile extends Component {
             />
             <WalletInfo>
               <View fdirection={'row'}>
-                <ULink
-                  to="/user/wallet"
-                  inline={1}
-                  onPress={() => actions.push('statsView')}
-                >
-                  <RStat
-                    user={user}
-                    align="center"
-                    data-for="mainTooltip"
-                    data-tip={JSON.stringify({
-                      type: 'TEXT',
-                      props: {
-                        text:
-                          'Earn Reputation by posting comments.\nThe higher your score, the more weight your votes have.'
-                      }
-                    })}
-                  />
-                </ULink>
+                <RStat
+                  user={user}
+                  align="center"
+                  // data-for="mainTooltip"
+                  // data-tip={JSON.stringify({
+                  //   type: 'TEXT',
+                  //   props: {
+                  //     text:
+                  //       'Earn Reputation by posting comments.\nThe higher your score, the more weight your votes have.',
+                  //   },
+                  // })}
+                />
                 <ULink
                   to="/user/wallet"
                   inline={1}
@@ -151,24 +142,21 @@ export class NavProfile extends Component {
           </View>
 
           <View fdirection={'row'} align={'baseline'} mt={3}>
-            {hideGetTokens ? null : (
-              <ULink
-                to="/user/wallet"
-                c={colors.blue}
-                hu
-                onPress={() => {
-                  actions.push('getTokens');
-                }}
-                onClick={e => {
-                  e.preventDefault();
-                  actions.showModal('getTokens');
-                }}
-              >
-                <CTALink c={colors.blue}>Get Tokens</CTALink>
-              </ULink>
-            )}
-            {hideGetTokens ? null : <Text> &nbsp;&nbsp; </Text>}
-            {community && (
+            <ULink
+              to="/user/wallet"
+              c={colors.blue}
+              hu
+              onPress={() => {
+                actions.push('getTokens');
+              }}
+              onClick={e => {
+                e.preventDefault();
+                actions.showModal('getTokens');
+              }}
+            >
+              <CTALink c={colors.blue}>Get Tokens</CTALink>
+            </ULink>
+            {/* {community && (
               <ULink
                 to="/user/wallet"
                 ml={1}
@@ -184,7 +172,7 @@ export class NavProfile extends Component {
               >
                 <CTALink c={colors.blue}>Invite Friends</CTALink>
               </ULink>
-            )}
+            )} */}
           </View>
         </View>
       </View>
