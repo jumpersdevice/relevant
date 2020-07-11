@@ -22,7 +22,7 @@ const authLimit = getLimiter({
 
 const reloadLimit = getLimiter({
   windowMs: 1 * 60 * 1000, // 1 minute window
-  max: 10, // start blocking after 5 requests
+  max: 20, // start blocking after 5 requests
   message: 'You refreshed too many times, please try again in 1 minute'
 });
 

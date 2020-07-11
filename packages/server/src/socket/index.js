@@ -68,8 +68,6 @@ export default function(server) {
   });
 
   io.of('/').adapter.customHook = (data, cb) => {
-    console.log('got custom hook');
-    console.log('clients: ', Object.keys(clients).length);
     emitToUser(data);
     cb();
   };
@@ -95,6 +93,7 @@ function addClient(io, socket, currentUser) {
   clients[currentUser][socket.id] = socket;
 
   const userSockets = clients[currentUser];
+  console.log('total clients: ', Object.keys(clients).length);
 
   // update online status and send socket
   if (Object.keys(userSockets).length === 1) {
@@ -107,9 +106,8 @@ function addClient(io, socket, currentUser) {
 function createListener(io) {
   return data => {
     if (data._id) {
-      io.of('/').adapter.customRequest(data, (err, res) => {
+      io.of('/').adapter.customRequest(data, err => {
         if (err) console.log(err);
-        console.log('got res', res);
       });
     } else {
       io.emit('action', data);
