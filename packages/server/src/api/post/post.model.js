@@ -144,21 +144,13 @@ PostSchema.virtual('children', {
   justOne: false
 });
 
-PostSchema.index({ twitter: 1 });
 PostSchema.index({ parentPost: 1, hidden: 1 });
 PostSchema.index({ parentPost: 1, pagerank: 1, hidden: 1 });
-
-PostSchema.index({ twitter: 1, twitterId: 1 });
 
 PostSchema.index({ rank: 1 });
 PostSchema.index({ postDate: -1 });
 PostSchema.index({ postDate: -1, community: 1 });
-
 PostSchema.index({ postDate: -1, communitId: 1, parentPost: 1 });
-PostSchema.index({ _id: 1, community: 1, user: 1 });
-
-PostSchema.index({ _id: 1, user: 1 });
-PostSchema.index({ _id: -1, communityId: 1, user: 1 });
 
 PostSchema.index({ communityId: 1, user: 1 });
 PostSchema.index({ postDate: -1, tags: 1 });

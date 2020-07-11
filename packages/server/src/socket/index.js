@@ -68,6 +68,8 @@ export default function(server) {
   });
 
   io.of('/').adapter.customHook = (data, cb) => {
+    console.log('got custom hook');
+    console.log('clients: ', Object.keys(clients).length);
     emitToUser(data);
     cb();
   };
@@ -105,9 +107,9 @@ function addClient(io, socket, currentUser) {
 function createListener(io) {
   return data => {
     if (data._id) {
-      emitToUser(data);
-      io.of('/').adapter.customRequest(data, err => {
+      io.of('/').adapter.customRequest(data, (err, res) => {
         if (err) console.log(err);
+        console.log('got res', res);
       });
     } else {
       io.emit('action', data);

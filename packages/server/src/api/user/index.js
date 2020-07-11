@@ -1,4 +1,4 @@
-import rateLimit from 'express-rate-limit';
+import { getLimiter } from 'server/utils';
 
 const express = require('express');
 const controller = require('./user.controller');
@@ -6,7 +6,7 @@ const auth = require('../../auth/auth.service');
 
 const router = express.Router();
 
-const createAccountLimiter = rateLimit({
+const createAccountLimiter = getLimiter({
   windowMs: 60 * 60 * 1000, // 1 hour window
   max: 5, // start blocking after 5 requests
   message: 'Too many accounts created from this IP, please try again after an hour'

@@ -71,6 +71,7 @@
     "passport-twitter": "^1.0.4",
     "query-string": "^6.5.0",
     "queue": "^6.0.1",
+    "rate-limit-mongo": "^2.2.0",
     "readability": "git+https://github.com/balasan/readability-1.git",
     "request": "^2.88.2",
     "request-promise-any": "^1.0.7",
