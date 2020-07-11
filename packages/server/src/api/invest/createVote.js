@@ -100,7 +100,9 @@ export const create = async (req, res, next) => {
     post = await post.save();
 
     if (post.parentPost) {
-      await post.parentPost.updateRank({ communityId });
+      const updateTime = amount < 0;
+
+      await post.parentPost.updateRank({ communityId, updateTime });
       await post.parentPost.save();
     }
 

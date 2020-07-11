@@ -1,5 +1,6 @@
 import { pubsub } from 'server/graphql/pubsub';
 import { UPDATE_UNREAD } from 'server/api/community/member.schema';
+import { MINIMUM_REP_NEW } from '@r3l/common';
 
 const mongoose = require('mongoose');
 const socketEvent = require('server/socket/socketEvent').default;
@@ -236,7 +237,13 @@ async function updateLatestComment({ post, communityId }) {
   const latestComment = await post
     .model('Post')
     .findOne(
-      { parentPost: post._id, communityId, hidden: { $ne: true }, type: 'post' },
+      {
+        parentPost: post._id,
+        communityId,
+        hidden: { $ne: true },
+        type: 'post',
+        pagerank: { $gt: MINIMUM_REP_NEW }
+      },
       'postDate'
     )
     .sort({ postDate: -1 });
@@ -245,7 +252,6 @@ async function updateLatestComment({ post, communityId }) {
 
   post.data.latestComment = latestComment.postDate;
   post.latestComment = latestComment.postDate;
-
   return post;
 }
 
