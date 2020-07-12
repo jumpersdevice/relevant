@@ -91,7 +91,9 @@ export async function handleErrors(response) {
         throw Error(error);
       }
     } catch (err) {
-      throw Error(error);
+      if (response.status === 429)
+        throw new Error('Rate limit error, please try again in a few minutes.');
+      throw Error(err);
     }
   }
   return response;
