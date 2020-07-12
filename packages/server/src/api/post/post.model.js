@@ -22,14 +22,14 @@ const PostSchema = new Schema(
     repost: {
       post: { type: Schema.Types.ObjectId, ref: 'Post' },
       comment: { type: Schema.Types.ObjectId, ref: 'Post' },
-      commentBody: String
+      commentBody: String,
     },
     user: { type: Schema.Types.ObjectId, ref: 'User', index: true },
     embeddedUser: {
       _id: String,
       handle: String,
       name: String,
-      image: String
+      image: String,
     },
 
     flagged: { type: Boolean, default: false },
@@ -53,8 +53,8 @@ const PostSchema = new Schema(
         text: String,
         href: String,
         position: Number,
-        metaPost: { type: Schema.Types.ObjectId, ref: 'MetaPost' }
-      }
+        metaPost: { type: Schema.Types.ObjectId, ref: 'MetaPost' },
+      },
     ],
 
     // aboutLink: { type: Schema.Types.ObjectId, ref: 'Post' },
@@ -95,12 +95,12 @@ const PostSchema = new Schema(
     // link, comment, repost, post
     type: { type: String, default: 'post' },
 
-    version: { type: String, default: 'metaRework' }
+    version: { type: String, default: 'metaRework' },
   },
   {
     timestamps: true,
     toJSON: { virtuals: true },
-    toObject: { virtuals: true }
+    toObject: { virtuals: true },
   }
 );
 
@@ -108,54 +108,54 @@ PostSchema.virtual('myVote', {
   ref: 'Invest',
   localField: '_id',
   foreignField: 'post',
-  justOne: true
+  justOne: true,
 });
 
 PostSchema.virtual('reposted', {
   ref: 'Post',
   localField: '_id',
-  foreignField: 'repost.post'
+  foreignField: 'repost.post',
 });
 
 PostSchema.virtual('commentary', {
   ref: 'Post',
   localField: '_id',
-  foreignField: 'parentPost'
+  foreignField: 'parentPost',
 });
 
 PostSchema.virtual('embeddedUser.relevance', {
   ref: 'CommunityMember',
   localField: 'user',
   foreignField: 'user',
-  justOne: true
+  justOne: true,
 });
 
 PostSchema.virtual('data', {
   ref: 'PostData',
   localField: '_id',
   foreignField: 'post',
-  justOne: true
+  justOne: true,
 });
 
 PostSchema.virtual('children', {
   ref: 'Post',
   localField: '_id',
   foreignField: 'parentPost',
-  justOne: false
+  justOne: false,
 });
 
-PostSchema.index({ parentPost: 1, hidden: 1 });
-PostSchema.index({ parentPost: 1, pagerank: 1, hidden: 1 });
-
+PostSchema.index({ user: 1 });
+PostSchema.index({ postDate: 1 });
 PostSchema.index({ rank: 1 });
+PostSchema.index({ createdAt: 1 });
+PostSchema.index({ url: 1 });
+PostSchema.index({ latestComment: 1 });
+PostSchema.index({ link: 1 });
 PostSchema.index({ postDate: -1 });
-PostSchema.index({ postDate: -1, community: 1 });
-PostSchema.index({ postDate: -1, communitId: 1, parentPost: 1 });
-
-PostSchema.index({ communityId: 1, user: 1 });
-PostSchema.index({ postDate: -1, tags: 1 });
-PostSchema.index({ rank: 1, tags: 1 });
-PostSchema.index({ paidOut: 1, payoutTime: 1 });
+PostSchema.index({ parentPost: 1 });
+PostSchema.index({ hidden: 1 });
+PostSchema.index({ pagerank: 1 });
+PostSchema.index({ communityId: 1 });
 
 PostSchema.pre('save', async function save(next) {
   try {
@@ -187,7 +187,7 @@ PostSchema.methods.addPostData = async function addPostData(postObject) {
     rank: this.rank,
     relevanceNeg: this.relevanceNeg,
     latestComment: this.latestComment || this.postDate,
-    tags: this.tags
+    tags: this.tags,
   });
 
   await data.save();
@@ -206,7 +206,7 @@ PostSchema.methods.updateClient = function updateClient(user) {
   const postNote = {
     _id: user?._id,
     type: 'UPDATE_POST',
-    payload: post
+    payload: post,
   };
   socketEvent.emit('socketEvent', postNote);
 };
@@ -217,7 +217,7 @@ PostSchema.methods.addUserInfo = async function addUserInfo(user) {
     _id: user._id,
     handle: user.handle,
     name: user.name,
-    image: user.image
+    image: user.image,
   };
 
   return this;
@@ -234,7 +234,7 @@ async function updateLatestComment({ post, communityId }) {
         communityId,
         hidden: { $ne: true },
         type: 'post',
-        pagerank: { $gt: MINIMUM_REP_NEW }
+        pagerank: { $gt: MINIMUM_REP_NEW },
       },
       'postDate'
     )
@@ -303,7 +303,7 @@ PostSchema.statics.newLinkPost = async function newLinkPost({ linkObject, postOb
     image,
     title,
     url,
-    communityId
+    communityId,
   } = postObject;
 
   let post = await this.model('Post')
@@ -321,7 +321,7 @@ PostSchema.statics.newLinkPost = async function newLinkPost({ linkObject, postOb
       payoutTime,
       hidden,
       type: 'link',
-      latestComment: postDate
+      latestComment: postDate,
     };
     post = await new (this.model('Post'))(parentObj);
   }
@@ -387,7 +387,7 @@ PostSchema.methods.insertIntoFeed = async function insertIntoFeed(
 
     const newPostEvent = {
       type: 'SET_NEW_POSTS_STATUS',
-      payload: { communityId, community }
+      payload: { communityId, community },
     };
     socketEvent.emit('socketEvent', newPostEvent);
     return post;
@@ -467,7 +467,7 @@ PostSchema.statics.sendOutMentions = async function sendOutMentions(
 ) {
   try {
     let textParent = comment || post;
-    const promises = mentions.map(async mention => {
+    const promises = mentions.map(async (mention) => {
       const type = comment ? 'comment' : 'post';
 
       mUser = await this.model('User').findOne(
@@ -476,10 +476,10 @@ PostSchema.statics.sendOutMentions = async function sendOutMentions(
       );
 
       const blocked =
-        mUser.blockedBy.find(u => u === mention) ||
-        mUser.blocked.find(u => u === mention);
+        mUser.blockedBy.find((u) => u === mention) ||
+        mUser.blocked.find((u) => u === mention);
 
-      if (blocked) textParent.mentions = textParent.mentions.filter(m => m !== blocked);
+      if (blocked) textParent.mentions = textParent.mentions.filter((m) => m !== blocked);
 
       let query = { handle: mention };
 
@@ -495,7 +495,7 @@ PostSchema.statics.sendOutMentions = async function sendOutMentions(
           type,
           Notification: this.model('Notification'),
           group,
-          mention
+          mention,
         });
       }
 
@@ -504,7 +504,7 @@ PostSchema.statics.sendOutMentions = async function sendOutMentions(
         'deviceTokens email name notificationSettings'
       );
 
-      users.forEach(async user => {
+      users.forEach(async (user) => {
         const action = ' mentioned you in a ' + type;
         let alert = (mUser.name || mUser) + action;
         if (mention === 'everyone' && post.body) alert = post.body;
@@ -515,7 +515,7 @@ PostSchema.statics.sendOutMentions = async function sendOutMentions(
           toUser: user,
           post,
           action,
-          noteType: 'mention'
+          noteType: 'mention',
         };
 
         sendNotification(user, alert, payload);
@@ -529,7 +529,7 @@ PostSchema.statics.sendOutMentions = async function sendOutMentions(
           type,
           Notification: this.model('Notification'),
           group,
-          mention
+          mention,
         });
       });
       return null;
@@ -551,7 +551,7 @@ async function createMentionNotification({
   type,
   Notification,
   group,
-  mention
+  mention,
 }) {
   const dbNotificationObj = {
     post: post._id,
@@ -561,7 +561,7 @@ async function createMentionNotification({
     amount: null,
     type: type + 'Mention',
     personal: true,
-    read: false
+    read: false,
   };
 
   const newDbNotification = new Notification(dbNotificationObj);
@@ -570,7 +570,7 @@ async function createMentionNotification({
   const newNotifObj = {
     _id: group ? null : mention,
     type: 'ADD_ACTIVITY',
-    payload: note
+    payload: note,
   };
 
   socketEvent.emit('socketEvent', newNotifObj);
@@ -600,14 +600,12 @@ PostSchema.methods.pruneFeed = async function pruneFeed({ communityId }) {
 
   const communityChildren = await this.model('Post').countDocuments({
     communityId,
-    parentPost: post._id
+    parentPost: post._id,
   });
 
   if (communityChildren || shares) return post;
 
-  await this.model('PostData')
-    .deleteOne({ post: post._id, communityId })
-    .exec();
+  await this.model('PostData').deleteOne({ post: post._id, communityId }).exec();
 
   return post;
 };
@@ -652,12 +650,8 @@ PostSchema.post('remove', async function postRemove(post, next) {
     await updateParentPostOnRemovingChild(post);
   }
 
-  const note = this.model('Notification')
-    .deleteMany({ post: post._id })
-    .exec();
-  const data = this.model('PostData')
-    .deleteMany({ post: post._id })
-    .exec();
+  const note = this.model('Notification').deleteMany({ post: post._id }).exec();
+  const data = this.model('PostData').deleteMany({ post: post._id }).exec();
 
   let metaPost;
   // if (post.type === 'link' && !post.parentParent) {
@@ -669,9 +663,7 @@ PostSchema.post('remove', async function postRemove(post, next) {
   let commentNote;
   // remove notifications
   if (post.type === 'comment' || post.type === 'repost') {
-    commentNote = this.model('Notification')
-      .deleteMany({ comment: post._id })
-      .exec();
+    commentNote = this.model('Notification').deleteMany({ comment: post._id }).exec();
   }
 
   await Promise.all([note, data, metaPost, commentNote]);
@@ -680,7 +672,7 @@ PostSchema.post('remove', async function postRemove(post, next) {
 
 PostSchema.methods.incrementUnread = async function incrementUnread({
   communityId,
-  community
+  community,
 }) {
   await this.model('CommunityMember').updateMany(
     { communityId },

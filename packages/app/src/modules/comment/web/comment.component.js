@@ -32,11 +32,11 @@ Comment.propTypes = {
   scrollTo: PropTypes.func,
   preview: PropTypes.bool,
   inMainFeed: PropTypes.bool,
-  additionalNesting: PropTypes.number
+  additionalNesting: PropTypes.number,
 };
 
 Comment.defaultProps = {
-  additionalNesting: 0
+  additionalNesting: 0,
 };
 
 function Comment(props) {
@@ -58,7 +58,7 @@ function Comment(props) {
     parentPost,
     scrollTo,
     focusedComment,
-    setActiveComment
+    setActiveComment,
   } = props;
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
@@ -66,13 +66,13 @@ function Comment(props) {
   const hideHorizontalButton = !comment?.parentPost;
 
   const user =
-    useSelector(state => {
-      const userId = state.user.handleToId[embeddedUser.handle];
+    useSelector((state) => {
+      const userId = state.user.handleToId[embeddedUser?.handle];
       return state.user.users[userId];
     }) || embeddedUser;
 
-  const screenSize = useSelector(state => state.navigation.screenSize);
-  const userId = useSelector(state => state.auth?.user?._id);
+  const screenSize = useSelector((state) => state.navigation.screenSize);
+  const userId = useSelector((state) => state.auth?.user?._id);
 
   const el = createRef();
 
@@ -116,14 +116,14 @@ function Comment(props) {
   const commentChildren = get(childComments, comment.id) || [];
   const borderMargin =
     hidePostButtons || screenSize || !hideHorizontalButton
-      ? (nestingLevel && -3) || 0
+      ? (nestingLevel && !screenSize && -3) || 0
       : layout.POST_BUTTONS_WIDTH / 3;
 
   const popup = userId && userId === comment.user && (
     <Popup
       options={[
         { text: 'Edit Post', action: () => setEditing(true) },
-        { text: 'Delete Post', action: () => deletePost() }
+        { text: 'Delete Post', action: () => deletePost() },
       ]}
     >
       <span className={'optionDots'}>...</span>
@@ -139,9 +139,7 @@ function Comment(props) {
         fdirection="column"
       >
         <Box m={['0 3 0 0', `${preview ? '0 2 0 0' : '0 2 2 2'}`]}>
-          {!hideBorder && (nestingLevel > 0 || inMainFeed) && (
-            <Divider ml={borderMargin} />
-          )}
+          {!hideBorder && <Divider ml={borderMargin} />}
           <View fdirection="row" mt={4}>
             {!hidePostButtons && hideHorizontalButton && !screenSize ? (
               <View w={layout.POST_BUTTONS_WIDTH}>
@@ -210,7 +208,7 @@ function Comment(props) {
           autoFocus
         />
       )}
-      {commentChildren.map(childId => (
+      {commentChildren.map((childId) => (
         <Comment
           {...props}
           comment={posts.posts[childId]}

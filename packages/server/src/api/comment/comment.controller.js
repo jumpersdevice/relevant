@@ -8,27 +8,30 @@ import Notification from 'server/api/notification/notification.model';
 // import Invest from 'server/api/invest/invest.model';
 import { checkCommunityAuth } from 'server/api/community/community.auth';
 import sanitizeHtml from 'sanitize-html';
+import { getReputation, probablySpam } from '@r3l/common';
 
 // COMMENTS ARE USING POST SCHEMA
-exports.index = async req => {
+exports.index = async (req) => {
   // TODO - pagination
   // const limit = parseInt(req.query.limit, 10) || 10;
   // const skip = parseInt(req.query.skip, 10) || 0;
   const { user } = req;
-  const { community, post } = req.query;
+  const { community, post, showHidden } = req.query;
   if (!post) throw Error('missing parent post id');
 
   const cObj = await Community.findOne({ slug: community }, '_id');
   const communityId = cObj?._id;
 
-  const query = { parentPost: post, hidden: { $ne: true }, communityId };
+  const hidden = showHidden ? {} : { hidden: { $ne: !showHidden } };
+  const pagerank = showHidden ? {} : { pagerank: { $gte: 0 } };
+  const query = { parentPost: post, ...hidden, communityId, ...pagerank };
 
   const myVote = user
     ? [
         {
           path: 'myVote',
-          match: { investor: user._id, communityId }
-        }
+          match: { investor: user._id, communityId },
+        },
       ]
     : [];
 
@@ -38,22 +41,22 @@ exports.index = async req => {
       {
         path: 'embeddedUser.relevance',
         select: 'pagerank',
-        match: { communityId }
+        match: { communityId },
       },
       {
         path: 'data',
-        match: { communityId }
-      }
+        match: { communityId },
+      },
     ])
     .sort({ pagerank: -1, createdAt: 1 });
-
-  return { data: comments.map(c => c.toObject()) };
+  return { data: comments };
 };
 
 exports.create = async (req, res, next) => {
   try {
     let user = req.user._id;
     const { communityMember } = req;
+    const reputation = getReputation(communityMember);
 
     const { community, communityId } = communityMember;
 
@@ -71,6 +74,9 @@ exports.create = async (req, res, next) => {
     tags = [...new Set([...tags, ...tagsFromBody])].map(sanitizeHtml);
     mentions = [...new Set([...mentions, ...mentionsFromBody])].map(sanitizeHtml);
 
+    const hidden = probablySpam(communityMember);
+    console.log('hidden', hidden);
+
     const commentObj = {
       body: sanitizeHtml(body),
       mentions,
@@ -84,7 +90,8 @@ exports.create = async (req, res, next) => {
       postDate: new Date(),
       community,
       communityId,
-      metaPost
+      metaPost,
+      hidden,
     };
 
     let comment = new Post(commentObj);
@@ -105,10 +112,11 @@ exports.create = async (req, res, next) => {
     // this will also save the new comment
     comment = await Post.sendOutMentions(mentions, comment, user, comment);
 
-    const updateTime = type === 'post' || false;
+    const updateTime = (type === 'post' && reputation >= 0) || false;
+
     await parentPost.updateRank({ communityId, updateTime });
 
-    if (tags && tags.length) {
+    if (tags && tags.length && !hidden && reputation >= 0) {
       parentPost = await parentPost.addTags({ tags, communityId });
     }
 
@@ -131,7 +139,7 @@ exports.create = async (req, res, next) => {
       'name _id deviceTokens handle email notificationSettings'
     );
 
-    otherCommentors = otherCommentors.map(comm => comm.user).filter(u => u);
+    otherCommentors = otherCommentors.map((comm) => comm.user).filter((u) => u);
     if (postAuthor) otherCommentors.push(postAuthor);
     if (commentAuthor) otherCommentors.push(commentAuthor);
 
@@ -151,19 +159,21 @@ exports.create = async (req, res, next) => {
     // voters = voters.map(v => v.investor);
     // otherCommentors = [...otherCommentors, ...voters, ...commentVoters];
 
-    otherCommentors = otherCommentors.filter(u => u);
+    otherCommentors = otherCommentors.filter((u) => u);
 
     // filter out duplicates
     otherCommentors = otherCommentors.filter((u, i) => {
-      const index = otherCommentors.findIndex(c => (c ? c._id.equals(u._id) : false));
+      const index = otherCommentors.findIndex((c) => (c ? c._id.equals(u._id) : false));
       return index === i;
     });
 
     await comment.save();
     res.status(200).json(comment);
 
-    otherCommentors = otherCommentors.filter(u => !mentions.find(m => m === u.handle));
-    otherCommentors.forEach(commentor =>
+    otherCommentors = otherCommentors.filter(
+      (u) => !mentions.find((m) => m === u.handle)
+    );
+    otherCommentors.forEach((commentor) =>
       sendNotifications({
         commentor,
         postAuthor,
@@ -172,7 +182,7 @@ exports.create = async (req, res, next) => {
         parentPost,
         user,
         comment,
-        type
+        type,
       })
     );
   } catch (err) {
@@ -187,7 +197,7 @@ async function sendNotifications({
   repost,
   user,
   comment,
-  type
+  type,
 }) {
   if (user._id.equals(commentor._id)) return;
 
@@ -206,7 +216,7 @@ async function sendNotifications({
     type: noteType,
     source: type,
     personal: true,
-    read: false
+    read: false,
   };
 
   note = new Notification(note);
@@ -215,7 +225,7 @@ async function sendNotifications({
   const noteAction = {
     _id: commentor._id,
     type: 'ADD_ACTIVITY',
-    payload: note
+    payload: note,
   };
   socketEvent.emit('socketEvent', noteAction);
 
@@ -228,7 +238,7 @@ async function sendNotifications({
     toUser: commentor,
     post: comment,
     action,
-    noteType: ownPost || ownComment ? 'reply' : 'general'
+    noteType: ownPost || ownComment ? 'reply' : 'general',
   };
   sendPushNotification(commentor, alert, payload);
 }
@@ -245,7 +255,7 @@ exports.update = async (req, res, next) => {
 
     newComment.body = sanitizeHtml(req.body.body);
     newMentions = mentions
-      .filter(m => newComment.mentions.indexOf(m) < 0)
+      .filter((m) => newComment.mentions.indexOf(m) < 0)
       .map(sanitizeHtml);
     newComment.mentions = mentions;
     newMentions = newMentions || [];

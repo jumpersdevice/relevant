@@ -9,7 +9,7 @@ import * as commentActions from 'modules/comment/comment.actions';
 import * as investActions from 'modules/post/invest.actions';
 import * as createPostActions from 'modules/createPost/createPost.actions';
 import * as animationActions from 'modules/animation/animation.actions';
-import { Divider, View } from 'modules/styled/uni';
+import { View } from 'modules/styled/uni';
 import CommentForm from './commentForm.component';
 import Comment from './comment.component';
 
@@ -23,14 +23,14 @@ class Comments extends Component {
     post: PropTypes.object,
     myPostInv: PropTypes.object,
     user: PropTypes.object,
-    screenSize: PropTypes.number
+    screenSize: PropTypes.number,
   };
 
   state = {
-    activeComment: null
+    activeComment: null,
   };
 
-  setActiveComment = commentId => {
+  setActiveComment = (commentId) => {
     const activeComment = this.state.activeComment === commentId ? null : commentId;
     this.setState({ activeComment });
   };
@@ -54,7 +54,7 @@ class Comments extends Component {
       myPostInv,
       user,
       match,
-      screenSize
+      screenSize,
     } = this.props;
     const children = comments.childComments[post._id] || [];
     const focusedComment = get(match, 'params.commentId', null);
@@ -71,12 +71,11 @@ class Comments extends Component {
         />
         {children.length !== 0 ? (
           <div>
-            {children.map((id, i) => {
+            {children.map((id) => {
               const comment = posts.posts[id];
               if (!comment) return null;
               return (
                 <View key={id}>
-                  {i === 0 ? <Divider m={['0 4', 0]} screenSize={screenSize} /> : null}
                   <Comment
                     auth={auth}
                     comment={comment}
@@ -107,23 +106,23 @@ class Comments extends Component {
 
 export default withRouter(
   connect(
-    state => ({
+    (state) => ({
       auth: state.auth,
       comments: state.comments,
       myPostInv: state.investments.myPostInv,
       user: state.user,
-      screenSize: state.navigation.screenSize
+      screenSize: state.navigation.screenSize,
     }),
-    dispatch => ({
+    (dispatch) => ({
       actions: bindActionCreators(
         {
           ...commentActions,
           ...createPostActions,
           ...investActions,
-          ...animationActions
+          ...animationActions,
         },
         dispatch
-      )
+      ),
     })
   )(Comments)
 );

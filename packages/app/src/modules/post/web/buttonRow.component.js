@@ -11,15 +11,15 @@ import { getPostUrl } from 'app/utils/post';
 PostButtonRow.propTypes = {
   post: PropTypes.object,
   setActiveComment: PropTypes.func,
-  parentPost: PropTypes.object
+  parentPost: PropTypes.object,
 };
 
 export default memo(PostButtonRow);
 
 function PostButtonRow(props) {
   const { post, setActiveComment, parentPost } = props;
-  const screenSize = useSelector(state => state.navigation.screenSize);
-  const community = useSelector(state => state.auth.community);
+  const screenSize = useSelector((state) => state.navigation.screenSize);
+  const community = useSelector((state) => state.auth.community);
 
   const url = 'https://relevant.community' + getPostUrl(community, post);
   const hideHorizontalButton = screenSize === 0 && !post?.parentPost;
@@ -27,13 +27,13 @@ function PostButtonRow(props) {
   return (
     <View
       fdirection="row"
-      justify="space-between"
+      justify={'space-between'}
       align="center"
       wrap={1}
       // stop-gap to avoid the page dimenisons breaking on deeply nested comments
     >
       {!hideHorizontalButton ? (
-        <View w={12}>
+        <View mr={4}>
           <PostButtons {...props} post={post} horizontal />
         </View>
       ) : null}
@@ -43,12 +43,12 @@ function PostButtonRow(props) {
           to={setActiveComment ? '#' : url}
           inline
           authrequired={true}
-          onClick={e => {
+          onClick={(e) => {
             if (!setActiveComment) return;
             e.preventDefault();
             setActiveComment(post.id);
           }}
-          onPress={e => {
+          onPress={(e) => {
             e.preventDefault();
             setActiveComment(post.id);
           }}
@@ -62,11 +62,11 @@ function PostButtonRow(props) {
           to="#"
           authrequired={true}
           inline
-          onClick={e => {
+          onClick={(e) => {
             e.preventDefault();
             copyToClipBoard(url);
           }}
-          onPress={e => {
+          onPress={(e) => {
             e.preventDefault();
             copyToClipBoard(url);
           }}
