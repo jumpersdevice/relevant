@@ -151,7 +151,6 @@ PostSchema.index({ createdAt: 1 });
 PostSchema.index({ url: 1 });
 PostSchema.index({ latestComment: 1 });
 PostSchema.index({ link: 1 });
-PostSchema.index({ postDate: -1 });
 PostSchema.index({ parentPost: 1 });
 PostSchema.index({ hidden: 1 });
 PostSchema.index({ pagerank: 1 });
