@@ -37,6 +37,15 @@ exports.index = async req => {
   const communityId = cObj._id;
 
   let query = { communityId, isInFeed: true };
+  const blocked = [...(req?.user?.blocked || []), ...(req?.user?.blockedBy || [])];
+
+  let commentaryQuery = {
+    communityId,
+    pagerank: { $gte: -1 },
+    type: 'post',
+    user: { $nin: blocked },
+    hidden: { $ne: true }
+  };
 
   if (sort === 'rank' || sort === 'top') {
     sortQuery = { rank: -1 };
@@ -46,6 +55,7 @@ exports.index = async req => {
     sortQuery = { latestComment: -1 };
     query = {
       ...query,
+      hidden: { $ne: true },
       $or: [
         { pagerank: { $gte: MINIMUM_RANK } },
         {
@@ -61,7 +71,9 @@ exports.index = async req => {
     sortQuery = { latestComment: -1 };
     query = {
       ...query,
+      hidden: { $ne: true },
       $or: [
+        { hidden: true },
         { pagerank: { $lt: MINIMUM_REP_NEW } },
         {
           $and: [
@@ -71,12 +83,12 @@ exports.index = async req => {
         }
       ]
     };
-    commentarySort = { postDate: -1 };
-  }
-
-  let blocked = [];
-  if (req.user) {
-    blocked = [...(req.user.blocked || []), ...(req.user.blockedBy || [])];
+    commentaryQuery = {
+      communityId,
+      type: 'post',
+      user: { $nin: blocked }
+    };
+    commentarySort = { postDate: 1 };
   }
 
   if (tag) query = { ...query, tags: { $regex: `${tag}`, $options: 'i' } };
@@ -129,17 +141,7 @@ exports.index = async req => {
         ...myVote,
         {
           path: 'commentary',
-          match: {
-            // TODO implement intra-community commentary
-            communityId,
-            pagerank: { $gte: 0 },
-            type: 'post',
-            // TODO - we should probably sort the non-community commentary
-            // with some randomness on client side
-            // repost: { $exists: false },
-            user: { $nin: blocked },
-            hidden: { $ne: true }
-          },
+          match: commentaryQuery,
           options: { sort: commentarySort, limit: PREVIEW_LIMIT },
           select: `
             embeddedUser

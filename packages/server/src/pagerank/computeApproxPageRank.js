@@ -85,7 +85,7 @@ export default async function computeApproxPageRank({
         }
         if (post && postVotes) post.data.pagerankRawNeg -= pInc;
       } else {
-        if (author) author.relevance.pagerankRaw -= uDownvoteInc;
+        if (author) author.relevance.pagerankRawNeg += uDownvoteInc;
         if (post) post.data.pagerankRawNeg += pInc;
       }
     }

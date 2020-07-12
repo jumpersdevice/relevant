@@ -47,7 +47,7 @@ EarningsSchema.index({ user: 1, post: 1 });
 EarningsSchema.statics.updateRewardsRecord = async function updateRewardsRecord(earning) {
   const updatedEarning = await this.findOneAndUpdate(
     { user: earning.user, post: earning.post, communityId: earning.communityId },
-    { ...earning },
+    { $set: { ...earning } },
     { new: true, upsert: true }
   );
   updatedEarning.updateClient({ actionType: 'UPDATE_EARNING' });

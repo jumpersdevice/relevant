@@ -22,7 +22,7 @@ exports.index = async req => {
   const cObj = await Community.findOne({ slug: community }, '_id');
   const communityId = cObj?._id;
 
-  const hidden = showHidden ? {} : { hidden: { $ne: !showHidden } };
+  const hidden = showHidden === 'true' ? {} : { hidden: { $ne: true } };
   const pagerank = showHidden ? {} : { pagerank: { $gte: 0 } };
   const query = { parentPost: post, ...hidden, communityId, ...pagerank };
 
@@ -75,7 +75,6 @@ exports.create = async (req, res, next) => {
     mentions = [...new Set([...mentions, ...mentionsFromBody])].map(sanitizeHtml);
 
     const hidden = probablySpam(communityMember);
-    console.log('hidden', hidden);
 
     const commentObj = {
       body: sanitizeHtml(body),

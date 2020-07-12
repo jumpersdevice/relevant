@@ -126,7 +126,7 @@ export class ULinkComponent extends PureComponent {
             hu={hu ? 1 : 0}
             inline={inline ? 1 : 0}
             onClick={e => {
-              this.checkAuth(e, onClick);
+              this.checkAuth(e, onClick || onPress);
             }}
             to={to || '#'}
             styles={styles || ''}
@@ -142,7 +142,7 @@ export class ULinkComponent extends PureComponent {
             hu={hu ? 1 : 0}
             inline={inline ? 1 : 0}
             onClick={e => {
-              this.checkAuth(e, onClick);
+              this.checkAuth(e, onClick || onPress);
             }}
             href={to || '#'}
             target={target}
@@ -158,7 +158,7 @@ export class ULinkComponent extends PureComponent {
           hu={hu ? 1 : 0}
           inline={inline ? 1 : 0}
           onClick={e => {
-            this.checkAuth(e, onClick);
+            this.checkAuth(e, onClick || onPress);
           }}
           to={to}
           target={target}
@@ -181,26 +181,12 @@ export class ULinkComponent extends PureComponent {
     const pressHandler =
       external && !onPress ? () => actions.goToUrl(to) : () => onPress();
 
-    // return (
-    //   <StyledLink
-    //     // {...rest}
-    //     to={to || '#'}
-    //     onPress={() => requestAnimationFrame(() => pressHandler())}
-    //     // onPress={this.checkAuth(onPress)}
-    //     // styles={styles || ''}
-    //   >
-    //     {children}
-    //   </StyledLink>
-    // );
-
     return (
       <TouchableOpacity
-        // {...rest}
         style={{ flex: inline ? 0 : 1 }}
         to={to || '#'}
         onPress={() => requestAnimationFrame(() => pressHandler())}
         activeOpacity={0.8}
-        // onPress={this.checkAuth(onPress)}
       >
         {children}
       </TouchableOpacity>

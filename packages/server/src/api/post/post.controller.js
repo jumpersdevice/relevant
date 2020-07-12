@@ -7,6 +7,7 @@ import { sendEmail } from 'server/utils/mail';
 import { sendNotification } from 'server/notifications';
 import { checkCommunityAuth } from 'server/api/community/community.auth';
 import sanitizeHtml from 'sanitize-html';
+// import { probablySpam } from '@r3l/common';
 import * as proxyHelpers from './html';
 import MetaPost from './link.model';
 import Post from './post.model';
@@ -587,6 +588,8 @@ exports.create = async (req, res, next) => {
       tags
     };
 
+    // const hidden = probablySpam(communityMember);
+
     const postObject = {
       url: postUrl,
       inputUrl,
@@ -604,6 +607,7 @@ exports.create = async (req, res, next) => {
       payoutTime,
       description: channel && hasChildComment ? body : null,
       channel: (!postUrl && channel) || false
+      // hidden,
     };
 
     // TODO Work on better length limits

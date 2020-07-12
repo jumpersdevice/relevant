@@ -65,7 +65,9 @@ module.exports = app => {
   // (need next for this to work)
   // eslint-disable-next-line
   app.use(async (err, req, res, next) => {
-    // console.log(err);
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(err); // eslint-disable-line
+    }
     Sentry.captureException(err);
     return res.status(500).json({ message: err.message });
   });

@@ -63,7 +63,7 @@ function Comment(props) {
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
   const embeddedUser = comment?.embeddedUser;
-  const hideHorizontalButton = !comment?.parentPost;
+  const hideVerticalButton = !comment?.parentPost;
 
   const user =
     useSelector(state => {
@@ -115,7 +115,7 @@ function Comment(props) {
 
   const commentChildren = get(childComments, comment.id) || [];
   const borderMargin =
-    hidePostButtons || screenSize || !hideHorizontalButton
+    hidePostButtons || screenSize || !hideVerticalButton
       ? (nestingLevel && !screenSize && -3) || 0
       : layout.POST_BUTTONS_WIDTH / 3;
 
@@ -141,7 +141,7 @@ function Comment(props) {
         <Box m={['0 3 0 0', `${preview ? '0 2 0 0' : '0 2 2 2'}`]}>
           {!hideBorder && <Divider ml={borderMargin} />}
           <View fdirection="row" mt={4}>
-            {!hidePostButtons && hideHorizontalButton && !screenSize ? (
+            {!hidePostButtons && hideVerticalButton && !screenSize ? (
               <View w={layout.POST_BUTTONS_WIDTH}>
                 <PostButtons post={comment} />
               </View>
@@ -201,7 +201,10 @@ function Comment(props) {
           p={[4, 2]}
           buttonText={'Comment'}
           additionalNesting={
-            additionalNesting + (hidePostButtons ? 0 : layout.POST_BUTTONS_NESTING_UNITS)
+            additionalNesting +
+            (hidePostButtons || !hideVerticalButton
+              ? 0
+              : layout.POST_BUTTONS_NESTING_UNITS)
           }
           parentComment={comment}
           cancel={cancel}

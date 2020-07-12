@@ -381,7 +381,7 @@ PostSchema.methods.insertIntoFeed = async function insertIntoFeed(
 
     post.data = await this.model('PostData').findOneAndUpdate(
       { post: post._id, communityId },
-      { isInFeed: true },
+      { $set: { isInFeed: true } },
       { new: true }
     );
 

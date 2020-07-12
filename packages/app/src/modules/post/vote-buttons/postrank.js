@@ -8,15 +8,14 @@ import { Platform } from 'react-native';
 PostRank.propTypes = {
   horizontal: PropTypes.bool,
   color: PropTypes.string,
-  post: PropTypes.object,
+  post: PropTypes.object
 };
 
 export default memo(PostRank);
 
 function PostRank({ horizontal, color, post }) {
-  const tipText = `Ranking: ${Math.round(post.data.pagerank) || 0} (out of 100)\nVotes: ${
-    post?.data?.upVotes - post?.data?.downVotes || 0
-  }`;
+  const tipText = `Ranking: ${Math.round(post.data.pagerank) ||
+    0} (out of 100)\nVotes: ${post?.data?.upVotes - post?.data?.downVotes || 0}`;
   const tooltipData = { text: tipText, position: horizontal ? 'top' : 'right' };
   const postRank = post.data
     ? Math.round(post.data.pagerank) + post.data.upVotes - post.data.downVotes
@@ -40,17 +39,17 @@ function PostRank({ horizontal, color, post }) {
               {
                 ...Platform.select({
                   ios: {
-                    translateY: 1.0,
+                    translateY: 1.0
                   },
                   android: {
-                    translateY: 1.0,
+                    translateY: 1.0
                   },
                   default: {
-                    translateY: 1.0,
-                  },
-                }),
-              },
-            ],
+                    translateY: -0.5
+                  }
+                })
+              }
+            ]
           }}
           resizeMode={'contain'}
           resizeMethod={'resize'}

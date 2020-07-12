@@ -62,7 +62,12 @@ app.use(cors(corsOptions));
 
 const limiter = getLimiter({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: 2000 // limit each IP to 1000 requests per windowMs
+  max: 2000, // limit each IP to 1000 requests per windowMs
+  handler: (req, res, next) => {
+    console.log('main limit', req.rateLimit);
+    next();
+    // res.status(options.statusCode).send(options.message);
+  }
 });
 
 require('events').EventEmitter.prototype._maxListeners = 100;

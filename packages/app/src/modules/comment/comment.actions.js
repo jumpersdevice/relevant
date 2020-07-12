@@ -73,17 +73,14 @@ export function createComment(commentObj) {
   };
 }
 
-export function getComments(post, skip, limit) {
+export function getComments(post, query) {
   return async dispatch => {
     try {
-      if (!skip) skip = 0;
-      if (!limit) limit = 0;
-
       const responseJSON = await dispatch(
         api.request({
           method: 'GET',
           endpoint: 'comment',
-          query: { post, skip, limit }
+          query: { post, ...query }
         })
       );
 

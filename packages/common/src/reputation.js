@@ -3,7 +3,7 @@ export const getReputation = communityMember =>
 
 export const probablySpam = communityMember => {
   const rep = getReputation(communityMember);
-  console.log(rep);
   if (rep >= 0) return false;
-  return Math.random() * 100 < Math.abs(rep);
+  const absRep = Math.abs(rep);
+  return Math.random() * Math.max(60, absRep * 5) < absRep;
 };

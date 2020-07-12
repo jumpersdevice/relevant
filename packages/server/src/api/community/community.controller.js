@@ -341,12 +341,12 @@ export async function remove(req, res, next) {
     // await Community.findOne({ slug }).remove().exec();
     const community = await Community.findOneAndUpdate(
       { _id: id },
-      { inactive: true },
+      { $set: { inactive: true } },
       { new: true }
     );
-    await CommunityMember.update(
+    await CommunityMember.updateMany(
       { communityId: community._id },
-      { deletedCommunity: true }
+      { $set: { deletedCommunity: true } }
     );
 
     res.status(200).json('removed');
