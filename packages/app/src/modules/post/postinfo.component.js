@@ -5,10 +5,12 @@ import get from 'lodash/get';
 import ULink from 'modules/navigation/ULink.component';
 import Gradient from 'modules/post/gradient.component';
 import { ActivityIndicator } from 'react-native-web';
-import { View, Image } from 'modules/styled/uni';
+import { View, Image, Box } from 'modules/styled/uni';
 import { getTitle, getFavIcon } from 'app/utils/post';
 import PostInfoMobile from 'modules/post/postinfo.mobile.component';
 import { POST_IMAGE_W, POST_IMAGE_H } from 'styles/layout';
+import Avatar from 'modules/user/UAvatar.component';
+import CommentBody from 'modules/comment/commentBody';
 import PostTitle from './postTitle.component';
 
 PostInfo.propTypes = {
@@ -75,15 +77,25 @@ function PostInfo({ post, link, noLink, singlePost, preview }) {
 
   const postContent = (
     <View fdirection={['row', 'column']}>
-      {postImage}
-      <PostTitle
-        post={post}
-        link={link}
-        noLink={noLink}
-        title={title}
-        singlePost={singlePost}
-        preview={preview}
-      />
+      {link ? (
+        <View fdirection={['row', 'column']}>
+          {postImage}
+          <PostTitle
+            post={post}
+            link={link}
+            noLink={noLink}
+            title={title}
+            singlePost={singlePost}
+            preview={preview}
+          />
+        </View>
+      ) : (
+        <View flex={1} p={2} fdirection={['row', 'row']} align={'center'}>
+          <Avatar size={6} user={post.embeddedUser} noLink />
+          <Box mr={2} />
+          <CommentBody noLink={true} comment={post} preview={true} />
+        </View>
+      )}
     </View>
   );
 
