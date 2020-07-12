@@ -361,13 +361,13 @@ UserSchema.methods.updateMeta = async function updateMeta() {
 
   await this.model('Post').updateMany(
     { user: this._id },
-    { embeddedUser: newUser },
+    { $set: { embeddedUser: newUser } },
     { multi: true }
   );
 
   await this.model('CommunityMember').updateMany(
     { user: this._id },
-    { embeddedUser: newUser },
+    { $set: { embeddedUser: newUser } },
     { multi: true }
   );
   return true;

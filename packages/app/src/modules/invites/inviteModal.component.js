@@ -161,11 +161,14 @@ class InviteModal extends Component {
       <View display="flex" fdirection="column">
         <View mt={6} display="flex" fdirection="column">
           <SecondaryText>Public Invite Link</SecondaryText>
-          <BodyText inline={1} mt={1}>
-            You and each new users get{' '}
-            <CoinStat size={2} amount={PUBLIC_LINK_REWARD} inline={1} /> coin
-            {PUBLIC_LINK_REWARD === 1 ? '' : 's'} per signup via your public invite code.
-          </BodyText>
+          {PUBLIC_LINK_REWARD ? (
+            <BodyText inline={1} mt={1}>
+              You and each new users get{' '}
+              <CoinStat size={2} amount={PUBLIC_LINK_REWARD} inline={1} /> coin
+              {PUBLIC_LINK_REWARD === 1 ? '' : 's'} per signup via your public invite
+              code.
+            </BodyText>
+          ) : null}
           <LinkFont
             mt={1}
             onClick={() => copyToClipBoard(url)}
@@ -189,11 +192,13 @@ class InviteModal extends Component {
             {count[community.active] > 1 ? 's' : ''} left.
           </SecondaryText>
           <Box mt={1} />
-          <BodyText inline={1}>
-            Share your Reputation with trustworthy friends with your private invite codes.
-            Earn <CoinStat size={2} amount={REFERRAL_REWARD} inline={1} /> coin
-            {REFERRAL_REWARD === 1 ? '' : 's'} per signup.
-          </BodyText>
+          {REFERRAL_REWARD ? (
+            <BodyText inline={1}>
+              Share your Reputation with trustworthy friends with your private invite
+              codes. Earn <CoinStat size={2} amount={REFERRAL_REWARD} inline={1} /> coin
+              {REFERRAL_REWARD === 1 ? '' : 's'} per signup.
+            </BodyText>
+          ) : null}
         </View>
         <ULink
           to={'#'}
@@ -220,11 +225,13 @@ class InviteModal extends Component {
         <ModalDivider pt={6} />
         <View mt={6} fdirection={'column'}>
           <Header>Private Invites</Header>
-          <BodyText inline={1} fdirection="row">
-            Here’s how many coins you’ve made from invites so far:{' '}
-            <CoinStat size={2} amount={user.referralTokens} inline={1} /> coin
-            {user.referralTokens === 1 ? '' : 's'} (max amount is {MAX_AIRDROP})
-          </BodyText>
+          {REFERRAL_REWARD && PUBLIC_LINK_REWARD ? (
+            <BodyText inline={1} fdirection="row">
+              Here’s how many coins you’ve made from invites so far:{' '}
+              <CoinStat size={2} amount={user.referralTokens} inline={1} /> coin
+              {user.referralTokens === 1 ? '' : 's'} (max amount is {MAX_AIRDROP})
+            </BodyText>
+          ) : null}
           <View mt={4} fdirection="column">
             {invitesEl}
           </View>

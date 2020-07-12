@@ -93,6 +93,7 @@ function addClient(io, socket, currentUser) {
   clients[currentUser][socket.id] = socket;
 
   const userSockets = clients[currentUser];
+  console.log('total clients: ', Object.keys(clients).length);
 
   // update online status and send socket
   if (Object.keys(userSockets).length === 1) {
@@ -105,7 +106,6 @@ function addClient(io, socket, currentUser) {
 function createListener(io) {
   return data => {
     if (data._id) {
-      emitToUser(data);
       io.of('/').adapter.customRequest(data, err => {
         if (err) console.log(err);
       });

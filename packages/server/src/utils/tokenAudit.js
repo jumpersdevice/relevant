@@ -104,15 +104,27 @@ async function userEarnings(user) {
     console.log(user.handle);
     console.log('error! earnings mismatch for', user._id);
 
-    const allEarnings = await Earnings.find({
-      user: user._id,
-      earned: { $gt: 0 }
-      // status: 'paidout',
-    });
+    // const allEarnings = await Earnings.find({
+    //   user: user._id,
+    //   earned: { $gt: 0 },
+    //   // status: { $ne: 'paidout' },
+    // });
+    // console.log(allEarnings);
 
     const notes = await Notification.find({ forUser: user._id, coin: { $gt: 0 } });
     const sum = await notes.reduce((a, n) => (n.coin || 0) + a, 0);
-    console.log(sum);
+    // console.log(sum);
+    // console.log(notes);
+
+    // if (user._id.toString() === '5f04ac11151b1a00176afa01') {
+    //   const earning = await Earnings.findOne({
+    //     user: user._id,
+    //     post: '5f03b513d0b41200176fc12a',
+    //   });
+    //   // earning.earned = diff;
+    //   // earning.status = 'paidout';
+    //   // await earning.save();
+    // }
 
     // allEarnings.forEach(async (e) => {
     //   e.status = 'paidout';

@@ -4,7 +4,7 @@ import merge from 'lodash/merge';
 import url from 'url';
 // eslint-disable-next-line import/named
 import { signToken } from 'server/auth/auth.service';
-import Invite from 'server/api/invites/invite.model';
+// import Invite from 'server/api/invites/invite.model';
 import { sendEmail, addUserToEmailList, removeFromEmailList } from 'server/utils/mail';
 import { BANNED_USER_HANDLES, CASHOUT_MAX } from '@r3l/common';
 import { verifyEthSignature } from 'server/auth/web3/passport';
@@ -13,7 +13,6 @@ import User from './user.model';
 import Post from '../post/post.model';
 import CommunityMember from '../community/community.member.model';
 import Subscription from '../subscription/subscription.model';
-import Feed from '../feed/feed.model';
 import * as ethUtils from '../../utils/ethereum';
 import { logCashOut } from '../../utils/cashOut';
 
@@ -363,7 +362,7 @@ exports.create = async (req, res, next) => {
   try {
     const confirmCode = uuid();
     let { user } = req.body;
-    const { invitecode } = req.body;
+    // const { invitecode } = req.body;
 
     if (BANNED_USER_HANDLES.includes(user.name)) {
       throw new Error('this username is taken');
@@ -397,7 +396,7 @@ exports.create = async (req, res, next) => {
     user = new User(userObj);
     user = await user.save();
 
-    if (invitecode) user = await Invite.processInvite({ invitecode, user });
+    // if (invitecode) user = await Invite.processInvite({ invitecode, user });
     user = await user.initialCoins();
 
     const token = signToken(user._id, 'user');
@@ -581,7 +580,7 @@ exports.updateHandle = async (req, res, next) => {
 
     await CommunityMember.updateMany(
       { user: user._id },
-      { embeddedUser: newUser },
+      { $set: { embeddedUser: newUser } },
       { multi: true }
     );
 
@@ -638,13 +637,13 @@ exports.update = async (req, res, next) => {
       // Do this on a separate thread?
       await Post.updateMany(
         { user: user._id },
-        { embeddedUser: newUser },
+        { $set: { embeddedUser: newUser } },
         { multi: true }
       );
 
       await CommunityMember.updateMany(
         { user: user._id },
-        { embeddedUser: newUser },
+        { $set: { embeddedUser: newUser } },
         { multi: true }
       );
     }
@@ -675,17 +674,8 @@ exports.block = async (req, res, next) => {
     // clear any existing subscriptions
     const sub1 = Subscription.deleteMany({ following: user._id, follower: block }).exec();
     const sub2 = Subscription.deleteMany({ following: block, follower: user._id }).exec();
-    const feed1 = Feed.deleteMany({ userId: user._id, from: block }).exec();
-    const feed2 = Feed.deleteMany({ userId: block, from: user._id }).exec();
 
-    const results = await Promise.all([
-      userPromise,
-      blockPromise,
-      sub1,
-      sub2,
-      feed1,
-      feed2
-    ]);
+    const results = await Promise.all([userPromise, blockPromise, sub1, sub2]);
     user = results[0];
     return res.status(200).json(user);
   } catch (err) {
@@ -738,8 +728,9 @@ exports.updateUserTokenBalance = async (req, res, next) => {
 };
 
 exports.updateUserNotifications = async (req, res, next) => {
+  const { user, body } = req;
   try {
-    const { user, body } = req;
+    if (!user) throw new Error('Missing user');
     const { notificationSettings, subscription, deviceTokens } = body;
     const newSettings = merge(user.notificationSettings.toObject(), notificationSettings);
     const oldSettings = { ...user.notificationSettings };
@@ -769,6 +760,7 @@ exports.updateUserNotifications = async (req, res, next) => {
 
     res.status(200).json(user);
   } catch (err) {
+    console.log(user); // eslint-disable-line
     next(err);
   }
 };

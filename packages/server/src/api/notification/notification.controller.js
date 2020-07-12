@@ -92,7 +92,7 @@ exports.showGeneral = (req, res, next) => {
 
 exports.markRead = (req, res, next) => {
   const query = { forUser: req.user._id, read: false };
-  return Notification.updateMany(query, { read: true }, { multi: true })
+  return Notification.updateMany(query, { $set: { read: true } }, { multi: true })
     .then(() => res.status(200).send())
     .catch(next);
 };

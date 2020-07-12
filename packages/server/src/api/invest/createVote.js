@@ -41,8 +41,7 @@ export const create = async (req, res, next) => {
 
     let { post, user, author } = await queryDb({ userId, postId, communityId });
 
-    post = await unhideTwitterComments({ amount, post, communityId, community });
-    // TODO create twitter user authors!
+    post = await unhide({ amount, post, communityId, community });
 
     ratelimitVotes({ user });
     if (author) {
@@ -100,7 +99,9 @@ export const create = async (req, res, next) => {
     post = await post.save();
 
     if (post.parentPost) {
-      await post.parentPost.updateRank({ communityId });
+      const updateTime = amount < 0;
+
+      await post.parentPost.updateRank({ communityId, updateTime });
       await post.parentPost.save();
     }
 
@@ -312,7 +313,7 @@ function ratelimitVotes({ user }) {
   }
 }
 
-async function unhideTwitterComments({ amount, post, communityId, community }) {
+async function unhide({ amount, post, communityId, community }) {
   if (!post) return null;
   if (amount > 0 && post.hidden && post.parentPost) {
     await post.parentPost.insertIntoFeed(communityId, community);

@@ -6,7 +6,7 @@ const TwitterStrategy = require('passport-twitter').Strategy;
 const { promisify } = require('util');
 const config = require('../../config/config');
 const User = require('../../api/user/user.model');
-const Invite = require('../../api/invites/invite.model');
+// const Invite = require('../../api/invites/invite.model');
 const auth = require('../auth.service');
 
 // Handles both login and signup via http POST request - native
@@ -83,11 +83,11 @@ export async function handleTwitterAuth({ req, twitterAuth, profile, invitecode 
     user = await addTwitterProfile({ profile, user, twitterAuth });
     await addUserToEmailList(user);
     user = await user.initialCoins();
-    if (invitecode && invitecode !== 'undefined') {
-      user = await Invite.processInvite({ invitecode, user });
-      // const invite = await Invite.findOne({ code: invitecode, redeemed: { $ne: true } });
-      // if (invite) user = await invite.referral(user);
-    }
+    // if (invitecode && invitecode !== 'undefined') {
+    // user = await Invite.processInvite({ invitecode, user });
+    // const invite = await Invite.findOne({ code: invitecode, redeemed: { $ne: true } });
+    // if (invite) user = await invite.referral(user);
+    // }
   } else if (!user.twitterId) {
     user = await addTwitterProfile({ profile, user, twitterAuth });
     user = await user.addReward({ type: 'twitter' });

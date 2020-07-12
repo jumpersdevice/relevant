@@ -8,6 +8,7 @@ import Notification from 'server/api/notification/notification.model';
 // import Invest from 'server/api/invest/invest.model';
 import { checkCommunityAuth } from 'server/api/community/community.auth';
 import sanitizeHtml from 'sanitize-html';
+import { getReputation, probablySpam } from '@r3l/common';
 
 // COMMENTS ARE USING POST SCHEMA
 exports.index = async req => {
@@ -15,13 +16,15 @@ exports.index = async req => {
   // const limit = parseInt(req.query.limit, 10) || 10;
   // const skip = parseInt(req.query.skip, 10) || 0;
   const { user } = req;
-  const { community, post } = req.query;
+  const { community, post, showHidden } = req.query;
   if (!post) throw Error('missing parent post id');
 
   const cObj = await Community.findOne({ slug: community }, '_id');
   const communityId = cObj?._id;
 
-  const query = { parentPost: post, hidden: { $ne: true }, communityId };
+  const hidden = showHidden === 'true' ? {} : { hidden: { $ne: true } };
+  const pagerank = showHidden ? {} : { pagerank: { $gte: 0 } };
+  const query = { parentPost: post, ...hidden, communityId, ...pagerank };
 
   const myVote = user
     ? [
@@ -46,14 +49,14 @@ exports.index = async req => {
       }
     ])
     .sort({ pagerank: -1, createdAt: 1 });
-
-  return { data: comments.map(c => c.toObject()) };
+  return { data: comments };
 };
 
 exports.create = async (req, res, next) => {
   try {
     let user = req.user._id;
     const { communityMember } = req;
+    const reputation = getReputation(communityMember);
 
     const { community, communityId } = communityMember;
 
@@ -71,6 +74,8 @@ exports.create = async (req, res, next) => {
     tags = [...new Set([...tags, ...tagsFromBody])].map(sanitizeHtml);
     mentions = [...new Set([...mentions, ...mentionsFromBody])].map(sanitizeHtml);
 
+    const hidden = probablySpam(communityMember);
+
     const commentObj = {
       body: sanitizeHtml(body),
       mentions,
@@ -84,7 +89,8 @@ exports.create = async (req, res, next) => {
       postDate: new Date(),
       community,
       communityId,
-      metaPost
+      metaPost,
+      hidden
     };
 
     let comment = new Post(commentObj);
@@ -105,10 +111,11 @@ exports.create = async (req, res, next) => {
     // this will also save the new comment
     comment = await Post.sendOutMentions(mentions, comment, user, comment);
 
-    const updateTime = type === 'post' || false;
+    const updateTime = (type === 'post' && reputation >= 0) || false;
+
     await parentPost.updateRank({ communityId, updateTime });
 
-    if (tags && tags.length) {
+    if (tags && tags.length && !hidden && reputation >= 0) {
       parentPost = await parentPost.addTags({ tags, communityId });
     }
 

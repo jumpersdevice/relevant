@@ -100,14 +100,13 @@ class HeaderRight extends Component {
           'Change display name',
           'Add new photo',
           'Notifications',
-          'Invite Friends',
           'Blocked Users',
           'FAQ',
           'Logout',
           'Cancel'
         ],
-        cancelButtonIndex: 7,
-        destructiveButtonIndex: 6
+        cancelButtonIndex: 6,
+        destructiveButtonIndex: 5
       },
       buttonIndex => {
         switch (buttonIndex) {
@@ -121,15 +120,12 @@ class HeaderRight extends Component {
             this.props.actions.push('notifications');
             break;
           case 3:
-            this.props.actions.push('invites');
-            break;
-          case 4:
             this.props.actions.viewBlocked();
             break;
-          case 5:
+          case 4:
             this.props.actions.goToUrl('https://relevant.community/info/faq');
             break;
-          case 6:
+          case 5:
             this.logoutRedirect();
             break;
           default:

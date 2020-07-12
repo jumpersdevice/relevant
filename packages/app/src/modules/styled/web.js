@@ -19,6 +19,21 @@ export const StyledNavLink = styled(NavLink)`
   ${mixins.margin}
 `;
 
+export const StyledNavIcon = styled(NavLink)`
+  ${fonts.header};
+  div:nth-child(2) {
+    opacity: 0.5;
+  }
+  &.active div:nth-child(2) {
+    opacity: 1;
+  }
+  :hover div:nth-child(2) {
+    opacity: 1;
+  }
+  ${mixins.display}
+  ${mixins.margin}
+`;
+
 export const View = styled.div`
   ${mixins.margin}
   ${mixins.padding}

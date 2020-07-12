@@ -12,7 +12,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   html {
-    font-size: 95%;
+    font-size: 100%;
     display: flex;
   }
   body {

@@ -9,7 +9,7 @@ import * as commentActions from 'modules/comment/comment.actions';
 import * as investActions from 'modules/post/invest.actions';
 import * as createPostActions from 'modules/createPost/createPost.actions';
 import * as animationActions from 'modules/animation/animation.actions';
-import { Divider, View } from 'modules/styled/uni';
+import { View } from 'modules/styled/uni';
 import CommentForm from './commentForm.component';
 import Comment from './comment.component';
 
@@ -58,6 +58,8 @@ class Comments extends Component {
     } = this.props;
     const children = comments.childComments[post._id] || [];
     const focusedComment = get(match, 'params.commentId', null);
+    const additionalNesting = screenSize ? 0 : layout.POST_BUTTONS_NESTING_UNITS;
+
     return (
       <div>
         <CommentForm
@@ -74,7 +76,6 @@ class Comments extends Component {
               if (!comment) return null;
               return (
                 <View key={id}>
-                  <Divider m={['0 4', 0]} screenSize={screenSize} />
                   <Comment
                     auth={auth}
                     comment={comment}
@@ -87,7 +88,7 @@ class Comments extends Component {
                     childComments={comments.childComments}
                     posts={posts}
                     parentPost={post}
-                    nestingLevel={0}
+                    nestingLevel={additionalNesting}
                     actions={actions}
                     focusedComment={focusedComment}
                     scrollTo={this.scrollTo}

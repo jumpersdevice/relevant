@@ -6,7 +6,7 @@ import morgan from 'morgan';
 import passport from 'passport';
 import { ApolloServer } from 'apollo-server-express';
 import schema from 'server/graphql/schema';
-import rateLimit from 'express-rate-limit';
+import { getLimiter } from 'server/utils';
 import cors from 'cors';
 import * as Sentry from '@sentry/node';
 
@@ -60,9 +60,14 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-const limiter = rateLimit({
+const limiter = getLimiter({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: 1000 // limit each IP to 1000 requests per windowMs
+  max: 2000, // limit each IP to 1000 requests per windowMs
+  handler: (req, res, next) => {
+    console.log('main limit', req.rateLimit);
+    next();
+    // res.status(options.statusCode).send(options.message);
+  }
 });
 
 require('events').EventEmitter.prototype._maxListeners = 100;

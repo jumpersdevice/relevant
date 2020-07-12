@@ -45,7 +45,7 @@ function PostButtons({ post, color, horizontal }) {
   useVoteAnimation({ post, investButton, horizontal });
   const castVote = useCastVote({ post, userId, community, canBet });
 
-  const tooltipData = useMemo(() => getTooltipData(post), [post]);
+  const tooltipData = useMemo(() => getTooltipData(post, horizontal), [post, horizontal]);
   const voteStatus = useMemo(() => getVoteStatus(userId, post), [userId, post]);
   if (!post || post === 'notFound') return null;
 
@@ -102,7 +102,7 @@ function getVoteStatus(userId, post) {
   };
 }
 
-function getTooltipData(post) {
+function getTooltipData(post, horizontal) {
   const postType = getPostType({ post });
   const tipText =
     postType === 'link'
@@ -111,7 +111,7 @@ function getTooltipData(post) {
 
   return {
     text: tipText,
-    position: 'right',
+    position: horizontal ? 'top' : 'right',
     desktopOnly: true
   };
 }

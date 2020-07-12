@@ -20,11 +20,11 @@ export function Balance() {
   const maxUSD = usePrice(CASHOUT_MAX);
 
   if (!user) return null;
-  const metaMaskTokens = user.tokenBalance;
+  const metaMaskTokens = user.tokenBalance || 0;
 
   const { airdropTokens, lockedTokens } = user;
   const stakingPower = user.balance
-    ? Math.round(100 * (1 - lockedTokens / user.balance))
+    ? Math.round(100 * (1 - lockedTokens / (metaMaskTokens + user.balance)))
     : 0;
 
   const unclaimed = user.balance - user.airdropTokens;

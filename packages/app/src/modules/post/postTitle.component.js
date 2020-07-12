@@ -115,7 +115,7 @@ function PostTitle({ children, post, link, title, noLink, mobile, singlePost, pr
           style={{ overflow: 'hidden' }}
           c={c}
           mt={mobile ? 1 : 0.5}
-          numberOfLines={mobile ? 1 : null}
+          numberOfLines={1}
         >
           <CommentEl post={post} c={c} postUrl={postUrl} noLink={noLink} />
           <TagEl post={post} c={c} noLink={noLink} community={community} />

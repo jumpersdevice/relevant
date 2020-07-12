@@ -141,9 +141,13 @@ describe('computeApproxPageRank', () => {
     if (hasAuthor) {
       authorSan.relevance.postDegree =
         Math.round(authorSan.relevance.postDegree * 100) / 100;
+      authorSan.relevance.pagerankNeg =
+        Math.round(authorSan.relevance.pagerankNeg * 1000) / 1000;
       authorSan.relevance.pagerank = Math.round(authorSan.relevance.pagerank * 100) / 100;
       authorSan.relevance.pagerankRaw =
         Math.round(authorSan.relevance.pagerankRaw * 1000) / 1000;
+      authorSan.relevance.pagerankRawNeg =
+        Math.round(authorSan.relevance.pagerankRawNeg * 1000) / 1000;
     }
 
     postSan.pagerank = Math.round(postSan.pagerank * 100) / 100;

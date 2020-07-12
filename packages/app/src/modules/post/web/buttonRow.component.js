@@ -10,7 +10,6 @@ import { getPostUrl } from 'app/utils/post';
 
 PostButtonRow.propTypes = {
   post: PropTypes.object,
-  hidePostButtons: PropTypes.bool,
   setActiveComment: PropTypes.func,
   parentPost: PropTypes.object
 };
@@ -18,22 +17,23 @@ PostButtonRow.propTypes = {
 export default memo(PostButtonRow);
 
 function PostButtonRow(props) {
-  const { post, hidePostButtons, setActiveComment, parentPost } = props;
+  const { post, setActiveComment, parentPost } = props;
   const screenSize = useSelector(state => state.navigation.screenSize);
   const community = useSelector(state => state.auth.community);
 
   const url = 'https://relevant.community' + getPostUrl(community, post);
+  const hideHorizontalButton = screenSize === 0 && !post?.parentPost;
 
   return (
     <View
       fdirection="row"
-      justify="space-between"
+      justify={'space-between'}
       align="center"
       wrap={1}
       // stop-gap to avoid the page dimenisons breaking on deeply nested comments
     >
-      {!hidePostButtons && screenSize ? (
-        <View w={12}>
+      {!hideHorizontalButton ? (
+        <View mr={4}>
           <PostButtons {...props} post={post} horizontal />
         </View>
       ) : null}

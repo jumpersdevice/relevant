@@ -33,7 +33,7 @@ GetTokensModal.propTypes = {
 
 function GetTokensModal({
   auth: { user },
-  actions: { sendConfirmation, showModal, push },
+  actions: { sendConfirmation },
   mobile,
   twitterButton
   // redditButton
@@ -42,21 +42,20 @@ function GetTokensModal({
     <Box>
       {tokenEnabled() && (
         <Fragment>
+          <BodyText mt={2} mb={3} inline={1}>
+            You can buy and sell tokens on the Uniswap Exchange
+          </BodyText>
           <UniswapButton />
           <Divider mt={4} />
         </Fragment>
       )}
-      {!user.confirmed && (
+      {(!user.confirmed || user?.role === 'admin') && (
         <View fdirection="column" justify={'space-between'}>
           <View fdirection="row" align="center" mt={4}>
-            <BodyText c={colors.secondaryText} inline={1}>
-              Confirm your e-mail to earn{' '}
-              <CoinStat inline={1} size={2} amount={EMAIL_REWARD} />{' '}
+            <BodyText inline={1}>
+              Confirm your e-mail to get{' '}
+              <CoinStat inline={1} size={2} amount={EMAIL_REWARD} /> *non-redeemable*{' '}
               {EMAIL_REWARD > 1 ? 'coins' : 'coin'}
-              <SecondaryText>
-                *if you don't see a confirmation email in your inbox, please check your
-                spam folder
-              </SecondaryText>
             </BodyText>
           </View>
           <ULink
@@ -72,24 +71,34 @@ function GetTokensModal({
               <LinkFont c={colors.white}>Confirm E-mail</LinkFont>
             </ViewButton>
           </ULink>
+          <SecondaryText mt={2}>
+            *these coins cannot be cashed out, but can be used to earn curation rewards
+          </SecondaryText>
+          <SecondaryText mt={1}>
+            *if you don't see a confirmation email in your inbox, please check your spam
+            folder
+          </SecondaryText>
           <Divider mt={4} />
         </View>
       )}
 
-      {!user.twitterId && (
+      {(!user.twitterId || user?.role === 'admin') && (
         <Box>
-          <View fdirection="row" align="center" mt={4}>
-            <BodyText c={colors.secondaryText} inline={1}>
-              Connect your Relevant account with your Twitter account to earn{' '}
+          <View fdirection={'row'} align="center" mt={4}>
+            <BodyText inline={1}>
+              Connect your Relevant account with your Twitter to get{' '}
               <CoinStat
                 inline={1}
                 size={2}
                 amount={user.confirmed ? TWITTER_REWARD : TWITTER_REWARD + EMAIL_REWARD}
               />{' '}
-              {TWITTER_REWARD > 1 ? 'coins' : 'coin'}
+              *non-redeemable* {TWITTER_REWARD > 1 ? 'coins' : 'coin'}
             </BodyText>
           </View>
           {twitterButton}
+          <SecondaryText mt={2}>
+            *these coins cannot be cashed out, but can be used to earn curation rewards
+          </SecondaryText>
           <Divider mt={4} />
         </Box>
       )}
@@ -106,9 +115,7 @@ function GetTokensModal({
           {redditButton}
           <Divider mt={4} />
         </View>
-      )}
-      */}
-      <View mt={4}>
+       <View mt={4}>
         <ULink
           to="#"
           onClick={() => showModal('invite')}
@@ -120,6 +127,7 @@ function GetTokensModal({
           <LinkFont c={colors.blue}>Invite Friends</LinkFont>
         </ULink>
       </View>
+      */}
     </Box>
   );
 }
@@ -130,7 +138,7 @@ function UniswapButton() {
   const exchageUrl = exchangeLink();
 
   return (
-    <ULink inline={1} to={exchageUrl} external mr={['auto', 0]} mt={3} target="_blank">
+    <ULink to={exchageUrl} external mr={['auto', 0]} target="_blank">
       <HoverButton
         w={[22, 'auto']}
         bg={colors.uniswap}

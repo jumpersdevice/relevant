@@ -29,7 +29,6 @@ export const postSchema = new schema.Entity(
     metaPost: linkSchema,
     parentPost: parentPostSchema,
     commentPost: parentPostSchema
-    // myVote: [myVoteSchema]
   },
   { idAttribute: '_id' }
 );
@@ -40,12 +39,12 @@ const feedSchema = new schema.Entity(
     commentary: [postSchema],
     new: [postSchema],
     top: [postSchema],
+    spam: [postSchema],
     twitterFeed: [postSchema],
 
     user: userSchema,
     repost: { post: repostSchema },
     metaPost: linkSchema
-    // twitterCommentary: [postSchema],
   },
   {
     idAttribute: '_id',
@@ -65,7 +64,6 @@ const reqOptions = tk => ({
   }
 });
 
-// load 5 posts at a time
 const DEFAULT_LIMIT = 10;
 
 export function setUsers(users) {

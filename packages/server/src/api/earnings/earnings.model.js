@@ -47,7 +47,7 @@ EarningsSchema.index({ user: 1, post: 1 });
 EarningsSchema.statics.updateRewardsRecord = async function updateRewardsRecord(earning) {
   const updatedEarning = await this.findOneAndUpdate(
     { user: earning.user, post: earning.post, communityId: earning.communityId },
-    { ...earning },
+    { $set: { ...earning } },
     { new: true, upsert: true }
   );
   updatedEarning.updateClient({ actionType: 'UPDATE_EARNING' });
@@ -90,8 +90,10 @@ EarningsSchema.statics.updateEarnings = async function updateEarnings({
   await this.model('Earnings').updateMany(
     { post: post._id, communityId },
     {
-      estimatedPostPayout: post.data.expectedPayout,
-      totalPostShares: post.data.shares
+      $set: {
+        estimatedPostPayout: post.data.expectedPayout,
+        totalPostShares: post.data.shares
+      }
     },
     { multi: true }
   );

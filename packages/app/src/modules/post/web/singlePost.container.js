@@ -9,6 +9,7 @@ import Comments from 'modules/comment/web/comment.container';
 import get from 'lodash/get';
 import { View } from 'modules/styled/uni';
 import { MAX_POST_WIDTH } from 'styles/layout';
+import { ShowHidden } from 'modules/comment/showHidden';
 import PostComponent from './post.component';
 
 class SinglePostContainer extends Component {
@@ -73,6 +74,7 @@ class SinglePostContainer extends Component {
               singlePost
             />
             <Comments post={post} {...this.props} />
+            <ShowHidden id={params.id} />
           </View>
         )}
       </View>

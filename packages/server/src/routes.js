@@ -1,6 +1,6 @@
 import { BANNED_COMMUNITY_SLUGS } from '@r3l/common';
-import rateLimit from 'express-rate-limit';
 import * as Sentry from '@sentry/node';
+import { getLimiter } from 'server/utils';
 import handleRender from './render';
 // eslint-disable-next-line import/named
 import { currentUser } from './auth/auth.service';
@@ -14,15 +14,15 @@ function wwwRedirect(req, res, next) {
   return next();
 }
 
-const authLimit = rateLimit({
-  windowMs: 3 * 60 * 1000, // 3 min window
-  max: 6, // start blocking after 5 requests
-  message: 'You tired to log in too many times, please try again later'
+const authLimit = getLimiter({
+  windowMs: 1 * 60 * 1000, // 3 min window
+  max: 30, // start blocking after 5 requests
+  message: 'You tried to log in too many times, please try again later'
 });
 
-const reloadLimit = rateLimit({
+const reloadLimit = getLimiter({
   windowMs: 1 * 60 * 1000, // 1 minute window
-  max: 30, // start blocking after 5 requests
+  max: 600, // start blocking after 5 requests
   message: 'You refreshed too many times, please try again in 1 minute'
 });
 
@@ -65,7 +65,9 @@ module.exports = app => {
   // (need next for this to work)
   // eslint-disable-next-line
   app.use(async (err, req, res, next) => {
-    // console.log(err);
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(err); // eslint-disable-line
+    }
     Sentry.captureException(err);
     return res.status(500).json({ message: err.message });
   });

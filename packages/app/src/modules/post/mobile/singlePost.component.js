@@ -15,6 +15,7 @@ import UserSearchComponent from 'modules/createPost/mobile/userSearch.component'
 import UrlPreview from 'modules/createPost/mobile/urlPreview.component';
 import { View, MobileDivider, Divider } from 'modules/styled/uni';
 import ButtonContainer from 'modules/post/mobile/postButtons.container';
+import { ShowHidden } from 'modules/comment/showHidden';
 import Post from './post.component';
 
 const INPUT_OFFSET = IphoneX ? 33 + 55 : 55;
@@ -357,6 +358,7 @@ class SinglePostComponent extends Component {
           onLayout={e => {
             this.scrollHeight = e.nativeEvent.layout.height;
           }}
+          ListFooterComponent={() => <ShowHidden id={post._id} />}
           refreshControl={
             <RefreshControl
               refreshing={this.state.reloading}

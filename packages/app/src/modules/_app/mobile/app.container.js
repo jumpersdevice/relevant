@@ -87,11 +87,8 @@ class Application extends Component {
     //     />;
     //   }
     actions.getUser().then(async user => {
-      // if (!user) {
-      //   return this.props.actions.setScrollTab('discover', { tab: 0 });
-      //   // return navigation.navigate('auth');
-      // }
-      Analytics.setUserId(user._id);
+      if (!user) return null;
+      Analytics.setUserId(user?._id);
       const { community } = user;
       if (community) actions.setCommunity(community);
       actions.getEarnings('pending');

@@ -1,5 +1,6 @@
 import { pubsub } from 'server/graphql/pubsub';
 import { UPDATE_UNREAD } from 'server/api/community/member.schema';
+import { MINIMUM_REP_NEW } from '@r3l/common';
 
 const mongoose = require('mongoose');
 const socketEvent = require('server/socket/socketEvent').default;
@@ -143,26 +144,18 @@ PostSchema.virtual('children', {
   justOne: false
 });
 
-PostSchema.index({ twitter: 1 });
-PostSchema.index({ parentPost: 1, hidden: 1 });
-PostSchema.index({ parentPost: 1, pagerank: 1, hidden: 1 });
-
-PostSchema.index({ twitter: 1, twitterId: 1 });
-
+PostSchema.index({ user: 1 });
+PostSchema.index({ postDate: 1 });
 PostSchema.index({ rank: 1 });
+PostSchema.index({ createdAt: 1 });
+PostSchema.index({ url: 1 });
+PostSchema.index({ latestComment: 1 });
+PostSchema.index({ link: 1 });
 PostSchema.index({ postDate: -1 });
-PostSchema.index({ postDate: -1, community: 1 });
-
-PostSchema.index({ postDate: -1, communitId: 1, parentPost: 1 });
-PostSchema.index({ _id: 1, community: 1, user: 1 });
-
-PostSchema.index({ _id: 1, user: 1 });
-PostSchema.index({ _id: -1, communityId: 1, user: 1 });
-
-PostSchema.index({ communityId: 1, user: 1 });
-PostSchema.index({ postDate: -1, tags: 1 });
-PostSchema.index({ rank: 1, tags: 1 });
-PostSchema.index({ paidOut: 1, payoutTime: 1 });
+PostSchema.index({ parentPost: 1 });
+PostSchema.index({ hidden: 1 });
+PostSchema.index({ pagerank: 1 });
+PostSchema.index({ communityId: 1 });
 
 PostSchema.pre('save', async function save(next) {
   try {
@@ -236,7 +229,13 @@ async function updateLatestComment({ post, communityId }) {
   const latestComment = await post
     .model('Post')
     .findOne(
-      { parentPost: post._id, communityId, hidden: { $ne: true }, type: 'post' },
+      {
+        parentPost: post._id,
+        communityId,
+        hidden: { $ne: true },
+        type: 'post',
+        pagerank: { $gt: MINIMUM_REP_NEW }
+      },
       'postDate'
     )
     .sort({ postDate: -1 });
@@ -245,7 +244,6 @@ async function updateLatestComment({ post, communityId }) {
 
   post.data.latestComment = latestComment.postDate;
   post.latestComment = latestComment.postDate;
-
   return post;
 }
 
@@ -256,14 +254,14 @@ PostSchema.methods.updateRank = async function updateRank({ communityId, updateT
     if (!post.data) {
       post.data = await post.model('PostData').findOne({ post: post._id, communityId });
     }
-    const { pagerank } = post.data;
+    const pagerank = post?.data?.pagerank || 0;
 
     if (updateTime && !post.parentPost) {
       post = await updateLatestComment({ post, communityId });
     }
 
     // Don't use latestComment to compute post rank!
-    if (!post.data.postDate) post.data.postDate = post.postDate;
+    if (!post?.data?.postDate) post.data.postDate = post.postDate;
     const { postDate } = post.data;
 
     let rank =
@@ -383,11 +381,9 @@ PostSchema.methods.insertIntoFeed = async function insertIntoFeed(
 
     post.data = await this.model('PostData').findOneAndUpdate(
       { post: post._id, communityId },
-      { isInFeed: true },
+      { $set: { isInFeed: true } },
       { new: true }
     );
-
-    // this.model('CommunityFeed').addToFeed(post, post.data.community);
 
     const newPostEvent = {
       type: 'SET_NEW_POSTS_STATUS',
@@ -656,11 +652,7 @@ PostSchema.post('remove', async function postRemove(post, next) {
     await updateParentPostOnRemovingChild(post);
   }
 
-  // await this.model('CommunityFeed').removeFromAllFeeds(doc);
   const note = this.model('Notification')
-    .deleteMany({ post: post._id })
-    .exec();
-  const feed = this.model('Feed')
     .deleteMany({ post: post._id })
     .exec();
   const data = this.model('PostData')
@@ -682,7 +674,7 @@ PostSchema.post('remove', async function postRemove(post, next) {
       .exec();
   }
 
-  await Promise.all([note, feed, data, metaPost, commentNote]);
+  await Promise.all([note, data, metaPost, commentNote]);
   return next();
 });
 

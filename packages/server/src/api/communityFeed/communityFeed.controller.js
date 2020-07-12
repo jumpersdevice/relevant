@@ -2,7 +2,9 @@ import PostData from 'server/api/post/postData.model';
 import { MINIMUM_RANK, MINIMUM_DOWNVOTES_NEW, MINIMUM_REP_NEW } from '@r3l/common';
 import Community from 'server/api/community/community.model';
 import CommunityMember from 'server/api/community/community.member.model';
-import sanitizeHtml from 'sanitize-html';
+// import sanitizeHtml from 'sanitize-html';
+
+const PREVIEW_LIMIT = 10;
 
 exports.index = async req => {
   // try {
@@ -35,6 +37,15 @@ exports.index = async req => {
   const communityId = cObj._id;
 
   let query = { communityId, isInFeed: true };
+  const blocked = [...(req?.user?.blocked || []), ...(req?.user?.blockedBy || [])];
+
+  let commentaryQuery = {
+    communityId,
+    pagerank: { $gte: -1 },
+    type: 'post',
+    user: { $nin: blocked },
+    hidden: { $ne: true }
+  };
 
   if (sort === 'rank' || sort === 'top') {
     sortQuery = { rank: -1 };
@@ -44,6 +55,7 @@ exports.index = async req => {
     sortQuery = { latestComment: -1 };
     query = {
       ...query,
+      hidden: { $ne: true },
       $or: [
         { pagerank: { $gte: MINIMUM_RANK } },
         {
@@ -59,7 +71,9 @@ exports.index = async req => {
     sortQuery = { latestComment: -1 };
     query = {
       ...query,
+      hidden: { $ne: true },
       $or: [
+        { hidden: true },
         { pagerank: { $lt: MINIMUM_REP_NEW } },
         {
           $and: [
@@ -69,12 +83,12 @@ exports.index = async req => {
         }
       ]
     };
-    commentarySort = { postDate: -1 };
-  }
-
-  let blocked = [];
-  if (req.user) {
-    blocked = [...(req.user.blocked || []), ...(req.user.blockedBy || [])];
+    commentaryQuery = {
+      communityId,
+      type: 'post',
+      user: { $nin: blocked }
+    };
+    commentarySort = { postDate: 1 };
   }
 
   if (tag) query = { ...query, tags: { $regex: `${tag}`, $options: 'i' } };
@@ -127,17 +141,8 @@ exports.index = async req => {
         ...myVote,
         {
           path: 'commentary',
-          match: {
-            // TODO implement intra-community commentary
-            communityId,
-            type: 'post',
-            // TODO - we should probably sort the non-community commentary
-            // with some randomness on client side
-            // repost: { $exists: false },
-            user: { $nin: blocked },
-            hidden: { $ne: true }
-          },
-          options: { sort: commentarySort },
+          match: commentaryQuery,
+          options: { sort: commentarySort, limit: PREVIEW_LIMIT },
           select: `
             embeddedUser
             user
@@ -147,6 +152,8 @@ exports.index = async req => {
             linkParent
             myVote
             createdAt
+            pagerank
+            type
           `,
           populate: [
             ...myVote,
@@ -197,9 +204,9 @@ exports.index = async req => {
   const posts = [];
   feed.forEach(async f => {
     if (f.post) {
-      f.post.title = sanitizeHtml(f.post.title || '');
-      f.post.body = sanitizeHtml(f.post.body);
-      f.post.tags = f.post.tags.map(sanitizeHtml);
+      // f.post.title = sanitizeHtml(f.post.title || '');
+      // f.post.body = sanitizeHtml(f.post.body);
+      // f.post.tags = f.post.tags.map(sanitizeHtml);
       const data = { ...f.toObject() };
       delete data.post;
       f.post.data = data;
