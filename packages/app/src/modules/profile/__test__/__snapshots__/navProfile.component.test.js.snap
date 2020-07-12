@@ -245,6 +245,9 @@ exports[`Snapshot NavProfile 1`] = `
         >
           <div
             className="css-view-1dbjc4n"
+            data-for="mainTooltip"
+            data-place="right"
+            data-tip="{\\"type\\":\\"TEXT\\",\\"props\\":{\\"place\\":\\"right\\",\\"text\\":\\"This is your reputation in the undefined community\\"}}"
             style={
               Object {
                 "WebkitAlignItems": "center",
@@ -336,7 +339,8 @@ exports[`Snapshot NavProfile 1`] = `
             <div
               className="css-view-1dbjc4n"
               data-for="mainTooltip"
-              data-tip="{\\"type\\":\\"TEXT\\",\\"props\\":{\\"text\\":\\"Get coins by upvoting quality links.\\\\nThe higher your Reputation the more coins you earn.\\"}}"
+              data-place="right"
+              data-tip="{\\"type\\":\\"TEXT\\",\\"props\\":{\\"position\\":\\"right\\",\\"text\\":\\"Get coins by upvoting quality links.\\\\n\\"}}"
               style={
                 Object {
                   "WebkitAlignItems": "center",
