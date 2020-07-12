@@ -177,7 +177,7 @@ function Comment(props) {
                     comment={comment}
                     buttonText={'Update'}
                     cancel={cancel}
-                    nestingLevel={nestingLevel}
+                    // nestingLevel={nestingLevel}
                     autoFocus
                   />
                 </Box>

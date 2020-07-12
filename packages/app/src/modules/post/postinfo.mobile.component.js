@@ -11,8 +11,6 @@ import UrlPreview from 'modules/createPost/mobile/urlPreview.component';
 import { goToUrl } from 'modules/navigation/navigation.actions';
 import PostTitle from './postTitle.component';
 
-// cl
-
 const GradientContainer = styled(View)`
   position: absolute;
   top: 0;
