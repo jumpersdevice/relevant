@@ -28,7 +28,8 @@ export class NavProfile extends Component {
     user: PropTypes.object,
     earnings: PropTypes.object,
     actions: PropTypes.object,
-    auth: PropTypes.object
+    auth: PropTypes.object,
+    community: PropTypes.object
   };
 
   componentDidMount() {
@@ -51,7 +52,7 @@ export class NavProfile extends Component {
   }
 
   render() {
-    const { user, earnings, actions } = this.props;
+    const { user, earnings, actions, community } = this.props;
     if (!user) return null;
 
     // TODO optimize this so its not on every render?
@@ -88,14 +89,15 @@ export class NavProfile extends Component {
                 <RStat
                   user={user}
                   align="center"
-                  // data-for="mainTooltip"
-                  // data-tip={JSON.stringify({
-                  //   type: 'TEXT',
-                  //   props: {
-                  //     text:
-                  //       'Earn Reputation by posting comments.\nThe higher your score, the more weight your votes have.',
-                  //   },
-                  // })}
+                  data-for="mainTooltip"
+                  data-place="right"
+                  data-tip={JSON.stringify({
+                    type: 'TEXT',
+                    props: {
+                      place: 'right',
+                      text: `This is your reputation in the ${community?.name} community`
+                    }
+                  })}
                 />
                 <ULink
                   to="/user/wallet"
@@ -107,12 +109,13 @@ export class NavProfile extends Component {
                     isOwner={true}
                     // showPrice
                     align="center"
+                    data-place="right"
                     data-for="mainTooltip"
                     data-tip={JSON.stringify({
                       type: 'TEXT',
                       props: {
-                        text:
-                          'Get coins by upvoting quality links.\nThe higher your Reputation the more coins you earn.'
+                        position: 'right',
+                        text: 'Get coins by upvoting quality links.\n'
                       }
                     })}
                   />
@@ -183,7 +186,8 @@ export class NavProfile extends Component {
 const mapStateToProps = state => ({
   auth: state.auth,
   user: state?.auth?.user,
-  earnings: state.earnings
+  earnings: state.earnings,
+  community: state.community?.communities?.[state.community?.active]
 });
 
 const mapDispatchToProps = dispatch => ({

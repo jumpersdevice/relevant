@@ -25,9 +25,9 @@ function CommentInfo({ comment, user }) {
   user = user || comment.embeddedUser;
 
   return (
-    <View fdirection="row" align={'center'}>
+    <View flex={1} fdirection="row" align={'center'}>
       <AvatarBox size={7} vertical user={user} />
-      <View ml={[2, 2]} mr={[3, 2]}>
+      <View flex={1} ml={[2, 2]} mr={[3, 2]}>
         <InfoRow comment={comment} />
         <View
           fdirection={'row'}

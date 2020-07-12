@@ -58,6 +58,8 @@ class Comments extends Component {
     } = this.props;
     const children = comments.childComments[post._id] || [];
     const focusedComment = get(match, 'params.commentId', null);
+    const additionalNesting = screenSize ? 0 : layout.POST_BUTTONS_NESTING_UNITS;
+
     return (
       <div>
         <CommentForm
@@ -69,12 +71,12 @@ class Comments extends Component {
         />
         {children.length !== 0 ? (
           <div>
-            {children.map(id => {
+            {children.map((id, i) => {
               const comment = posts.posts[id];
               if (!comment) return null;
               return (
                 <View key={id}>
-                  <Divider m={['0 4', 0]} screenSize={screenSize} />
+                  {i === 0 ? <Divider m={['0 4', 0]} screenSize={screenSize} /> : null}
                   <Comment
                     auth={auth}
                     comment={comment}
@@ -87,7 +89,7 @@ class Comments extends Component {
                     childComments={comments.childComments}
                     posts={posts}
                     parentPost={post}
-                    nestingLevel={0}
+                    nestingLevel={additionalNesting}
                     actions={actions}
                     focusedComment={focusedComment}
                     scrollTo={this.scrollTo}

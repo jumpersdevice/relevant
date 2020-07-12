@@ -254,14 +254,14 @@ PostSchema.methods.updateRank = async function updateRank({ communityId, updateT
     if (!post.data) {
       post.data = await post.model('PostData').findOne({ post: post._id, communityId });
     }
-    const { pagerank } = post.data;
+    const pagerank = post?.data?.pagerank || 0;
 
     if (updateTime && !post.parentPost) {
       post = await updateLatestComment({ post, communityId });
     }
 
     // Don't use latestComment to compute post rank!
-    if (!post.data.postDate) post.data.postDate = post.postDate;
+    if (!post?.data?.postDate) post.data.postDate = post.postDate;
     const { postDate } = post.data;
 
     let rank =

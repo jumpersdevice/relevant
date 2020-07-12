@@ -33,16 +33,15 @@ export default function BetStats({ post, amount, earning, maxBet }) {
     dispatch(getPostInvestments(post._id));
   }, [dispatch, post._id]);
 
-  const existingShares = earning ? earning.shares : 0;
-  const existingStake = earning ? earning.stakedTokens : 0;
+  const existingShares = earning?.shares || 0;
+  const existingStake = earning?.stakedTokens || 0;
   const bets = investments.length;
   const users = bets > 1 ? 'users' : 'user';
   const invText = bets
     ? `${bets} ${users} bet a total of ${toFixed(
-        post.data.totalShares - existingStake
+        post?.data?.totalShares - existingStake
       )} coins on this post`
-    : '';
-  // : 'You are the first to bet on this post!';
+    : 'You are the first to bet on this post. This means you win big if it becomes relevant!';
 
   const shares = computeShares({ post, stakedTokens: amount });
   const postRewards = computePostPayout(post.data, community);

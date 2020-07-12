@@ -2,7 +2,9 @@ import PostData from 'server/api/post/postData.model';
 import { MINIMUM_RANK, MINIMUM_DOWNVOTES_NEW, MINIMUM_REP_NEW } from '@r3l/common';
 import Community from 'server/api/community/community.model';
 import CommunityMember from 'server/api/community/community.member.model';
-import sanitizeHtml from 'sanitize-html';
+// import sanitizeHtml from 'sanitize-html';
+
+const PREVIEW_LIMIT = 10;
 
 exports.index = async req => {
   // try {
@@ -138,7 +140,7 @@ exports.index = async req => {
             user: { $nin: blocked },
             hidden: { $ne: true }
           },
-          options: { sort: commentarySort },
+          options: { sort: commentarySort, limit: PREVIEW_LIMIT },
           select: `
             embeddedUser
             user
@@ -199,9 +201,9 @@ exports.index = async req => {
   const posts = [];
   feed.forEach(async f => {
     if (f.post) {
-      f.post.title = sanitizeHtml(f.post.title || '');
-      f.post.body = sanitizeHtml(f.post.body);
-      f.post.tags = f.post.tags.map(sanitizeHtml);
+      // f.post.title = sanitizeHtml(f.post.title || '');
+      // f.post.body = sanitizeHtml(f.post.body);
+      // f.post.tags = f.post.tags.map(sanitizeHtml);
       const data = { ...f.toObject() };
       delete data.post;
       f.post.data = data;

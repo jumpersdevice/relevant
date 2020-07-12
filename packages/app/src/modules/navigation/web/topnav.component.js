@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyledNavLink, Button } from 'modules/styled/web';
+import { StyledNavIcon, Button } from 'modules/styled/web';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import DiscoverTabs from 'modules/discover/web/discoverTabs.component';
 import Breadcrumbs from 'modules/navigation/web/breadcrumbs.component';
-import { View, Text, LinkFont, Header, ButtonText } from 'modules/styled/uni';
+import { View, Text, LinkFont, Header, ButtonText, Image } from 'modules/styled/uni';
 import styled from 'styled-components/primitives';
 import styledComponent from 'styled-components';
 import { colors, layout, sizing } from 'app/styles';
@@ -14,6 +14,8 @@ import { showModal } from 'modules/navigation/navigation.actions';
 import { getNotificationCount } from 'modules/activity/activity.actions';
 import Ulink from 'modules/navigation/ULink.component';
 import MenuIcon from 'modules/ui/web/menuIcon.component';
+
+const ActivityImage = require('public/img/bell.png');
 
 const Nav = styled(View)`
   position: sticky;
@@ -27,10 +29,10 @@ const Nav = styled(View)`
 `;
 
 const Badge = styled(View)`
-  border-radius: 100%;
+  border-radius: 15%;
   align-items: center;
   height: ${sizing(2)};
-  width: ${sizing(2)};
+  minwidth: ${sizing(2)};
   justify-content: center;
   display: flex;
   flex-direction: row;
@@ -121,35 +123,36 @@ class TopNav extends Component {
           <MenuIcon mr={[4, 2]} />
           {title ? <Header>{title}</Header> : <DiscoverTabs />}
           <View
-            justify="space-between"
+            justify="flex-end"
             display="flex"
             fdirection="row"
             flex={1}
             grow={1}
             align="center"
           >
-            {!title && auth.isAuthenticated ? (
-              <StyledNavLink
+            {auth.isAuthenticated ? (
+              <StyledNavIcon
                 to="/user/activity"
                 hc={colors.black}
                 c={colors.grey}
                 fdirection="row"
                 d="flex"
+                justify="flex-end"
               >
-                Activity
                 {notif.count ? (
-                  <Badge bg={colors.red} ml={0.5}>
-                    <Text c={colors.white} fw="bold" fs={1.25}>
+                  <Badge bg={colors.red}>
+                    <Text p={'0 .25'} c={colors.white} fw="bold" fs={1.25}>
                       {notif.count}
                     </Text>
                   </Badge>
                 ) : null}
-              </StyledNavLink>
+                <Image resizeMode={'contain'} h={3} w={3} source={ActivityImage} />
+              </StyledNavIcon>
             ) : (
               <div />
             )}
 
-            <View fdirection="row" d="flex" flex={1} align="center" justify="flex-end">
+            <View ml={[2, 0]} fdirection="row" d="flex" align="center" justify="flex-end">
               {screenSize ? null : (
                 <Ulink
                   onClick={e => {

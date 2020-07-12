@@ -24,7 +24,7 @@ export function Balance() {
 
   const { airdropTokens, lockedTokens } = user;
   const stakingPower = user.balance
-    ? Math.round(100 * (1 - lockedTokens / user.balance))
+    ? Math.round(100 * (1 - lockedTokens / (metaMaskTokens + user.balance)))
     : 0;
 
   const unclaimed = user.balance - user.airdropTokens;
