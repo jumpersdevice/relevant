@@ -1,6 +1,6 @@
 {
   "name": "@r3l/app",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "Relevant App",
   "license": "MIT",
   "keywords": [
@@ -43,7 +43,7 @@
     "@babel/runtime": "^7.10.3",
     "@hot-loader/react-dom": "^16.13.0",
     "@loadable/component": "^5.12.0",
-    "@r3l/common": "^0.0.26",
+    "@r3l/common": "^0.0.27",
     "@uniswap/sdk": "^1.0.0-beta.4",
     "@webscopeio/react-textarea-autocomplete": "^4.6.1",
     "apollo-cache-inmemory": "^1.6.3",

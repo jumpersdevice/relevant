@@ -1,6 +1,6 @@
 {
   "name": "@r3l/server",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "Relevant Server",
   "homepage": "https://github.com/relevant-community/relevant",
   "license": "MIT",
@@ -20,8 +20,8 @@
     "@babel/register": "^7.4.4",
     "@babel/runtime": "^7.8.3",
     "@loadable/server": "^5.12.0",
-    "@r3l/app": "^0.0.26",
-    "@r3l/common": "^0.0.26",
+    "@r3l/app": "^0.0.27",
+    "@r3l/common": "^0.0.27",
     "@sentry/node": "5.19.0",
     "apn": "^2.2.0",
     "apollo-server": "^2.9.9",
