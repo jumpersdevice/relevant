@@ -16,7 +16,7 @@ function wwwRedirect(req, res, next) {
 
 const authLimit = getLimiter({
   windowMs: 3 * 60 * 1000, // 3 min window
-  max: 6, // start blocking after 5 requests
+  max: 20, // start blocking after 5 requests
   message: 'You tried to log in too many times, please try again later'
 });
 
