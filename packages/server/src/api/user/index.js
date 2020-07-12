@@ -9,7 +9,7 @@ const router = express.Router();
 const createAccountLimiter = getLimiter({
   windowMs: 60 * 60 * 1000, // 1 hour window
   max: 3, // start blocking after 5 requests
-  message: 'Too many accounts created from this IP, please try again after an hour',
+  message: 'Too many accounts created from this IP, please try again after an hour'
 });
 
 // router.get('/confirm/:user/:code', controller.confirm);

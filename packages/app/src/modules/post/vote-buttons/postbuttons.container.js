@@ -20,10 +20,10 @@ PostButtons.propTypes = {
     myVote: PropTypes.object,
     parentPost: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     type: PropTypes.string,
-    url: PropTypes.string,
+    url: PropTypes.string
   }),
   color: PropTypes.string,
-  horizontal: PropTypes.bool,
+  horizontal: PropTypes.bool
 };
 
 export default memo(PostButtons);
@@ -31,15 +31,15 @@ export default memo(PostButtons);
 function PostButtons({ post, color, horizontal }) {
   const investButton = useRef();
   const community = useCommunity();
-  const userId = useSelector((state) => state.auth?.user?.userId);
+  const userId = useSelector(state => state.auth?.user?.userId);
   const betEnabled = useSelector(
-    (state) => state.auth.user?.notificationSettings?.bet?.manual
+    state => state.auth.user?.notificationSettings?.bet?.manual
   );
 
   const canBet = useMemo(() => getCanBet({ post, community, betEnabled }), [
     betEnabled,
     community,
-    post,
+    post
   ]);
 
   useVoteAnimation({ post, investButton, horizontal });
@@ -75,7 +75,7 @@ function PostButtons({ post, color, horizontal }) {
           isActive={voteStatus.up}
           alt="upvote"
           color={color}
-          onPress={(e) => castVote(e, voteStatus.vote, 1)}
+          onPress={e => castVote(e, voteStatus.vote, 1)}
         />
       </View>
       <PostRank horizontal={horizontal} color={color} post={post} />
@@ -86,7 +86,7 @@ function PostButtons({ post, color, horizontal }) {
         isActive={voteStatus.down}
         alt="downvote"
         color={color}
-        onPress={(e) => castVote(e, voteStatus.vote, -1)}
+        onPress={e => castVote(e, voteStatus.vote, -1)}
       />
     </View>
   );
@@ -98,7 +98,7 @@ function getVoteStatus(userId, post) {
   return {
     vote,
     up: vote && vote.amount > 0,
-    down: vote && vote.amount < 0,
+    down: vote && vote.amount < 0
   };
 }
 
@@ -112,7 +112,7 @@ function getTooltipData(post, horizontal) {
   return {
     text: tipText,
     position: horizontal ? 'top' : 'right',
-    desktopOnly: true,
+    desktopOnly: true
   };
 }
 

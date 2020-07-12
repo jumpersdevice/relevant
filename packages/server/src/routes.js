@@ -17,16 +17,16 @@ function wwwRedirect(req, res, next) {
 const authLimit = getLimiter({
   windowMs: 1 * 60 * 1000, // 3 min window
   max: 30, // start blocking after 5 requests
-  message: 'You tried to log in too many times, please try again later',
+  message: 'You tried to log in too many times, please try again later'
 });
 
 const reloadLimit = getLimiter({
   windowMs: 1 * 60 * 1000, // 1 minute window
   max: 600, // start blocking after 5 requests
-  message: 'You refreshed too many times, please try again in 1 minute',
+  message: 'You refreshed too many times, please try again in 1 minute'
 });
 
-module.exports = (app) => {
+module.exports = app => {
   app.set('trust proxy', true);
   app.use(wwwRedirect);
 
@@ -72,7 +72,7 @@ module.exports = (app) => {
 
   app.get('/', reloadLimit, currentUser(), handleRender);
 
-  BANNED_COMMUNITY_SLUGS.forEach((c) => {
+  BANNED_COMMUNITY_SLUGS.forEach(c => {
     app.get(`/${c}/*`, currentUser(), handleRender);
     app.get(`/${c}`, currentUser(), handleRender);
   });

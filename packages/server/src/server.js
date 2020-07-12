@@ -54,15 +54,15 @@ const corsOptions = {
     'device-remember-token',
     'Access-Control-Allow-Origin',
     'Origin',
-    'Accept',
-  ],
+    'Accept'
+  ]
 };
 
 app.use(cors(corsOptions));
 
 const limiter = getLimiter({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: 1000, // limit each IP to 1000 requests per windowMs
+  max: 1000 // limit each IP to 1000 requests per windowMs
 });
 
 require('events').EventEmitter.prototype._maxListeners = 100;
@@ -81,7 +81,7 @@ if (isDevelopment) {
     webpackDevMiddleware(compiler, {
       // noInfo: true,
       publicPath: webpackConfig.output.publicPath,
-      writeToDisk: (filePath) => /loadable-stats-dev\.json$/.test(filePath),
+      writeToDisk: filePath => /loadable-stats-dev\.json$/.test(filePath)
     })
   );
   app.use(webpackHotMiddleware(compiler));
@@ -107,9 +107,9 @@ app.use(
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
       autoRemove: 'native', // Default
-      touchAfter: 24 * 3600, // time period in seconds
+      touchAfter: 24 * 3600 // time period in seconds
       // clear_interval: 3600,
-    }),
+    })
   })
 );
 
@@ -149,7 +149,7 @@ let server = new ApolloServer({
   schema,
   playground: process.env.NODE_ENV !== 'production',
   context: ({ req, connection }) =>
-    connection ? connection.context : { user: req.user || {} },
+    connection ? connection.context : { user: req.user || {} }
 });
 
 app.use('/graphql', validateTokenLenient);
@@ -157,7 +157,7 @@ server.applyMiddleware({ app });
 
 const socketServer = require('./socket').default;
 
-server = app.listen({ port }, (error) => {
+server = app.listen({ port }, error => {
   if (error) {
     console.error(error);
   } else {

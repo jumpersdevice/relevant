@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { getPostType } from 'app/utils/post';
 import { colors } from 'app/styles';
 import Tooltip from 'modules/tooltip/tooltip.component';
 import { View, Image, SmallText } from 'modules/styled/uni';

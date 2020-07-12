@@ -8,7 +8,7 @@ export default async function computeApproxPageRank({
   user,
   communityId,
   vote,
-  undoInvest,
+  undoInvest
 }) {
   try {
     const com = await Community.findOne(
@@ -31,7 +31,7 @@ export default async function computeApproxPageRank({
     if (author && !author.relevance) {
       author.relevance = await CommunityMember.findOne({
         user: author._id,
-        communityId,
+        communityId
       });
     }
 
@@ -124,7 +124,7 @@ export default async function computeApproxPageRank({
 
     await Promise.all([
       post ? post.data.save() : null,
-      author ? author.relevance.save() : null,
+      author ? author.relevance.save() : null
     ]);
 
     return { author, post };

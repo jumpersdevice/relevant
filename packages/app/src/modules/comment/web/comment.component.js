@@ -32,11 +32,11 @@ Comment.propTypes = {
   scrollTo: PropTypes.func,
   preview: PropTypes.bool,
   inMainFeed: PropTypes.bool,
-  additionalNesting: PropTypes.number,
+  additionalNesting: PropTypes.number
 };
 
 Comment.defaultProps = {
-  additionalNesting: 0,
+  additionalNesting: 0
 };
 
 function Comment(props) {
@@ -58,7 +58,7 @@ function Comment(props) {
     parentPost,
     scrollTo,
     focusedComment,
-    setActiveComment,
+    setActiveComment
   } = props;
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
@@ -66,13 +66,13 @@ function Comment(props) {
   const hideHorizontalButton = !comment?.parentPost;
 
   const user =
-    useSelector((state) => {
+    useSelector(state => {
       const userId = state.user.handleToId[embeddedUser?.handle];
       return state.user.users[userId];
     }) || embeddedUser;
 
-  const screenSize = useSelector((state) => state.navigation.screenSize);
-  const userId = useSelector((state) => state.auth?.user?._id);
+  const screenSize = useSelector(state => state.navigation.screenSize);
+  const userId = useSelector(state => state.auth?.user?._id);
 
   const el = createRef();
 
@@ -123,7 +123,7 @@ function Comment(props) {
     <Popup
       options={[
         { text: 'Edit Post', action: () => setEditing(true) },
-        { text: 'Delete Post', action: () => deletePost() },
+        { text: 'Delete Post', action: () => deletePost() }
       ]}
     >
       <span className={'optionDots'}>...</span>
@@ -208,7 +208,7 @@ function Comment(props) {
           autoFocus
         />
       )}
-      {commentChildren.map((childId) => (
+      {commentChildren.map(childId => (
         <Comment
           {...props}
           comment={posts.posts[childId]}

@@ -6,7 +6,7 @@ import CommunityMember from 'server/api/community/community.member.model';
 
 const PREVIEW_LIMIT = 10;
 
-exports.index = async (req) => {
+exports.index = async req => {
   // try {
   // TODO - right now sorting commentary by latest and relevance
   // only works for community's own posts
@@ -30,7 +30,7 @@ exports.index = async (req) => {
     if (!user) throw new Error('This community is private');
     const member = await CommunityMember.findOne({
       communityId: cObj._id,
-      user: user._id,
+      user: user._id
     });
     if (!member && user.role !== 'admin') throw new Error('This community is private');
   }
@@ -51,10 +51,10 @@ exports.index = async (req) => {
         {
           $and: [
             { downVotes: { $lt: MINIMUM_DOWNVOTES_NEW } },
-            { pagerank: { $gt: MINIMUM_REP_NEW } }, // -5
-          ],
-        },
-      ],
+            { pagerank: { $gt: MINIMUM_REP_NEW } } // -5
+          ]
+        }
+      ]
     };
     commentarySort = { postDate: -1 };
   } else if (sort === 'spam') {
@@ -66,10 +66,10 @@ exports.index = async (req) => {
         {
           $and: [
             { downVotes: { $gte: MINIMUM_DOWNVOTES_NEW } },
-            { pagerank: { $lt: MINIMUM_RANK } },
-          ],
-        },
-      ],
+            { pagerank: { $lt: MINIMUM_RANK } }
+          ]
+        }
+      ]
     };
     commentarySort = { postDate: -1 };
   }
@@ -86,8 +86,8 @@ exports.index = async (req) => {
         {
           path: 'myVote',
           match: { investor: user._id, communityId },
-          select: 'investor post amount communityId community isManualBet',
-        },
+          select: 'investor post amount communityId community isManualBet'
+        }
       ]
     : [];
 
@@ -138,7 +138,7 @@ exports.index = async (req) => {
             // with some randomness on client side
             // repost: { $exists: false },
             user: { $nin: blocked },
-            hidden: { $ne: true },
+            hidden: { $ne: true }
           },
           options: { sort: commentarySort, limit: PREVIEW_LIMIT },
           select: `
@@ -170,14 +170,14 @@ exports.index = async (req) => {
                 upVotes
                 downVotes
                 commentCount
-              `,
+              `
             },
             {
               path: 'embeddedUser.relevance',
               select: 'pagerank',
-              match: { communityId },
-            },
-          ],
+              match: { communityId }
+            }
+          ]
         },
         {
           path: 'metaPost',
@@ -189,18 +189,18 @@ exports.index = async (req) => {
             articleAuthor
             tags
             domain
-          `,
+          `
         },
         {
           path: 'embeddedUser.relevance',
           select: 'pagerank',
-          match: { communityId },
-        },
-      ],
+          match: { communityId }
+        }
+      ]
     });
 
   const posts = [];
-  feed.forEach(async (f) => {
+  feed.forEach(async f => {
     if (f.post) {
       // f.post.title = sanitizeHtml(f.post.title || '');
       // f.post.body = sanitizeHtml(f.post.body);
